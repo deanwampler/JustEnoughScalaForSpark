@@ -1,5 +1,5 @@
 # JustEnoughScalaForSpark
 
-A tutorial on the most important features and idioms of Scala they you need to use Spark's Scala APIs.
+A tutorial on the most important features and idioms of Scala you need in order to use Spark's Scala APIs.
 
 Details are TODO.
