@@ -16,4 +16,6 @@ project/plugins/project/
 
 notebooks/metastore_db/
 notebooks/.ipynb_checkpoints/
+notebooks/dot.ipynb_checkpoints
 .ipynb_checkpoints/
+tmp
