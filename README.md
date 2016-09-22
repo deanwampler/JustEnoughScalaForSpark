@@ -1,7 +1,7 @@
 # Just Enough Scala for Spark
 
 Strata NYC, September 27, 2016<br/>
-[Dean Wampler, Ph.D.](mailto:dean.wampler@lightbend.com)<br/>
+[Dean Wampler, Ph.D.](mailto:deanwampler@gmail.com)<br/>
 [Lightbend, Inc.](http://lightbend.com)
 
 This tutorial covers the most important features and idioms of [Scala](http://scala-lang.org/) you need to use [Apache Spark's](http://spark.apache.org/) Scala APIs. Because Spark is written in Scala, Spark is driving interest in Scala, especially for _data engineers_. _Data scientists_ sometimes use Scala, but most use Python or R.
