@@ -1,5 +1,7 @@
 # Just Enough Scala for Spark
 
+[![Join the chat at https://gitter.im/deanwampler/JustEnoughScalaForSpark](https://badges.gitter.im/deanwampler/JustEnoughScalaForSpark.svg)](https://gitter.im/deanwampler/JustEnoughScalaForSpark?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 Strata NYC, September 27, 2016<br/>
 [Dean Wampler, Ph.D.](mailto:deanwampler@gmail.com)<br/>
 [Lightbend, Inc.](http://lightbend.com)
