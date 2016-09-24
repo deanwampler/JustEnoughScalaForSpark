@@ -77,10 +77,28 @@ Under the banner and under the tabs ("Files", "Running", ...), the first line of
 
 The *click here* is a link. Click it, then navigate to where you downloaded the tutorial GitHub repository. Find and select `notebooks/JustEnoughScalaForSpark.snb`.
 
-A new line in the UI is added with "JustEnoughScalaForSpark.snb" and an "Upload" button on the right-hand side. Click that button.
+A new line in the UI is added with "JustEnoughScalaForSpark.snb" and an "Upload" button on the right-hand side, as shown in Figure 1:
 
-Now the line is moved towards the bottom of the page and the buttons to the right are different. Click the [JustEnoughScalaForSpark link](http://localhost:9000/notebooks/JustEnoughScalaForSpark.snb) and the tutorial notebook will open in another browser tab. (It might take a minute to load completely.)
+![Step 1](images/step1.jpg)
+<center><b>Figure 1:</b> Before Uploading the Notebook</center>
 
+I've highlighted the "click here" link and the new line for the notebook.
+
+Click the "Upload" button.
+
+Now the line is moved towards the bottom of the page and the buttons on the right-hand side are different. 
+
+![Step 2](images/step2.jpg)
+<center><b>Figure 2:</b> After Uploading the Notebook</center>
+
+Click the [JustEnoughScalaForSpark link](http://localhost:9000/notebooks/JustEnoughScalaForSpark.snb) (on the left) and the tutorial notebook will open in another browser tab. (It might take a minute to load completely.) The top of the page should look like this:
+
+![Step 3](images/step3.jpg)
+<center><b>Figure 3:</b> After Starting the Notebook</center>
+
+
+> **NOTE:** If the new tab fails to open or the notebook fails to load as shown, check the terminal window where you started Spark Notebook. Are there any error messages? If you can't debug the issue, post questions to the [Gitter channel](https://gitter.im/deanwampler/JustEnoughScalaForSpark) or post issues to the [GitHub repo](https://github.com/deanwampler/JustEnoughScalaForSpark/issues).
+ 
 ## What's Next?
 
 Congratulations! You are now ready to go through the tutorial. 
