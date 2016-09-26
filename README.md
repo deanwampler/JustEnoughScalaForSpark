@@ -101,7 +101,7 @@ Click the [JustEnoughScalaForSpark link](http://localhost:9000/notebooks/JustEno
 
 > **NOTE:** If the new tab fails to open or the notebook fails to load as shown, check the terminal window where you started Spark Notebook. Are there any error messages? 
 > 
-> Another thing to try is to copy the `JustEnoughScalaForSpark.snb` into the `notebooks` directory of the Spark Notebook distribution.
+> An alternative is to copy the `JustEnoughScalaForSpark.snb` notebook into the `notebooks` directory of the Spark Notebook distribution. If you aren't using docker, use any file copy method you like, if you are using docker, use the command `docker ps` to find the id of the running image (a 12-digit hex number), then use the command `docker cp /path/to/JustEnoughScalaForSpark.snb NNNN:/opt/docker/notebooks`, where you should replace `NNNN` with your actual id.
 > 
 > If you can't debug the issue, post questions to the [Gitter channel](https://gitter.im/deanwampler/JustEnoughScalaForSpark) or post issues to the [GitHub repo](https://github.com/deanwampler/JustEnoughScalaForSpark/issues).
  
