@@ -8,6 +8,8 @@ Strata NYC, September 27, 2016<br/>
 
 This tutorial covers the most important features and idioms of [Scala](http://scala-lang.org/) you need to use [Apache Spark's](http://spark.apache.org/) Scala APIs. Because Spark is written in Scala, Spark is driving interest in Scala, especially for _data engineers_. _Data scientists_ sometimes use Scala, but most use Python or R.
 
+To see what I'm doing at [Lightbend](http://lightbend.com), see [lightbend.com/fast-data-platform](http://lightbend.com/fast-data-platform). Visit our booth at Strata! We're also [hiring](http://www.lightbend.com/company/careers)!
+
 ## Prerequisites
 
 I'll assume you have prior programming experience, in any language. Some familiarity with Java is assumed, but if you don't know Java, you should be able to search for explanations for anything unfamiliar.
