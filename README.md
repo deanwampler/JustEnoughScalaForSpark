@@ -71,6 +71,8 @@ docker run -p 9000:9000 andypetrella/spark-notebook:0.6.3-scala-2.11.7-spark-1.6
 
 However you started Spark Notebook, open your browser to [localhost:9000](http://localhost:9000/). The UI has a "SPARK NOTEBOOK" banner and shows several directories and notebooks for sample applications that come with Spark Notebook.
 
+> **NOTE:** If you are using Docker and you didn't use the `-p 9000:9000` option, replace `localhost` with your Docker image IP address. On Windows or Mac OSX, use the command `docker-machine ls` or `docker-machine env` to see what it is.
+
 Now we need to load the tutorial in Spark Notebook.
 
 Under the banner and under the tabs ("Files", "Running", ...), the first line of text says "To import a notebook, drag the file onto the listing below or *click here.*"
