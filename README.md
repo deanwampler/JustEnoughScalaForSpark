@@ -1,10 +1,24 @@
 # Just Enough Scala for Spark
 
+[![Join the chat at https://gitter.im/deanwampler/JustEnoughScalaForSpark](https://badges.gitter.im/deanwampler/JustEnoughScalaForSpark.svg)](https://gitter.im/deanwampler/JustEnoughScalaForSpark?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+
 Strata NYC, September 27, 2016<br/>
-[Dean Wampler, Ph.D.](mailto:dean.wampler@lightbend.com)
+[Dean Wampler, Ph.D.](mailto:deanwampler@gmail.com)<br/>
 [Lightbend, Inc.](http://lightbend.com)
 
-This tutorial covers the most important features and idioms of Scala you need to use Spark's Scala APIs. Because Spark is written in Scala, Spark is driving interest in Scala, especially for _data engineers_. _Data scientists_ sometimes use Scala, but most use Python or R.
+This tutorial covers the most important features and idioms of [Scala](http://scala-lang.org/) you need to use [Apache Spark's](http://spark.apache.org/) Scala APIs. Because Spark is written in Scala, Spark is driving interest in Scala, especially for _data engineers_. _Data scientists_ sometimes use Scala, but most use Python or R.
+
+To see what I'm doing at [Lightbend](http://lightbend.com), see [lightbend.com/fast-data-platform](http://lightbend.com/fast-data-platform). Visit our booth at Strata! We're also [hiring](http://www.lightbend.com/company/careers)!
+
+## Prerequisites
+
+I'll assume you have prior programming experience, in any language. Some familiarity with Java is assumed, but if you don't know Java, you should be able to search for explanations for anything unfamiliar.
+
+This isn't an introduction to Spark itself. Some prior exposure to Spark is helpful, but I'll briefly explain most Spark concepts we'll encounter, too. 
+
+Throughout, you'll find links to more information on important topics.
+
+## Download the Tutorial
 
 Begin by cloning or downloading the tutorial GitHub project [github.com/deanwampler/JustEnoughScalaForSpark](https://github.com/deanwampler/JustEnoughScalaForSpark).
 
@@ -59,16 +73,40 @@ docker run -p 9000:9000 andypetrella/spark-notebook:0.6.3-scala-2.11.7-spark-1.6
 
 However you started Spark Notebook, open your browser to [localhost:9000](http://localhost:9000/). The UI has a "SPARK NOTEBOOK" banner and shows several directories and notebooks for sample applications that come with Spark Notebook.
 
+> **NOTE:** If you are using Docker and you didn't use the `-p 9000:9000` option, replace `localhost` with your Docker image IP address. On Windows or Mac OSX, use the command `docker-machine ls` or `docker-machine env` to see what it is.
+
 Now we need to load the tutorial in Spark Notebook.
 
 Under the banner and under the tabs ("Files", "Running", ...), the first line of text says "To import a notebook, drag the file onto the listing below or *click here.*"
 
 The *click here* is a link. Click it, then navigate to where you downloaded the tutorial GitHub repository. Find and select `notebooks/JustEnoughScalaForSpark.snb`.
 
-A new line in the UI is added with "JustEnoughScalaForSpark.snb" and an "Upload" button on the right-hand side. Click that button.
+A new line in the UI is added with "JustEnoughScalaForSpark.snb" and an "Upload" button on the right-hand side, as shown in Figure 1:
 
-Now the line is moved towards the bottom of the page and the buttons to the right are different. Click the [JustEnoughScalaForSpark link](http://localhost:9000/notebooks/JustEnoughScalaForSpark.snb) and the tutorial notebook will open in another browser tab. (It might take a minute to load completely.)
+![Step 1](images/step1.jpg)
+<center><b>Figure 1:</b> Before Uploading the Notebook</center>
 
+I've highlighted the "click here" link and the new line for the notebook.
+
+Click the "Upload" button.
+
+Now the line is moved towards the bottom of the page and the buttons on the right-hand side are different. 
+
+![Step 2](images/step2.jpg)
+<center><b>Figure 2:</b> After Uploading the Notebook</center>
+
+Click the [JustEnoughScalaForSpark link](http://localhost:9000/notebooks/JustEnoughScalaForSpark.snb) (on the left) and the tutorial notebook will open in another browser tab. (It might take a minute to load completely.) The top of the page should look like this:
+
+![Step 3](images/step3.jpg)
+<center><b>Figure 3:</b> After Starting the Notebook</center>
+
+
+> **NOTE:** If the new tab fails to open or the notebook fails to load as shown, check the terminal window where you started Spark Notebook. Are there any error messages? 
+> 
+> An alternative is to copy the `JustEnoughScalaForSpark.snb` notebook into the `notebooks` directory of the Spark Notebook distribution. If you aren't using docker, use any file copy method you like, if you are using docker, use the command `docker ps` to find the id of the running image (a 12-digit hex number), then use the command `docker cp /path/to/JustEnoughScalaForSpark.snb NNNN:/opt/docker/notebooks`, where you should replace `NNNN` with your actual id.
+> 
+> If you can't debug the issue, post questions to the [Gitter channel](https://gitter.im/deanwampler/JustEnoughScalaForSpark) or post issues to the [GitHub repo](https://github.com/deanwampler/JustEnoughScalaForSpark/issues).
+ 
 ## What's Next?
 
 Congratulations! You are now ready to go through the tutorial. 
