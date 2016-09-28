@@ -82,11 +82,11 @@
     "outputs" : [ {
       "name" : "stdout",
       "output_type" : "stream",
-      "text" : "res1: org.apache.spark.SparkContext = org.apache.spark.SparkContext@40800265\n"
+      "text" : "res1: org.apache.spark.SparkContext = org.apache.spark.SparkContext@51717bd1\n"
     }, {
       "metadata" : { },
       "data" : {
-        "text/html" : "org.apache.spark.SparkContext@40800265"
+        "text/html" : "org.apache.spark.SparkContext@51717bd1"
       },
       "output_type" : "execute_result",
       "execution_count" : 1
@@ -144,7 +144,7 @@
       "id" : "CEDDE3DA00584FD091761BB897BA76B8"
     },
     "cell_type" : "code",
-    "source" : "/*\n * \"info\" takes a single String argument, prints it on a line,\n * and returns it. \n */\ndef info(message: String): String = {\n    println(message)\n    message  // No additional formatting\n}",
+    "source" : "/*\n * \"info\" takes a single String argument, prints it on a line,\n * and returns it. \n */\ndef info(message: String): String = {\n    println(message)\n\n    // The last expression in the block, message, is the return value. \n    // \"return\" keyword not required.\n    // Do no additional formatting for the return string.\n    message  // No additional formatting\n}",
     "outputs" : [ {
       "name" : "stdout",
       "output_type" : "stream",
@@ -155,7 +155,7 @@
         "text/html" : ""
       },
       "output_type" : "execute_result",
-      "execution_count" : 6
+      "execution_count" : 2
     } ]
   }, {
     "metadata" : {
@@ -165,7 +165,7 @@
       "id" : "10CDCBBDF9B0414381D29AA57001B4FE"
     },
     "cell_type" : "code",
-    "source" : "/*\n * \"error\" takes a single String argument, prints a formatted error message,\n * and returns the message. \n */\ndef error(message: String): String = {   \n    \n    // Print the string passed to \"println\" and add a linefeed (\"ln\"):\n    // See the next cell for an explanation of how the string is constructed.\n    val fullMessage = s\"\"\"\n        |********************************************************************\n        |\n        |  ERROR: $message\n        |\n        |********************************************************************\n        |\"\"\".stripMargin\n    println(println)\n    \n    // The last expression in a block, {...}, is the return value. \n    // The \"return\" keyword is not needed.\n    fullMessage\n}",
+    "source" : "/*\n * \"error\" takes a single String argument, prints a formatted error message,\n * and returns the message. \n */\ndef error(message: String): String = {   \n    \n    // Print the string passed to \"println\" and add a linefeed (\"ln\"):\n    // See the next cell for an explanation of how the string is constructed.\n    val fullMessage = s\"\"\"\n        |********************************************************************\n        |\n        |  ERROR: $message\n        |\n        |********************************************************************\n        |\"\"\".stripMargin\n    println(fullMessage)\n    \n    fullMessage\n}",
     "outputs" : [ {
       "name" : "stdout",
       "output_type" : "stream",
@@ -176,7 +176,7 @@
         "text/html" : ""
       },
       "output_type" : "execute_result",
-      "execution_count" : 5
+      "execution_count" : 3
     } ]
   }, {
     "metadata" : {
@@ -192,18 +192,18 @@
       "id" : "094980E7109040EA916AFE8EAA902C35"
     },
     "cell_type" : "code",
-    "source" : "info(\"All is well.\")",
+    "source" : "val infoString = info(\"All is well.\")",
     "outputs" : [ {
       "name" : "stdout",
       "output_type" : "stream",
-      "text" : "All is well.\nres11: String = All is well.\n"
+      "text" : "All is well.\ninfoString: String = All is well.\n"
     }, {
       "metadata" : { },
       "data" : {
-        "text/html" : "All is well."
+        "text/html" : ""
       },
       "output_type" : "execute_result",
-      "execution_count" : 7
+      "execution_count" : 4
     } ]
   }, {
     "metadata" : {
@@ -213,18 +213,39 @@
       "id" : "AAF85354A9654E22A53B00546A0CAA29"
     },
     "cell_type" : "code",
-    "source" : "error(\"Uh oh!\")",
+    "source" : "val errorString = error(\"Uh oh!\")",
     "outputs" : [ {
       "name" : "stdout",
       "output_type" : "stream",
-      "text" : "\n()\nres7: String =\n\"\n********************************************************************\n\n  ERROR: Uh oh!\n\n********************************************************************\n\"\n"
+      "text" : "\n********************************************************************\n\n  ERROR: Uh oh!\n\n********************************************************************\n\nerrorString: String =\n\"\n********************************************************************\n\n  ERROR: Uh oh!\n\n********************************************************************\n\"\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : ""
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 5
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false,
+      "id" : "DA14FE765E6C4E5B848876DC5FB95DBC"
+    },
+    "cell_type" : "code",
+    "source" : "errorString",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "res6: String =\n\"\n********************************************************************\n\n  ERROR: Uh oh!\n\n********************************************************************\n\"\n"
     }, {
       "metadata" : { },
       "data" : {
         "text/html" : "\n********************************************************************\n\n  ERROR: Uh oh!\n\n********************************************************************\n"
       },
       "output_type" : "execute_result",
-      "execution_count" : 5
+      "execution_count" : 6
     } ]
   }, {
     "metadata" : {
@@ -262,14 +283,14 @@
     "outputs" : [ {
       "name" : "stdout",
       "output_type" : "stream",
-      "text" : "res13: String =\nUse braces for expressions: 1.6.2.\nYou can omit the braces when just using a variable: org.apache.spark.SparkContext@40800265\nHowever, watch for ambiguities like org.apache.spark.SparkContext@40800265andextrastuff\n"
+      "text" : "res16: String =\nUse braces for expressions: 1.6.2.\nYou can omit the braces when just using a variable: org.apache.spark.SparkContext@51717bd1\nHowever, watch for ambiguities like org.apache.spark.SparkContext@51717bd1andextrastuff\n"
     }, {
       "metadata" : { },
       "data" : {
-        "text/html" : "Use braces for expressions: 1.6.2.\nYou can omit the braces when just using a variable: org.apache.spark.SparkContext@40800265\nHowever, watch for ambiguities like org.apache.spark.SparkContext@40800265andextrastuff"
+        "text/html" : "Use braces for expressions: 1.6.2.\nYou can omit the braces when just using a variable: org.apache.spark.SparkContext@51717bd1\nHowever, watch for ambiguities like org.apache.spark.SparkContext@51717bd1andextrastuff"
       },
       "output_type" : "execute_result",
-      "execution_count" : 8
+      "execution_count" : 11
     } ]
   }, {
     "metadata" : {
@@ -289,14 +310,14 @@
     "outputs" : [ {
       "name" : "stdout",
       "output_type" : "stream",
-      "text" : "res15: String =\n\"\nline 1\n  line 2\n\"\n"
+      "text" : "res18: String =\n\"\nline 1\n  line 2\n\"\n"
     }, {
       "metadata" : { },
       "data" : {
         "text/html" : "\nline 1\n  line 2\n"
       },
       "output_type" : "execute_result",
-      "execution_count" : 9
+      "execution_count" : 12
     } ]
   }, {
     "metadata" : {
@@ -316,14 +337,14 @@
     "outputs" : [ {
       "name" : "stdout",
       "output_type" : "stream",
-      "text" : "res21: Char = /\n"
+      "text" : "res20: Char = /\n"
     }, {
       "metadata" : { },
       "data" : {
         "text/html" : "/"
       },
       "output_type" : "execute_result",
-      "execution_count" : 12
+      "execution_count" : 13
     } ]
   }, {
     "metadata" : {
@@ -337,14 +358,14 @@
     "outputs" : [ {
       "name" : "stdout",
       "output_type" : "stream",
-      "text" : "res23: String = /\n"
+      "text" : "res22: String = /\n"
     }, {
       "metadata" : { },
       "data" : {
         "text/html" : "/"
       },
       "output_type" : "execute_result",
-      "execution_count" : 13
+      "execution_count" : 14
     } ]
   }, {
     "metadata" : {
@@ -376,14 +397,14 @@
     "outputs" : [ {
       "name" : "stdout",
       "output_type" : "stream",
-      "text" : "import java.net.URL\nimport java.io.{File, BufferedInputStream, BufferedOutputStream, FileOutputStream}\nimport scala.util.Try\ncurl: (sourceURLString: String, targetDirectoryString: String)java.io.File\n"
+      "text" : "import java.net.URL\nimport java.io.{File, BufferedInputStream, BufferedOutputStream, FileOutputStream}\ncurl: (sourceURLString: String, targetDirectoryString: String)java.io.File\n"
     }, {
       "metadata" : { },
       "data" : {
         "text/html" : ""
       },
       "output_type" : "execute_result",
-      "execution_count" : 14
+      "execution_count" : 7
     } ]
   }, {
     "metadata" : {
@@ -410,7 +431,7 @@
         "text/html" : ""
       },
       "output_type" : "execute_result",
-      "execution_count" : 15
+      "execution_count" : 8
     } ]
   }, {
     "metadata" : {
@@ -437,7 +458,7 @@
         "text/html" : ""
       },
       "output_type" : "execute_result",
-      "execution_count" : 16
+      "execution_count" : 9
     } ]
   }, {
     "metadata" : {
@@ -453,74 +474,31 @@
       "id" : "FD299F503F6E45128FB1243B1E4C5025"
     },
     "cell_type" : "code",
-    "source" : "val pathSeparator = File.separator\nval targetDirName = shakespeare.toString\nval urlRoot = \"http://www.cs.usyd.edu.au/~matty/Shakespeare/texts/comedies/\"\nval plays = Seq(\n    \"tamingoftheshrew\", \"comedyoferrors\", \"loveslabourslost\", \"midsummersnightsdream\",\n    \"merrywivesofwindsor\", \"muchadoaboutnothing\", \"asyoulikeit\", \"twelfthnight\")\n\nif (success) {\n    println(s\"Downloading plays from $urlRoot.\")\n    for {\n        play <- plays\n        playFile = new File(targetDirName + pathSeparator + play)\n        if (playFile.exists == false)\n        file = curl(urlRoot + play, targetDirName)\n    } {\n        info(s\"Downloaded $play and wrote $file\")\n    }\n  \n    println(\"Finished!\")\n}",
+    "source" : "val pathSeparator = File.separator\nval targetDirName = shakespeare.toString\nval urlRoot = \"http://www.cs.usyd.edu.au/~matty/Shakespeare/texts/comedies/\"\nval plays = Seq(\n    \"tamingoftheshrew\", \"comedyoferrors\", \"loveslabourslost\", \"midsummersnightsdream\",\n    \"merrywivesofwindsor\", \"muchadoaboutnothing\", \"asyoulikeit\", \"twelfthnight\")\n\nif (success) {\n    println(s\"Downloading plays from $urlRoot.\")\n    val successes = for {\n        play <- plays\n        playFileName = targetDirName + pathSeparator + play\n        playFile = new File(playFileName)\n        if (playFile.exists == false)\n        file = curl(urlRoot + play, targetDirName)\n    } yield {\n        info(s\"Downloaded $play and wrote $file\")\n        s\"$playFileName:\\tSuccess!\"\n    }\n  \n    println(\"Finished!\")\n  \n    successes.foreach(println)\n}",
     "outputs" : [ {
       "name" : "stdout",
       "output_type" : "stream",
-      "text" : "Downloading plays from http://www.cs.usyd.edu.au/~matty/Shakespeare/texts/comedies/.\nDownloading http://www.cs.usyd.edu.au/~matty/Shakespeare/texts/comedies/tamingoftheshrew to data/shakespeare/tamingoftheshrew\n.........\nFinished!\nDownloading http://www.cs.usyd.edu.au/~matty/Shakespeare/texts/comedies/comedyoferrors to data/shakespeare/comedyoferrors\n.......\nFinished!\nDownloading http://www.cs.usyd.edu.au/~matty/Shakespeare/texts/comedies/loveslabourslost to data/shakespeare/loveslabourslost\n.........\nFinished!\nDownloading http://www.cs.usyd.edu.au/~matty/Shakespeare/texts/comedies/midsummersnightsdream to data/shakespeare/midsummersnightsdream\n.......\nFinished!\nDownloading http://www.cs.usyd.edu.au/~matty/Shakespeare/texts/comedies/merrywivesofwindsor to data/shakespeare/merrywivesofwindsor\n..........\nFinished!\nDownloading http://www.cs.usyd.edu.au/~matty/Shakespeare/texts/comedies/muchadoaboutnothing to data/shakespeare/muchadoaboutnothing\n.........\nFinished!\nDownloading http://www.cs.usyd.edu.au/~matty/Shakespeare/texts/comedies/asyoulikeit to data/shakespeare/asyoulikeit\n.........\nFinished!\nDownloading http://www.cs.usyd.edu.au/~matty/Shakespeare/texts/comedies/twelfthnight to data/shakespeare/twelfthnight\n........\nFinished!\nDownloaded tamingoftheshrew and wrote data/shakespeare/tamingoftheshrew\nDownloaded comedyoferrors and wrote data/shakespeare/comedyoferrors\nDownloaded loveslabourslost and wrote data/shakespeare/loveslabourslost\nDownloaded midsummersnightsdream and wrote data/shakespeare/midsummersnightsdream\nDownloaded merrywivesofwindsor and wrote data/shakespeare/merrywivesofwindsor\nDownloaded muchadoaboutnothing and wrote data/shakespeare/muchadoaboutnothing\nDownloaded asyoulikeit and wrote data/shakespeare/asyoulikeit\nDownloaded twelfthnight and wrote data/shakespeare/twelfthnight\nFinished!\npathSeparator: String = /\ntargetDirName: String = data/shakespeare\nurlRoot: String = http://www.cs.usyd.edu.au/~matty/Shakespeare/texts/comedies/\nplays: Seq[String] = List(tamingoftheshrew, comedyoferrors, loveslabourslost, midsummersnightsdream, merrywivesofwindsor, muchadoaboutnothing, asyoulikeit, twelfthnight)\n"
+      "text" : "Downloading plays from http://www.cs.usyd.edu.au/~matty/Shakespeare/texts/comedies/.\nDownloading http://www.cs.usyd.edu.au/~matty/Shakespeare/texts/comedies/tamingoftheshrew to data/shakespeare/tamingoftheshrew\n.......\nFinished!\nDownloading http://www.cs.usyd.edu.au/~matty/Shakespeare/texts/comedies/comedyoferrors to data/shakespeare/comedyoferrors\n...\nFinished!\nDownloading http://www.cs.usyd.edu.au/~matty/Shakespeare/texts/comedies/loveslabourslost to data/shakespeare/loveslabourslost\n.....\nFinished!\nDownloading http://www.cs.usyd.edu.au/~matty/Shakespeare/texts/comedies/midsummersnightsdream to data/shakespeare/midsummersnightsdream\n..\nFinished!\nDownloading http://www.cs.usyd.edu.au/~matty/Shakespeare/texts/comedies/merrywivesofwindsor to data/shakespeare/merrywivesofwindsor\n....\nFinished!\nDownloading http://www.cs.usyd.edu.au/~matty/Shakespeare/texts/comedies/muchadoaboutnothing to data/shakespeare/muchadoaboutnothing\n.....\nFinished!\nDownloading http://www.cs.usyd.edu.au/~matty/Shakespeare/texts/comedies/asyoulikeit to data/shakespeare/asyoulikeit\n....\nFinished!\nDownloading http://www.cs.usyd.edu.au/~matty/Shakespeare/texts/comedies/twelfthnight to data/shakespeare/twelfthnight\n....\nFinished!\nDownloaded tamingoftheshrew and wrote data/shakespeare/tamingoftheshrew\nDownloaded comedyoferrors and wrote data/shakespeare/comedyoferrors\nDownloaded loveslabourslost and wrote data/shakespeare/loveslabourslost\nDownloaded midsummersnightsdream and wrote data/shakespeare/midsummersnightsdream\nDownloaded merrywivesofwindsor and wrote data/shakespeare/merrywivesofwindsor\nDownloaded muchadoaboutnothing and wrote data/shakespeare/muchadoaboutnothing\nDownloaded asyoulikeit and wrote data/shakespeare/asyoulikeit\nDownloaded twelfthnight and wrote data/shakespeare/twelfthnight\nFinished!\ndata/shakespeare/tamingoftheshrew:\tSuccess!\ndata/shakespeare/comedyoferrors:\tSuccess!\ndata/shakespeare/loveslabourslost:\tSuccess!\ndata/shakespeare/midsummersnightsdream:\tSuccess!\ndata/shakespeare/merrywivesofwindsor:\tSuccess!\ndata/shakespeare/muchadoaboutnothing:\tSuccess!\ndata/shakespeare/asyoulikeit:\tSuccess!\ndata/shakespeare/twelfthnight:\tSuccess!\npathSeparator: String = /\ntargetDirName: String = data/shakespeare\nurlRoot: String = http://www.cs.usyd.edu.au/~matty/Shakespeare/texts/comedies/\nplays: Seq[String] = List(tamingoftheshrew, comedyoferrors, loveslabourslost, midsummersnightsdream, merrywivesofwindsor, muchadoaboutnothing, asyoulikeit, twelfthnight)\n"
     }, {
       "metadata" : { },
       "data" : {
         "text/html" : ""
       },
       "output_type" : "execute_result",
-      "execution_count" : 17
+      "execution_count" : 11
     } ]
   }, {
     "metadata" : {
       "id" : "8D9C6981C7CE4E79BAC96837D15A4EC8"
     },
     "cell_type" : "markdown",
-    "source" : "I'm using a so-called `for` _comprehension_. They are _expressions_, not _statements_ like Java's `for` loops (although we don't return a value here). They have the form:\n\n```\nfor {\n  play <- plays\n  ...\n} { block_of_final_expressions }\n```\n\nWe iterate through a collection, `plays`, and assign each one to the `play` variable (actually an immutable value for each pass through the loop). \n\nAfter assigning to `play`, subsequent steps in the `for` comprehension use it. First, a [java.io.File](https://docs.oracle.com/javase/8/docs/api/java/io/File.html) instance, `playFile`, is created. Then, `playFile` is used to evaluate a conditional - does the file already exist (i.e., have we already downloaded this file)?\n\nIf the file already exists, the conditional returns `false`, which short-circuits the loop and goes to the next `play` in the list. If the file doesn't exit, the final expression uses `curl` to download it. "
-  }, {
-    "metadata" : {
-      "id" : "E815224A68A342028B25A7EA1737118B"
-    },
-    "cell_type" : "markdown",
-    "source" : "> **NOTE:** You can use parentheses `(...)` instead of braces `{...}` when you have a single expression on the same line, e.g., \n\n> ```scala\n> for (play <- plays) println(play)\n> ```\n\n> I also omitted the final braces `{...}` around the single statement `println(play)`."
-  }, {
-    "metadata" : {
-      "id" : "BEDF4C824D3E4CA1BA4E0EC1C9D9A71B"
-    },
-    "cell_type" : "markdown",
-    "source" : "This use of a `for` comprehension is sometimes called a _for loop_ because it returns nothing ( it just prints messages), the same behavior as Java's for loops. For completeness, here's another example, where I do return something for each iteration and Scala uses it to construct a new collection, a list of strings. I'll use this example to implement a sanity check that verifies the downloads were successful."
-  }, {
-    "metadata" : {
-      "trusted" : true,
-      "input_collapsed" : false,
-      "collapsed" : false,
-      "presentation" : {
-        "tabs_state" : "{\n  \"tab_id\": \"#tab894149042-0\"\n}",
-        "pivot_chart_state" : "{\n  \"hiddenAttributes\": [],\n  \"menuLimit\": 200,\n  \"cols\": [],\n  \"rows\": [],\n  \"vals\": [],\n  \"exclusions\": {},\n  \"inclusions\": {},\n  \"unusedAttrsVertical\": 85,\n  \"autoSortUnusedAttrs\": false,\n  \"inclusionsInfo\": {},\n  \"aggregatorName\": \"Count\",\n  \"rendererName\": \"Table\"\n}"
-      },
-      "id" : "6AEF3C277BC64C43A9FF1A778EB7E183"
-    },
-    "cell_type" : "code",
-    "source" : "val list = for {\n    play <- plays \n    playFileString = targetDirName + pathSeparator + play\n    playFile = new File(playFileString)\n} yield {\n    val successString = if (playFile.exists) \"Success!\" else \"NOT FOUND!!\"\n    s\"$playFileString\\t$successString\"\n}\n\nlist   // Let's see the type and contents of the new collection.",
-    "outputs" : [ {
-      "name" : "stdout",
-      "output_type" : "stream",
-      "text" : "list: Seq[String] = List(data/shakespeare/tamingoftheshrew\tSuccess!, data/shakespeare/comedyoferrors\tSuccess!, data/shakespeare/loveslabourslost\tSuccess!, data/shakespeare/midsummersnightsdream\tSuccess!, data/shakespeare/merrywivesofwindsor\tSuccess!, data/shakespeare/muchadoaboutnothing\tSuccess!, data/shakespeare/asyoulikeit\tSuccess!, data/shakespeare/twelfthnight\tSuccess!)\nres33: Seq[String] = List(data/shakespeare/tamingoftheshrew\tSuccess!, data/shakespeare/comedyoferrors\tSuccess!, data/shakespeare/loveslabourslost\tSuccess!, data/shakespeare/midsummersnightsdream\tSuccess!, data/shakespeare/merrywivesofwindsor\tSuccess!, data/shakespeare/muchadoaboutnothing\tSuccess!, data/shakespeare/asyoulikeit\tSuccess!, data/shakespeare/twelfthnight\tSuccess!)\n"
-    }, {
-      "metadata" : { },
-      "data" : {
-        "text/html" : "<div>\n      <script data-this=\"{&quot;dataId&quot;:&quot;anon1555e49ea141c408d258ffcfdf1f379b&quot;,&quot;dataInit&quot;:[{&quot;string value&quot;:&quot;data/shakespeare/tamingoftheshrew\\tSuccess!&quot;},{&quot;string value&quot;:&quot;data/shakespeare/comedyoferrors\\tSuccess!&quot;},{&quot;string value&quot;:&quot;data/shakespeare/loveslabourslost\\tSuccess!&quot;},{&quot;string value&quot;:&quot;data/shakespeare/midsummersnightsdream\\tSuccess!&quot;},{&quot;string value&quot;:&quot;data/shakespeare/merrywivesofwindsor\\tSuccess!&quot;},{&quot;string value&quot;:&quot;data/shakespeare/muchadoaboutnothing\\tSuccess!&quot;},{&quot;string value&quot;:&quot;data/shakespeare/asyoulikeit\\tSuccess!&quot;},{&quot;string value&quot;:&quot;data/shakespeare/twelfthnight\\tSuccess!&quot;}],&quot;genId&quot;:&quot;894149042&quot;}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/req(['../javascripts/notebook/playground','../javascripts/notebook/magic/tabs'], \n      function(playground, _magictabs) {\n        // data ==> data-this (in observable.js's scopedEval) ==> this in JS => { dataId, dataInit, ... }\n        // this ==> scope (in observable.js's scopedEval) ==> this.parentElement ==> div.container below (toHtml)\n\n        playground.call(data,\n                        this\n                        ,\n                        {\n    \"f\": _magictabs,\n    \"o\": {}\n  }\n  \n                        \n                        \n                      );\n      }\n    );/*]]>*/</script>\n    <div>\n        <div>\n          <ul class=\"nav nav-tabs\" id=\"ul894149042\"><li>\n                <a href=\"#tab894149042-0\"><i class=\"fa fa-table\"/></a>\n              </li><li>\n                <a href=\"#tab894149042-1\"><i class=\"fa fa-cubes\"/></a>\n              </li></ul>\n\n          <div class=\"tab-content\" id=\"tab894149042\"><div class=\"tab-pane\" id=\"tab894149042-0\">\n              <div>\n      <script data-this=\"{&quot;dataId&quot;:&quot;anon42fb01c71c7eac96ae42f6b2fd208158&quot;,&quot;dataInit&quot;:[{&quot;string value&quot;:&quot;data/shakespeare/tamingoftheshrew\\tSuccess!&quot;},{&quot;string value&quot;:&quot;data/shakespeare/comedyoferrors\\tSuccess!&quot;},{&quot;string value&quot;:&quot;data/shakespeare/loveslabourslost\\tSuccess!&quot;},{&quot;string value&quot;:&quot;data/shakespeare/midsummersnightsdream\\tSuccess!&quot;},{&quot;string value&quot;:&quot;data/shakespeare/merrywivesofwindsor\\tSuccess!&quot;},{&quot;string value&quot;:&quot;data/shakespeare/muchadoaboutnothing\\tSuccess!&quot;},{&quot;string value&quot;:&quot;data/shakespeare/asyoulikeit\\tSuccess!&quot;},{&quot;string value&quot;:&quot;data/shakespeare/twelfthnight\\tSuccess!&quot;}],&quot;genId&quot;:&quot;583995221&quot;}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/req(['../javascripts/notebook/playground','../javascripts/notebook/magic/tableChart'], \n      function(playground, _magictableChart) {\n        // data ==> data-this (in observable.js's scopedEval) ==> this in JS => { dataId, dataInit, ... }\n        // this ==> scope (in observable.js's scopedEval) ==> this.parentElement ==> div.container below (toHtml)\n\n        playground.call(data,\n                        this\n                        ,\n                        {\n    \"f\": _magictableChart,\n    \"o\": {\"headers\":[\"string value\"],\"width\":600,\"height\":400}\n  }\n  \n                        \n                        \n                      );\n      }\n    );/*]]>*/</script>\n    <div>\n        <p data-bind=\"text: value\"><script data-this=\"{&quot;valueId&quot;:&quot;anon8bfe79b3c94cfef3db806d41f90b23e7&quot;}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/\nreq(\n['observable', 'knockout'],\nfunction (O, ko) {\n  ko.applyBindings({\n      value: O.makeObservable(valueId)\n    },\n    this\n  );\n});\n        /*]]>*/</script></p> <span style=\"color:red\"><p data-bind=\"text: value\"><script data-this=\"{&quot;valueId&quot;:&quot;anon8a56b75761529df53b2947fe70676e34&quot;}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/\nreq(\n['observable', 'knockout'],\nfunction (O, ko) {\n  ko.applyBindings({\n      value: O.makeObservable(valueId)\n    },\n    this\n  );\n});\n        /*]]>*/</script></p></span>\n        <div>\n        </div>\n      </div></div>\n              </div><div class=\"tab-pane\" id=\"tab894149042-1\">\n              <div>\n      <script data-this=\"{&quot;dataId&quot;:&quot;anone97dd1bfa09990e57a6c1e842e30d663&quot;,&quot;dataInit&quot;:[{&quot;string value&quot;:&quot;data/shakespeare/tamingoftheshrew\\tSuccess!&quot;},{&quot;string value&quot;:&quot;data/shakespeare/comedyoferrors\\tSuccess!&quot;},{&quot;string value&quot;:&quot;data/shakespeare/loveslabourslost\\tSuccess!&quot;},{&quot;string value&quot;:&quot;data/shakespeare/midsummersnightsdream\\tSuccess!&quot;},{&quot;string value&quot;:&quot;data/shakespeare/merrywivesofwindsor\\tSuccess!&quot;},{&quot;string value&quot;:&quot;data/shakespeare/muchadoaboutnothing\\tSuccess!&quot;},{&quot;string value&quot;:&quot;data/shakespeare/asyoulikeit\\tSuccess!&quot;},{&quot;string value&quot;:&quot;data/shakespeare/twelfthnight\\tSuccess!&quot;}],&quot;genId&quot;:&quot;1824774981&quot;}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/req(['../javascripts/notebook/playground','../javascripts/notebook/magic/pivotChart'], \n      function(playground, _magicpivotChart) {\n        // data ==> data-this (in observable.js's scopedEval) ==> this in JS => { dataId, dataInit, ... }\n        // this ==> scope (in observable.js's scopedEval) ==> this.parentElement ==> div.container below (toHtml)\n\n        playground.call(data,\n                        this\n                        ,\n                        {\n    \"f\": _magicpivotChart,\n    \"o\": {\"width\":600,\"height\":400,\"derivedAttributes\":{},\"extraOptions\":{}}\n  }\n  \n                        \n                        \n                      );\n      }\n    );/*]]>*/</script>\n    <div>\n        <p data-bind=\"text: value\"><script data-this=\"{&quot;valueId&quot;:&quot;anoneae24c9ab0c128e8b19f82a8c9a70d14&quot;}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/\nreq(\n['observable', 'knockout'],\nfunction (O, ko) {\n  ko.applyBindings({\n      value: O.makeObservable(valueId)\n    },\n    this\n  );\n});\n        /*]]>*/</script></p> <span style=\"color:red\"><p data-bind=\"text: value\"><script data-this=\"{&quot;valueId&quot;:&quot;anoneaed912f45a71ccd1c645ea022b832e8&quot;}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/\nreq(\n['observable', 'knockout'],\nfunction (O, ko) {\n  ko.applyBindings({\n      value: O.makeObservable(valueId)\n    },\n    this\n  );\n});\n        /*]]>*/</script></p></span>\n        <div>\n        </div>\n      </div></div>\n              </div></div>\n        </div>\n      </div></div>"
-      },
-      "output_type" : "execute_result",
-      "execution_count" : 19
-    } ]
-  }, {
-    "metadata" : {
-      "id" : "E4EFBDFC37CA464B8C304B529013E4B1"
-    },
-    "cell_type" : "markdown",
-    "source" : "The `yield` keyword tells Scala that I want to construct a new collection, using the expression that follows to construct each element, an _interpolated_ string."
+    "source" : "I'm using a so-called `for` _comprehension_. They are _expressions_, not _statements_ like Java's `for` loops. They have the form:\n\n```\nfor {\n  play <- plays\n  ...\n} yield { block_of_final_expressions }\n```\n\nWe iterate through a collection, `plays`, and assign each one to the `play` variable (actually an immutable value for each pass through the loop). \n\nAfter assigning to `play`, subsequent steps in the `for` comprehension use it. First, a [java.io.File](https://docs.oracle.com/javase/8/docs/api/java/io/File.html) instance, `playFile`, is created. Then, `playFile` is used to evaluate a conditional - does the file already exist (i.e., have we already downloaded this file)?\n\nIf the file already exists, the conditional returns `false`, which short-circuits the loop and goes to the next `play` in the list. If the file doesn't exit, the final expression uses `curl` to download it.\n\nThe `yield` keyword tells Scala that I want to construct a new collection, using the expression that follows to construct each element, an _interpolated_ string."
   }, {
     "metadata" : {
       "id" : "3294471AEA464DED856AAD4DEC34DDB3"
     },
     "cell_type" : "markdown",
-    "source" : "Now we'll print the strings. The idiom `collection.foreach(println)` is handy for looping over the elements and printing them, one per line."
+    "source" : "## Passing Functions as Arguments\nNote how we printed the returned `successes` collection of strings. The idiom `collection.foreach(println)` is handy for looping over the elements and printing them, one per line. But how exactly does this work? (We'll use `plays` instead of `successes`, because the latter will be empty if you run that code twice, since the files will already be downloaded.)"
   }, {
     "metadata" : {
       "trusted" : true,
@@ -529,45 +507,18 @@
       "id" : "9B3811BAC9194A7AA30DDB65678F075A"
     },
     "cell_type" : "code",
-    "source" : "println(s\"There should be ${plays.size} files:\")\nlist.foreach(println)",
+    "source" : "println(\"Pass println as the function to use for each element:\")\nplays.foreach(println)\n\nprintln(\"\\nUsing an anonymous function that calls println: `str => println(str)`\")\nprintln(\"(Note that the type of the argument `str` is inferred to be String.)\")\nplays.foreach(str => println(str))\n\nprintln(\"\\nAdding the argument type explicitly. Note that the parentheses are required.\")\nplays.foreach((str: String) => println(str))\n\nprintln(\"\\nWhy do we need to name this argument? Scala lets us use _ as a placeholder.\")\nplays.foreach(println(_))\n\nprintln(\"\\nFor longer functions, you can use {...} instead of (...).\")\nprintln(\"Why? Because it gives you the familiar multiline block syntax with {...}\")\nplays.foreach {\n  (str: String) => println(str)\n}\n\nprintln(\"\\nThe _ placeholder can be used *once* for each argument in the list.\")\nprintln(\"As an assume, use `reduceLeft` to sum some integers.\")\nval integers = 0 to 10   // Return a \"range\" from 0 to 10, inclusive\nintegers.reduceLeft((i,j) => i+j)\nintegers.reduceLeft(_+_)",
     "outputs" : [ {
       "name" : "stdout",
       "output_type" : "stream",
-      "text" : "There should be 8 files:\ndata/shakespeare/tamingoftheshrew\tSuccess!\ndata/shakespeare/comedyoferrors\tSuccess!\ndata/shakespeare/loveslabourslost\tSuccess!\ndata/shakespeare/midsummersnightsdream\tSuccess!\ndata/shakespeare/merrywivesofwindsor\tSuccess!\ndata/shakespeare/muchadoaboutnothing\tSuccess!\ndata/shakespeare/asyoulikeit\tSuccess!\ndata/shakespeare/twelfthnight\tSuccess!\n"
+      "text" : "Pass println as the function to use for each element:\ntamingoftheshrew\ncomedyoferrors\nloveslabourslost\nmidsummersnightsdream\nmerrywivesofwindsor\nmuchadoaboutnothing\nasyoulikeit\ntwelfthnight\n\nUsing an anonymous function that calls println: `str => println(str)`\n(Note that the type of the argument `str` is inferred to be String.)\ntamingoftheshrew\ncomedyoferrors\nloveslabourslost\nmidsummersnightsdream\nmerrywivesofwindsor\nmuchadoaboutnothing\nasyoulikeit\ntwelfthnight\n\nAdding the argument type explicitly. Note that the parentheses are required.\ntamingoftheshrew\ncomedyoferrors\nloveslabourslost\nmidsummersnightsdream\nmerrywivesofwindsor\nmuchadoaboutnothing\nasyoulikeit\ntwelfthnight\n\nWhy do we need to name this argument? Scala lets us use _ as a placeholder.\ntamingoftheshrew\ncomedyoferrors\nloveslabourslost\nmidsummersnightsdream\nmerrywivesofwindsor\nmuchadoaboutnothing\nasyoulikeit\ntwelfthnight\n\nFor longer functions, you can use {...} instead of (...).\nWhy? Because it gives you the familiar multiline block syntax with {...}\ntamingoftheshrew\ncomedyoferrors\nloveslabourslost\nmidsummersnightsdream\nmerrywivesofwindsor\nmuchadoaboutnothing\nasyoulikeit\ntwelfthnight\n\nThe _ placeholder can be used *once* for each argument in the list.\nAs an assume, use `reduceLeft` to sum some integers.\nintegers: scala.collection.immutable.Range.Inclusive = Range(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10)\nres24: Int = 55\n"
     }, {
       "metadata" : { },
       "data" : {
-        "text/html" : ""
+        "text/html" : "55"
       },
       "output_type" : "execute_result",
-      "execution_count" : 20
-    } ]
-  }, {
-    "metadata" : {
-      "id" : "57F9A2BADC9F4AF386B7E2D11DE24EDC"
-    },
-    "cell_type" : "markdown",
-    "source" : "**Exercise:** Here's the `for` comprehension again in the following cell, plus the statement that prints it. Recall we used a conditional expression in our first `for` comprehension above. Try adding a new line with a conditional that only allows plays where the name has \"of\" (or some other word) in the title. How would you change the condition to _remove_ plays where the name contains \"of\"?\n> **HINT:** Use `someString.contains(\"of\")` to test if `of` is in `someString`."
-  }, {
-    "metadata" : {
-      "trusted" : true,
-      "input_collapsed" : false,
-      "collapsed" : false,
-      "id" : "FCAAADD398B0442AAFA20A6266C2EEFB"
-    },
-    "cell_type" : "code",
-    "source" : "val list2 = for {\n    play <- plays \n    playFileString = targetDirName + pathSeparator + play\n    playFile = new File(playFileString)\n} yield {\n    val successString = if (playFile.exists) \"Success!\" else \"NOT FOUND!!\"\n    s\"$playFileString\\t$successString\"\n}\nlist2.foreach(println)\nprintln(s\"Number of elements: ${list2.size}\")",
-    "outputs" : [ {
-      "name" : "stdout",
-      "output_type" : "stream",
-      "text" : "data/shakespeare/tamingoftheshrew\tSuccess!\ndata/shakespeare/comedyoferrors\tSuccess!\ndata/shakespeare/loveslabourslost\tSuccess!\ndata/shakespeare/midsummersnightsdream\tSuccess!\ndata/shakespeare/merrywivesofwindsor\tSuccess!\ndata/shakespeare/muchadoaboutnothing\tSuccess!\ndata/shakespeare/asyoulikeit\tSuccess!\ndata/shakespeare/twelfthnight\tSuccess!\nNumber of elements: 8\nlist2: Seq[String] = List(data/shakespeare/tamingoftheshrew\tSuccess!, data/shakespeare/comedyoferrors\tSuccess!, data/shakespeare/loveslabourslost\tSuccess!, data/shakespeare/midsummersnightsdream\tSuccess!, data/shakespeare/merrywivesofwindsor\tSuccess!, data/shakespeare/muchadoaboutnothing\tSuccess!, data/shakespeare/asyoulikeit\tSuccess!, data/shakespeare/twelfthnight\tSuccess!)\n"
-    }, {
-      "metadata" : { },
-      "data" : {
-        "text/html" : ""
-      },
-      "output_type" : "execute_result",
-      "execution_count" : 24
+      "execution_count" : 16
     } ]
   }, {
     "metadata" : {
@@ -599,14 +550,35 @@
     "outputs" : [ {
       "name" : "stdout",
       "output_type" : "stream",
-      "text" : "iiFirstPass1: org.apache.spark.rdd.RDD[(String, String)] = MapPartitionsRDD[9] at mapValues at <console>:72\n"
+      "text" : "iiFirstPass1: org.apache.spark.rdd.RDD[(String, String)] = MapPartitionsRDD[9] at mapValues at <console>:71\n"
     }, {
       "metadata" : { },
       "data" : {
         "text/html" : ""
       },
       "output_type" : "execute_result",
-      "execution_count" : 25
+      "execution_count" : 41
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false,
+      "id" : "6EB201ECBECA4B148CC0D6E7D308C46D"
+    },
+    "cell_type" : "code",
+    "source" : "iiFirstPass1.take(50).foreach(println)",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "(,(asyoulikeit,1),(comedyoferrors,1),(loveslabourslost,1),(merrywivesofwindsor,1),(midsummersnightsdream,1),(muchadoaboutnothing,1),(tamingoftheshrew,1),(twelfthnight,1))\n(A,(loveslabourslost,78),(tamingoftheshrew,59),(twelfthnight,47),(comedyoferrors,42),(midsummersnightsdream,39),(merrywivesofwindsor,38),(asyoulikeit,34),(muchadoaboutnothing,31))\n(ABOUT,(muchadoaboutnothing,18))\n(ACT,(merrywivesofwindsor,23),(asyoulikeit,22),(twelfthnight,18),(muchadoaboutnothing,17),(tamingoftheshrew,12),(comedyoferrors,11),(loveslabourslost,9),(midsummersnightsdream,9))\n(ADAM,(asyoulikeit,16))\n(ADO,(muchadoaboutnothing,18))\n(ADRIANA,(comedyoferrors,85))\n(ADRIANO,(loveslabourslost,111))\n(AEGEON,(comedyoferrors,20))\n(AEMELIA,(comedyoferrors,16))\n(AEMILIA,(comedyoferrors,3))\n(AEacides,(tamingoftheshrew,1))\n(AEgeon,(comedyoferrors,7))\n(AEgle,(midsummersnightsdream,1))\n(AEmilia,(comedyoferrors,4))\n(AEsculapius,(merrywivesofwindsor,1))\n(AGUECHEEK,(twelfthnight,2))\n(ALL,(midsummersnightsdream,2),(tamingoftheshrew,2))\n(AMIENS,(asyoulikeit,16))\n(ANDREW,(twelfthnight,104))\n(ANGELO,(comedyoferrors,36))\n(ANN,(merrywivesofwindsor,1))\n(ANNE,(merrywivesofwindsor,27))\n(ANTIPHOLUS,(comedyoferrors,195))\n(ANTONIO,(muchadoaboutnothing,32),(twelfthnight,32))\n(ARMADO,(loveslabourslost,111))\n(AS,(asyoulikeit,24))\n(AUDREY,(asyoulikeit,18))\n(Abate,(loveslabourslost,1),(midsummersnightsdream,1))\n(Abbess,(comedyoferrors,2))\n(Abetting,(comedyoferrors,1))\n(Abhor,(asyoulikeit,1))\n(Abide,(midsummersnightsdream,1))\n(Ability,(muchadoaboutnothing,1))\n(About,(loveslabourslost,2),(merrywivesofwindsor,2),(midsummersnightsdream,1),(muchadoaboutnothing,1),(tamingoftheshrew,1),(twelfthnight,1))\n(Above,(loveslabourslost,3),(twelfthnight,2),(merrywivesofwindsor,1),(tamingoftheshrew,1))\n(Abraham,(merrywivesofwindsor,2))\n(Abruptly,(asyoulikeit,1))\n(Academe,(loveslabourslost,1))\n(Accept,(tamingoftheshrew,1))\n(Accompany,(midsummersnightsdream,1))\n(According,(asyoulikeit,2),(comedyoferrors,1),(tamingoftheshrew,1),(twelfthnight,1))\n(Accost,(twelfthnight,3))\n(Accusativo,(merrywivesofwindsor,1))\n(Acheron,(midsummersnightsdream,1))\n(Achieve,(tamingoftheshrew,1))\n(Achilles,(loveslabourslost,1))\n(Actaeon,(merrywivesofwindsor,2))\n(Action,(loveslabourslost,1))\n(Adam,(asyoulikeit,7),(comedyoferrors,4),(muchadoaboutnothing,3),(loveslabourslost,2),(tamingoftheshrew,1))\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : ""
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 42
     } ]
   }, {
     "metadata" : {
@@ -626,14 +598,35 @@
     "outputs" : [ {
       "name" : "stdout",
       "output_type" : "stream",
-      "text" : "fileContents: org.apache.spark.rdd.RDD[(String, String)] = data/shakespeare MapPartitionsRDD[13] at wholeTextFiles at <console>:58\n"
+      "text" : "fileContents: org.apache.spark.rdd.RDD[(String, String)] = data/shakespeare MapPartitionsRDD[11] at wholeTextFiles at <console>:57\n"
     }, {
       "metadata" : { },
       "data" : {
         "text/html" : ""
       },
       "output_type" : "execute_result",
-      "execution_count" : 27
+      "execution_count" : 43
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false,
+      "id" : "0D31BABCC0AD459ABCDB6C5AC7C13ED1"
+    },
+    "cell_type" : "code",
+    "source" : "// val list = Seq(\"one\", \"two\", \"three\")\n// RDD[Tuple2[String,String]]\n(\"one\", \"two\")",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "res79: (String, String) = (one,two)\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : "(one,two)"
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 45
     } ]
   }, {
     "metadata" : {
@@ -655,18 +648,39 @@
       "id" : "348ECFFC072E498A90A069E8FBD896C6"
     },
     "cell_type" : "code",
-    "source" : "(\"foo\", 101, 3.14159, (\"bar\", 202L))",
+    "source" : "val footuple = (\"foo\", 101L, 3.14159F, (\"bar\", 202L))",
     "outputs" : [ {
       "name" : "stdout",
       "output_type" : "stream",
-      "text" : "res49: (String, Int, Double, (String, Long)) = (foo,101,3.14159,(bar,202))\n"
+      "text" : "footuple: (String, Long, Float, (String, Long)) = (foo,101,3.14159,(bar,202))\n"
     }, {
       "metadata" : { },
       "data" : {
-        "text/html" : "(foo,101,3.14159,(bar,202))"
+        "text/html" : ""
       },
       "output_type" : "execute_result",
-      "execution_count" : 28
+      "execution_count" : 48
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false,
+      "id" : "6F0388F3C9524011BB44099F00976C05"
+    },
+    "cell_type" : "code",
+    "source" : "val (name, age, pi, (otherName, otherAge)) = footuple",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "name: String = foo\nage: Long = 101\npi: Float = 3.14159\notherName: String = bar\notherAge: Long = 202\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : ""
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 49
     } ]
   }, {
     "metadata" : {
@@ -715,19 +729,39 @@
       "id" : "36EF21C8E62149838CF404DC4BC1E803"
     },
     "cell_type" : "code",
-    "source" : "fileContents.count",
+    "source" : "fileContents.count\nfileContents.take(1).foreach(println)",
     "outputs" : [ {
       "name" : "stdout",
       "output_type" : "stream",
-      "text" : "res39: Long = 8\n"
+      "text" : "(file:/opt/docker/data/shakespeare/midsummersnightsdream,\tA MIDSUMMER NIGHT'S DREAM\n\n\n\tDRAMATIS PERSONAE\n\n\nTHESEUS\tDuke of Athens.\n\nEGEUS\tfather to Hermia.\n\n\nLYSANDER\t|\n\t|  in love with Hermia.\nDEMETRIUS\t|\n\n\nPHILOSTRATE\tmaster of the revels to Theseus.\n\nQUINCE\ta carpenter.\n\nSNUG\ta joiner.\n\nBOTTOM\ta weaver.\n\nFLUTE\ta bellows-mender.\n\nSNOUT\ta tinker.\n\nSTARVELING\ta tailor.\n\nHIPPOLYTA\tqueen of the Amazons, betrothed to Theseus.\n\nHERMIA\tdaughter to Egeus, in love with Lysander.\n\nHELENA\tin love with Demetrius.\n\nOBERON\tking of the fairies.\n\nTITANIA\tqueen of the fairies.\n\nPUCK\tor Robin Goodfellow.\n\n\nPEASEBLOSSOM\t|\n\t|\nCOBWEB\t|\n\t|  fairies.\nMOTH\t|\n\t|\nMUSTARDSEED\t|\n\n\n\tOther fairies attending their King and Queen.\n\n\tAttendants on Theseus and Hippolyta.\n\nSCENE\tAthens, and a wood near it.\n\n\n\n\n\tA MIDSUMMER NIGHT'S DREAM\n\n\nACT I\n\n\n\nSCENE I\tAthens. The palace of THESEUS.\n\n\n\t[Enter THESEUS, HIPPOLYTA, PHILOSTRATE, and\n\tAttendants]\n\nTHESEUS\tNow, fair Hippolyta, our nuptial hour\n\tDraws on apace; four happy days bring in\n\tAnother moon: but, O, methinks, how slow\n\tThis old moon wanes! she lingers my desires,\n\tLike to a step-dame or a dowager\n\tLong withering out a young man revenue.\n\nHIPPOLYTA\tFour days will quickly steep themselves in night;\n\tFour nights will quickly dream away the time;\n\tAnd then the moon, like to a silver bow\n\tNew-bent in heaven, shall behold the night\n\tOf our solemnities.\n\nTHESEUS\tGo, Philostrate,\n\tStir up the Athenian youth to merriments;\n\tAwake the pert and nimble spirit of mirth;\n\tTurn melancholy forth to funerals;\n\tThe pale companion is not for our pomp.\n\n\t[Exit PHILOSTRATE]\n\n\tHippolyta, I woo'd thee with my sword,\n\tAnd won thy love, doing thee injuries;\n\tBut I will wed thee in another key,\n\tWith pomp, with triumph and with revelling.\n\n\t[Enter EGEUS, HERMIA, LYSANDER, and DEMETRIUS]\n\nEGEUS\tHappy be Theseus, our renowned duke!\n\nTHESEUS\tThanks, good Egeus: what's the news with thee?\n\nEGEUS\tFull of vexation come I, with complaint\n\tAgainst my child, my daughter Hermia.\n\tStand forth, Demetrius. My noble lord,\n\tThis man hath my consent to marry her.\n\tStand forth, Lysander: and my gracious duke,\n\tThis man hath bewitch'd the bosom of my child;\n\tThou, thou, Lysander, thou hast given her rhymes,\n\tAnd interchanged love-tokens with my child:\n\tThou hast by moonlight at her window sung,\n\tWith feigning voice verses of feigning love,\n\tAnd stolen the impression of her fantasy\n\tWith bracelets of thy hair, rings, gawds, conceits,\n\tKnacks, trifles, nosegays, sweetmeats, messengers\n\tOf strong prevailment in unharden'd youth:\n\tWith cunning hast thou filch'd my daughter's heart,\n\tTurn'd her obedience, which is due to me,\n\tTo stubborn harshness: and, my gracious duke,\n\tBe it so she; will not here before your grace\n\tConsent to marry with Demetrius,\n\tI beg the ancient privilege of Athens,\n\tAs she is mine, I may dispose of her:\n\tWhich shall be either to this gentleman\n\tOr to her death, according to our law\n\tImmediately provided in that case.\n\nTHESEUS\tWhat say you, Hermia? be advised fair maid:\n\tTo you your father should be as a god;\n\tOne that composed your beauties, yea, and one\n\tTo whom you are but as a form in wax\n\tBy him imprinted and within his power\n\tTo leave the figure or disfigure it.\n\tDemetrius is a worthy gentleman.\n\nHERMIA\tSo is Lysander.\n\nTHESEUS\t                  In himself he is;\n\tBut in this kind, wanting your father's voice,\n\tThe other must be held the worthier.\n\nHERMIA\tI would my father look'd but with my eyes.\n\nTHESEUS\tRather your eyes must with his judgment look.\n\nHERMIA\tI do entreat your grace to pardon me.\n\tI know not by what power I am made bold,\n\tNor how it may concern my modesty,\n\tIn such a presence here to plead my thoughts;\n\tBut I beseech your grace that I may know\n\tThe worst that may befall me in this case,\n\tIf I refuse to wed Demetrius.\n\nTHESEUS\tEither to die the death or to abjure\n\tFor ever the society of men.\n\tTherefore, fair Hermia, question your desires;\n\tKnow of your youth, examine well your blood,\n\tWhether, if you yield not to your father's choice,\n\tYou can endure the livery of a nun,\n\tFor aye to be in shady cloister mew'd,\n\tTo live a barren sister all your life,\n\tChanting faint hymns to the cold fruitless moon.\n\tThrice-blessed they that master so their blood,\n\tTo undergo such maiden pilgrimage;\n\tBut earthlier happy is the rose distill'd,\n\tThan that which withering on the virgin thorn\n\tGrows, lives and dies in single blessedness.\n\nHERMIA\tSo will I grow, so live, so die, my lord,\n\tEre I will my virgin patent up\n\tUnto his lordship, whose unwished yoke\n\tMy soul consents not to give sovereignty.\n\nTHESEUS\tTake time to pause; and, by the nest new moon--\n\tThe sealing-day betwixt my love and me,\n\tFor everlasting bond of fellowship--\n\tUpon that day either prepare to die\n\tFor disobedience to your father's will,\n\tOr else to wed Demetrius, as he would;\n\tOr on Diana's altar to protest\n\tFor aye austerity and single life.\n\nDEMETRIUS\tRelent, sweet Hermia: and, Lysander, yield\n\tThy crazed title to my certain right.\n\nLYSANDER\tYou have her father's love, Demetrius;\n\tLet me have Hermia's: do you marry him.\n\nEGEUS\tScornful Lysander! true, he hath my love,\n\tAnd what is mine my love shall render him.\n\tAnd she is mine, and all my right of her\n\tI do estate unto Demetrius.\n\nLYSANDER\tI am, my lord, as well derived as he,\n\tAs well possess'd; my love is more than his;\n\tMy fortunes every way as fairly rank'd,\n\tIf not with vantage, as Demetrius';\n\tAnd, which is more than all these boasts can be,\n\tI am beloved of beauteous Hermia:\n\tWhy should not I then prosecute my right?\n\tDemetrius, I'll avouch it to his head,\n\tMade love to Nedar's daughter, Helena,\n\tAnd won her soul; and she, sweet lady, dotes,\n\tDevoutly dotes, dotes in idolatry,\n\tUpon this spotted and inconstant man.\n\nTHESEUS\tI must confess that I have heard so much,\n\tAnd with Demetrius thought to have spoke thereof;\n\tBut, being over-full of self-affairs,\n\tMy mind did lose it. But, Demetrius, come;\n\tAnd come, Egeus; you shall go with me,\n\tI have some private schooling for you both.\n\tFor you, fair Hermia, look you arm yourself\n\tTo fit your fancies to your father's will;\n\tOr else the law of Athens yields you up--\n\tWhich by no means we may extenuate--\n\tTo death, or to a vow of single life.\n\tCome, my Hippolyta: what cheer, my love?\n\tDemetrius and Egeus, go along:\n\tI must employ you in some business\n\tAgainst our nuptial and confer with you\n\tOf something nearly that concerns yourselves.\n\nEGEUS\tWith duty and desire we follow you.\n\n\t[Exeunt all but LYSANDER and HERMIA]\n\nLYSANDER\tHow now, my love! why is your cheek so pale?\n\tHow chance the roses there do fade so fast?\n\nHERMIA\tBelike for want of rain, which I could well\n\tBeteem them from the tempest of my eyes.\n\nLYSANDER\tAy me! for aught that I could ever read,\n\tCould ever hear by tale or history,\n\tThe course of true love never did run smooth;\n\tBut, either it was different in blood,--\n\nHERMIA\tO cross! too high to be enthrall'd to low.\n\nLYSANDER\tOr else misgraffed in respect of years,--\n\nHERMIA\tO spite! too old to be engaged to young.\n\nLYSANDER\tOr else it stood upon the choice of friends,--\n\nHERMIA\tO hell! to choose love by another's eyes.\n\nLYSANDER\tOr, if there were a sympathy in choice,\n\tWar, death, or sickness did lay siege to it,\n\tMaking it momentany as a sound,\n\tSwift as a shadow, short as any dream;\n\tBrief as the lightning in the collied night,\n\tThat, in a spleen, unfolds both heaven and earth,\n\tAnd ere a man hath power to say 'Behold!'\n\tThe jaws of darkness do devour it up:\n\tSo quick bright things come to confusion.\n\nHERMIA\tIf then true lovers have been ever cross'd,\n\tIt stands as an edict in destiny:\n\tThen let us teach our trial patience,\n\tBecause it is a customary cross,\n\tAs due to love as thoughts and dreams and sighs,\n\tWishes and tears, poor fancy's followers.\n\nLYSANDER\tA good persuasion: therefore, hear me, Hermia.\n\tI have a widow aunt, a dowager\n\tOf great revenue, and she hath no child:\n\tFrom Athens is her house remote seven leagues;\n\tAnd she respects me as her only son.\n\tThere, gentle Hermia, may I marry thee;\n\tAnd to that place the sharp Athenian law\n\tCannot pursue us. If thou lovest me then,\n\tSteal forth thy father's house to-morrow night;\n\tAnd in the wood, a league without the town,\n\tWhere I did meet thee once with Helena,\n\tTo do observance to a morn of May,\n\tThere will I stay for thee.\n\nHERMIA\tMy good Lysander!\n\tI swear to thee, by Cupid's strongest bow,\n\tBy his best arrow with the golden head,\n\tBy the simplicity of Venus' doves,\n\tBy that which knitteth souls and prospers loves,\n\tAnd by that fire which burn'd the Carthage queen,\n\tWhen the false Troyan under sail was seen,\n\tBy all the vows that ever men have broke,\n\tIn number more than ever women spoke,\n\tIn that same place thou hast appointed me,\n\tTo-morrow truly will I meet with thee.\n\nLYSANDER\tKeep promise, love. Look, here comes Helena.\n\n\t[Enter HELENA]\n\nHERMIA\tGod speed fair Helena! whither away?\n\nHELENA\tCall you me fair? that fair again unsay.\n\tDemetrius loves your fair: O happy fair!\n\tYour eyes are lode-stars; and your tongue's sweet air\n\tMore tuneable than lark to shepherd's ear,\n\tWhen wheat is green, when hawthorn buds appear.\n\tSickness is catching: O, were favour so,\n\tYours would I catch, fair Hermia, ere I go;\n\tMy ear should catch your voice, my eye your eye,\n\tMy tongue should catch your tongue's sweet melody.\n\tWere the world mine, Demetrius being bated,\n\tThe rest I'd give to be to you translated.\n\tO, teach me how you look, and with what art\n\tYou sway the motion of Demetrius' heart.\n\nHERMIA\tI frown upon him, yet he loves me still.\n\nHELENA\tO that your frowns would teach my smiles such skill!\n\nHERMIA\tI give him curses, yet he gives me love.\n\nHELENA\tO that my prayers could such affection move!\n\nHERMIA\tThe more I hate, the more he follows me.\n\nHELENA\tThe more I love, the more he hateth me.\n\nHERMIA\tHis folly, Helena, is no fault of mine.\n\nHELENA\tNone, but your beauty: would that fault were mine!\n\nHERMIA\tTake comfort: he no more shall see my face;\n\tLysander and myself will fly this place.\n\tBefore the time I did Lysander see,\n\tSeem'd Athens as a paradise to me:\n\tO, then, what graces in my love do dwell,\n\tThat he hath turn'd a heaven unto a hell!\n\nLYSANDER\tHelen, to you our minds we will unfold:\n\tTo-morrow night, when Phoebe doth behold\n\tHer silver visage in the watery glass,\n\tDecking with liquid pearl the bladed grass,\n\tA time that lovers' flights doth still conceal,\n\tThrough Athens' gates have we devised to steal.\n\nHERMIA\tAnd in the wood, where often you and I\n\tUpon faint primrose-beds were wont to lie,\n\tEmptying our bosoms of their counsel sweet,\n\tThere my Lysander and myself shall meet;\n\tAnd thence from Athens turn away our eyes,\n\tTo seek new friends and stranger companies.\n\tFarewell, sweet playfellow: pray thou for us;\n\tAnd good luck grant thee thy Demetrius!\n\tKeep word, Lysander: we must starve our sight\n\tFrom lovers' food till morrow deep midnight.\n\nLYSANDER\tI will, my Hermia.\n\n\t[Exit HERMIA]\n\n\tHelena, adieu:\n\tAs you on him, Demetrius dote on you!\n\n\t[Exit]\n\nHELENA\tHow happy some o'er other some can be!\n\tThrough Athens I am thought as fair as she.\n\tBut what of that? Demetrius thinks not so;\n\tHe will not know what all but he do know:\n\tAnd as he errs, doting on Hermia's eyes,\n\tSo I, admiring of his qualities:\n\tThings base and vile, folding no quantity,\n\tLove can transpose to form and dignity:\n\tLove looks not with the eyes, but with the mind;\n\tAnd therefore is wing'd Cupid painted blind:\n\tNor hath Love's mind of any judgement taste;\n\tWings and no eyes figure unheedy haste:\n\tAnd therefore is Love said to be a child,\n\tBecause in choice he is so oft beguiled.\n\tAs waggish boys in game themselves forswear,\n\tSo the boy Love is perjured every where:\n\tFor ere Demetrius look'd on Hermia's eyne,\n\tHe hail'd down oaths that he was only mine;\n\tAnd when this hail some heat from Hermia felt,\n\tSo he dissolved, and showers of oaths did melt.\n\tI will go tell him of fair Hermia's flight:\n\tThen to the wood will he to-morrow night\n\tPursue her; and for this intelligence\n\tIf I have thanks, it is a dear expense:\n\tBut herein mean I to enrich my pain,\n\tTo have his sight thither and back again.\n\n\t[Exit]\n\n\n\n\n\tA MIDSUMMER NIGHT'S DREAM\n\n\nACT I\n\n\n\nSCENE II\tAthens. QUINCE'S house.\n\n\n\t[Enter QUINCE, SNUG, BOTTOM, FLUTE, SNOUT, and\n\tSTARVELING]\n\nQUINCE\tIs all our company here?\n\nBOTTOM\tYou were best to call them generally, man by man,\n\taccording to the scrip.\n\nQUINCE\tHere is the scroll of every man's name, which is\n\tthought fit, through all Athens, to play in our\n\tinterlude before the duke and the duchess, on his\n\twedding-day at night.\n\nBOTTOM\tFirst, good Peter Quince, say what the play treats\n\ton, then read the names of the actors, and so grow\n\tto a point.\n\nQUINCE\tMarry, our play is, The most lamentable comedy, and\n\tmost cruel death of Pyramus and Thisby.\n\nBOTTOM\tA very good piece of work, I assure you, and a\n\tmerry. Now, good Peter Quince, call forth your\n\tactors by the scroll. Masters, spread yourselves.\n\nQUINCE\tAnswer as I call you. Nick Bottom, the weaver.\n\nBOTTOM\tReady. Name what part I am for, and proceed.\n\nQUINCE\tYou, Nick Bottom, are set down for Pyramus.\n\nBOTTOM\tWhat is Pyramus? a lover, or a tyrant?\n\nQUINCE\tA lover, that kills himself most gallant for love.\n\nBOTTOM\tThat will ask some tears in the true performing of\n\tit: if I do it, let the audience look to their\n\teyes; I will move storms, I will condole in some\n\tmeasure. To the rest: yet my chief humour is for a\n\ttyrant: I could play Ercles rarely, or a part to\n\ttear a cat in, to make all split.\n\tThe raging rocks\n\tAnd shivering shocks\n\tShall break the locks\n\tOf prison gates;\n\tAnd Phibbus' car\n\tShall shine from far\n\tAnd make and mar\n\tThe foolish Fates.\n\tThis was lofty! Now name the rest of the players.\n\tThis is Ercles' vein, a tyrant's vein; a lover is\n\tmore condoling.\n\nQUINCE\tFrancis Flute, the bellows-mender.\n\nFLUTE\tHere, Peter Quince.\n\nQUINCE\tFlute, you must take Thisby on you.\n\nFLUTE\tWhat is Thisby? a wandering knight?\n\nQUINCE\tIt is the lady that Pyramus must love.\n\nFLUTE\tNay, faith, let me not play a woman; I have a beard coming.\n\nQUINCE\tThat's all one: you shall play it in a mask, and\n\tyou may speak as small as you will.\n\nBOTTOM\tAn I may hide my face, let me play Thisby too, I'll\n\tspeak in a monstrous little voice. 'Thisne,\n\tThisne;' 'Ah, Pyramus, lover dear! thy Thisby dear,\n\tand lady dear!'\n\nQUINCE\tNo, no; you must play Pyramus: and, Flute, you Thisby.\n\nBOTTOM\tWell, proceed.\n\nQUINCE\tRobin Starveling, the tailor.\n\nSTARVELING\tHere, Peter Quince.\n\nQUINCE\tRobin Starveling, you must play Thisby's mother.\n\tTom Snout, the tinker.\n\nSNOUT\tHere, Peter Quince.\n\nQUINCE\tYou, Pyramus' father: myself, Thisby's father:\n\tSnug, the joiner; you, the lion's part: and, I\n\thope, here is a play fitted.\n\nSNUG\tHave you the lion's part written? pray you, if it\n\tbe, give it me, for I am slow of study.\n\nQUINCE\tYou may do it extempore, for it is nothing but roaring.\n\nBOTTOM\tLet me play the lion too: I will roar, that I will\n\tdo any man's heart good to hear me; I will roar,\n\tthat I will make the duke say 'Let him roar again,\n\tlet him roar again.'\n\nQUINCE\tAn you should do it too terribly, you would fright\n\tthe duchess and the ladies, that they would shriek;\n\tand that were enough to hang us all.\n\nALL\tThat would hang us, every mother's son.\n\nBOTTOM\tI grant you, friends, if that you should fright the\n\tladies out of their wits, they would have no more\n\tdiscretion but to hang us: but I will aggravate my\n\tvoice so that I will roar you as gently as any\n\tsucking dove; I will roar you an 'twere any\n\tnightingale.\n\nQUINCE\tYou can play no part but Pyramus; for Pyramus is a\n\tsweet-faced man; a proper man, as one shall see in a\n\tsummer's day; a most lovely gentleman-like man:\n\ttherefore you must needs play Pyramus.\n\nBOTTOM\tWell, I will undertake it. What beard were I best\n\tto play it in?\n\nQUINCE\tWhy, what you will.\n\nBOTTOM\tI will discharge it in either your straw-colour\n\tbeard, your orange-tawny beard, your purple-in-grain\n\tbeard, or your French-crown-colour beard, your\n\tperfect yellow.\n\nQUINCE\tSome of your French crowns have no hair at all, and\n\tthen you will play bare-faced. But, masters, here\n\tare your parts: and I am to entreat you, request\n\tyou and desire you, to con them by to-morrow night;\n\tand meet me in the palace wood, a mile without the\n\ttown, by moonlight; there will we rehearse, for if\n\twe meet in the city, we shall be dogged with\n\tcompany, and our devices known. In the meantime I\n\twill draw a bill of properties, such as our play\n\twants. I pray you, fail me not.\n\nBOTTOM\tWe will meet; and there we may rehearse most\n\tobscenely and courageously. Take pains; be perfect: adieu.\n\nQUINCE\tAt the duke's oak we meet.\n\nBOTTOM\tEnough; hold or cut bow-strings.\n\n\t[Exeunt]\n\n\n\n\n\tA MIDSUMMER NIGHT'S DREAM\n\n\nACT II\n\n\n\nSCENE I\tA wood near Athens.\n\n\n\t[Enter, from opposite sides, a Fairy, and PUCK]\n\nPUCK\tHow now, spirit! whither wander you?\n\nFairy\t     Over hill, over dale,\n\tThorough bush, thorough brier,\n\tOver park, over pale,\n\tThorough flood, thorough fire,\n\tI do wander everywhere,\n\tSwifter than the moon's sphere;\n\tAnd I serve the fairy queen,\n\tTo dew her orbs upon the green.\n\tThe cowslips tall her pensioners be:\n\tIn their gold coats spots you see;\n\tThose be rubies, fairy favours,\n\tIn those freckles live their savours:\n\tI must go seek some dewdrops here\n\tAnd hang a pearl in every cowslip's ear.\n\tFarewell, thou lob of spirits; I'll be gone:\n\tOur queen and all our elves come here anon.\n\nPUCK\tThe king doth keep his revels here to-night:\n\tTake heed the queen come not within his sight;\n\tFor Oberon is passing fell and wrath,\n\tBecause that she as her attendant hath\n\tA lovely boy, stolen from an Indian king;\n\tShe never had so sweet a changeling;\n\tAnd jealous Oberon would have the child\n\tKnight of his train, to trace the forests wild;\n\tBut she perforce withholds the loved boy,\n\tCrowns him with flowers and makes him all her joy:\n\tAnd now they never meet in grove or green,\n\tBy fountain clear, or spangled starlight sheen,\n\tBut, they do square, that all their elves for fear\n\tCreep into acorn-cups and hide them there.\n\nFairy\tEither I mistake your shape and making quite,\n\tOr else you are that shrewd and knavish sprite\n\tCall'd Robin Goodfellow: are not you he\n\tThat frights the maidens of the villagery;\n\tSkim milk, and sometimes labour in the quern\n\tAnd bootless make the breathless housewife churn;\n\tAnd sometime make the drink to bear no barm;\n\tMislead night-wanderers, laughing at their harm?\n\tThose that Hobgoblin call you and sweet Puck,\n\tYou do their work, and they shall have good luck:\n\tAre not you he?\n\nPUCK\t                  Thou speak'st aright;\n\tI am that merry wanderer of the night.\n\tI jest to Oberon and make him smile\n\tWhen I a fat and bean-fed horse beguile,\n\tNeighing in likeness of a filly foal:\n\tAnd sometime lurk I in a gossip's bowl,\n\tIn very likeness of a roasted crab,\n\tAnd when she drinks, against her lips I bob\n\tAnd on her wither'd dewlap pour the ale.\n\tThe wisest aunt, telling the saddest tale,\n\tSometime for three-foot stool mistaketh me;\n\tThen slip I from her bum, down topples she,\n\tAnd 'tailor' cries, and falls into a cough;\n\tAnd then the whole quire hold their hips and laugh,\n\tAnd waxen in their mirth and neeze and swear\n\tA merrier hour was never wasted there.\n\tBut, room, fairy! here comes Oberon.\n\nFairy\tAnd here my mistress. Would that he were gone!\n\n\t[Enter, from one side, OBERON, with his train;\n\tfrom the other, TITANIA, with hers]\n\nOBERON\tIll met by moonlight, proud Titania.\n\nTITANIA\tWhat, jealous Oberon! Fairies, skip hence:\n\tI have forsworn his bed and company.\n\nOBERON\tTarry, rash wanton: am not I thy lord?\n\nTITANIA\tThen I must be thy lady: but I know\n\tWhen thou hast stolen away from fairy land,\n\tAnd in the shape of Corin sat all day,\n\tPlaying on pipes of corn and versing love\n\tTo amorous Phillida. Why art thou here,\n\tCome from the farthest Steppe of India?\n\tBut that, forsooth, the bouncing Amazon,\n\tYour buskin'd mistress and your warrior love,\n\tTo Theseus must be wedded, and you come\n\tTo give their bed joy and prosperity.\n\nOBERON\tHow canst thou thus for shame, Titania,\n\tGlance at my credit with Hippolyta,\n\tKnowing I know thy love to Theseus?\n\tDidst thou not lead him through the glimmering night\n\tFrom Perigenia, whom he ravished?\n\tAnd make him with fair AEgle break his faith,\n\tWith Ariadne and Antiopa?\n\nTITANIA\tThese are the forgeries of jealousy:\n\tAnd never, since the middle summer's spring,\n\tMet we on hill, in dale, forest or mead,\n\tBy paved fountain or by rushy brook,\n\tOr in the beached margent of the sea,\n\tTo dance our ringlets to the whistling wind,\n\tBut with thy brawls thou hast disturb'd our sport.\n\tTherefore the winds, piping to us in vain,\n\tAs in revenge, have suck'd up from the sea\n\tContagious fogs; which falling in the land\n\tHave every pelting river made so proud\n\tThat they have overborne their continents:\n\tThe ox hath therefore stretch'd his yoke in vain,\n\tThe ploughman lost his sweat, and the green corn\n\tHath rotted ere his youth attain'd a beard;\n\tThe fold stands empty in the drowned field,\n\tAnd crows are fatted with the murrion flock;\n\tThe nine men's morris is fill'd up with mud,\n\tAnd the quaint mazes in the wanton green\n\tFor lack of tread are undistinguishable:\n\tThe human mortals want their winter here;\n\tNo night is now with hymn or carol blest:\n\tTherefore the moon, the governess of floods,\n\tPale in her anger, washes all the air,\n\tThat rheumatic diseases do abound:\n\tAnd thorough this distemperature we see\n\tThe seasons alter: hoary-headed frosts\n\tFar in the fresh lap of the crimson rose,\n\tAnd on old Hiems' thin and icy crown\n\tAn odorous chaplet of sweet summer buds\n\tIs, as in mockery, set: the spring, the summer,\n\tThe childing autumn, angry winter, change\n\tTheir wonted liveries, and the mazed world,\n\tBy their increase, now knows not which is which:\n\tAnd this same progeny of evils comes\n\tFrom our debate, from our dissension;\n\tWe are their parents and original.\n\nOBERON\tDo you amend it then; it lies in you:\n\tWhy should Titania cross her Oberon?\n\tI do but beg a little changeling boy,\n\tTo be my henchman.\n\nTITANIA\t                  Set your heart at rest:\n\tThe fairy land buys not the child of me.\n\tHis mother was a votaress of my order:\n\tAnd, in the spiced Indian air, by night,\n\tFull often hath she gossip'd by my side,\n\tAnd sat with me on Neptune's yellow sands,\n\tMarking the embarked traders on the flood,\n\tWhen we have laugh'd to see the sails conceive\n\tAnd grow big-bellied with the wanton wind;\n\tWhich she, with pretty and with swimming gait\n\tFollowing,--her womb then rich with my young squire,--\n\tWould imitate, and sail upon the land,\n\tTo fetch me trifles, and return again,\n\tAs from a voyage, rich with merchandise.\n\tBut she, being mortal, of that boy did die;\n\tAnd for her sake do I rear up her boy,\n\tAnd for her sake I will not part with him.\n\nOBERON\tHow long within this wood intend you stay?\n\nTITANIA\tPerchance till after Theseus' wedding-day.\n\tIf you will patiently dance in our round\n\tAnd see our moonlight revels, go with us;\n\tIf not, shun me, and I will spare your haunts.\n\nOBERON\tGive me that boy, and I will go with thee.\n\nTITANIA\tNot for thy fairy kingdom. Fairies, away!\n\tWe shall chide downright, if I longer stay.\n\n\t[Exit TITANIA with her train]\n\nOBERON\tWell, go thy way: thou shalt not from this grove\n\tTill I torment thee for this injury.\n\tMy gentle Puck, come hither. Thou rememberest\n\tSince once I sat upon a promontory,\n\tAnd heard a mermaid on a dolphin's back\n\tUttering such dulcet and harmonious breath\n\tThat the rude sea grew civil at her song\n\tAnd certain stars shot madly from their spheres,\n\tTo hear the sea-maid's music.\n\nPUCK\tI remember.\n\nOBERON\tThat very time I saw, but thou couldst not,\n\tFlying between the cold moon and the earth,\n\tCupid all arm'd: a certain aim he took\n\tAt a fair vestal throned by the west,\n\tAnd loosed his love-shaft smartly from his bow,\n\tAs it should pierce a hundred thousand hearts;\n\tBut I might see young Cupid's fiery shaft\n\tQuench'd in the chaste beams of the watery moon,\n\tAnd the imperial votaress passed on,\n\tIn maiden meditation, fancy-free.\n\tYet mark'd I where the bolt of Cupid fell:\n\tIt fell upon a little western flower,\n\tBefore milk-white, now purple with love's wound,\n\tAnd maidens call it love-in-idleness.\n\tFetch me that flower; the herb I shew'd thee once:\n\tThe juice of it on sleeping eye-lids laid\n\tWill make or man or woman madly dote\n\tUpon the next live creature that it sees.\n\tFetch me this herb; and be thou here again\n\tEre the leviathan can swim a league.\n\nPUCK\tI'll put a girdle round about the earth\n\tIn forty minutes.\n\n\t[Exit]\n\nOBERON\t                  Having once this juice,\n\tI'll watch Titania when she is asleep,\n\tAnd drop the liquor of it in her eyes.\n\tThe next thing then she waking looks upon,\n\tBe it on lion, bear, or wolf, or bull,\n\tOn meddling monkey, or on busy ape,\n\tShe shall pursue it with the soul of love:\n\tAnd ere I take this charm from off her sight,\n\tAs I can take it with another herb,\n\tI'll make her render up her page to me.\n\tBut who comes here? I am invisible;\n\tAnd I will overhear their conference.\n\n\t[Enter DEMETRIUS, HELENA, following him]\n\nDEMETRIUS\tI love thee not, therefore pursue me not.\n\tWhere is Lysander and fair Hermia?\n\tThe one I'll slay, the other slayeth me.\n\tThou told'st me they were stolen unto this wood;\n\tAnd here am I, and wode within this wood,\n\tBecause I cannot meet my Hermia.\n\tHence, get thee gone, and follow me no more.\n\nHELENA\tYou draw me, you hard-hearted adamant;\n\tBut yet you draw not iron, for my heart\n\tIs true as steel: leave you your power to draw,\n\tAnd I shall have no power to follow you.\n\nDEMETRIUS\tDo I entice you? do I speak you fair?\n\tOr, rather, do I not in plainest truth\n\tTell you, I do not, nor I cannot love you?\n\nHELENA\tAnd even for that do I love you the more.\n\tI am your spaniel; and, Demetrius,\n\tThe more you beat me, I will fawn on you:\n\tUse me but as your spaniel, spurn me, strike me,\n\tNeglect me, lose me; only give me leave,\n\tUnworthy as I am, to follow you.\n\tWhat worser place can I beg in your love,--\n\tAnd yet a place of high respect with me,--\n\tThan to be used as you use your dog?\n\nDEMETRIUS\tTempt not too much the hatred of my spirit;\n\tFor I am sick when I do look on thee.\n\nHELENA\tAnd I am sick when I look not on you.\n\nDEMETRIUS\tYou do impeach your modesty too much,\n\tTo leave the city and commit yourself\n\tInto the hands of one that loves you not;\n\tTo trust the opportunity of night\n\tAnd the ill counsel of a desert place\n\tWith the rich worth of your virginity.\n\nHELENA\tYour virtue is my privilege: for that\n\tIt is not night when I do see your face,\n\tTherefore I think I am not in the night;\n\tNor doth this wood lack worlds of company,\n\tFor you in my respect are all the world:\n\tThen how can it be said I am alone,\n\tWhen all the world is here to look on me?\n\nDEMETRIUS\tI'll run from thee and hide me in the brakes,\n\tAnd leave thee to the mercy of wild beasts.\n\nHELENA\tThe wildest hath not such a heart as you.\n\tRun when you will, the story shall be changed:\n\tApollo flies, and Daphne holds the chase;\n\tThe dove pursues the griffin; the mild hind\n\tMakes speed to catch the tiger; bootless speed,\n\tWhen cowardice pursues and valour flies.\n\nDEMETRIUS\tI will not stay thy questions; let me go:\n\tOr, if thou follow me, do not believe\n\tBut I shall do thee mischief in the wood.\n\nHELENA\tAy, in the temple, in the town, the field,\n\tYou do me mischief. Fie, Demetrius!\n\tYour wrongs do set a scandal on my sex:\n\tWe cannot fight for love, as men may do;\n\tWe should be wood and were not made to woo.\n\n\t[Exit DEMETRIUS]\n\n\tI'll follow thee and make a heaven of hell,\n\tTo die upon the hand I love so well.\n\n\t[Exit]\n\nOBERON\tFare thee well, nymph: ere he do leave this grove,\n\tThou shalt fly him and he shall seek thy love.\n\n\t[Re-enter PUCK]\n\n\tHast thou the flower there? Welcome, wanderer.\n\nPUCK\tAy, there it is.\n\nOBERON\tI pray thee, give it me.\n\tI know a bank where the wild thyme blows,\n\tWhere oxlips and the nodding violet grows,\n\tQuite over-canopied with luscious woodbine,\n\tWith sweet musk-roses and with eglantine:\n\tThere sleeps Titania sometime of the night,\n\tLull'd in these flowers with dances and delight;\n\tAnd there the snake throws her enamell'd skin,\n\tWeed wide enough to wrap a fairy in:\n\tAnd with the juice of this I'll streak her eyes,\n\tAnd make her full of hateful fantasies.\n\tTake thou some of it, and seek through this grove:\n\tA sweet Athenian lady is in love\n\tWith a disdainful youth: anoint his eyes;\n\tBut do it when the next thing he espies\n\tMay be the lady: thou shalt know the man\n\tBy the Athenian garments he hath on.\n\tEffect it with some care, that he may prove\n\tMore fond on her than she upon her love:\n\tAnd look thou meet me ere the first cock crow.\n\nPUCK\tFear not, my lord, your servant shall do so.\n\n\t[Exeunt]\n\n\n\n\n\tA MIDSUMMER NIGHT'S DREAM\n\n\nACT II\n\n\n\nSCENE II\tAnother part of the wood.\n\n\n\t[Enter TITANIA, with her train]\n\nTITANIA\tCome, now a roundel and a fairy song;\n\tThen, for the third part of a minute, hence;\n\tSome to kill cankers in the musk-rose buds,\n\tSome war with rere-mice for their leathern wings,\n\tTo make my small elves coats, and some keep back\n\tThe clamorous owl that nightly hoots and wonders\n\tAt our quaint spirits. Sing me now asleep;\n\tThen to your offices and let me rest.\n\n\t[The Fairies sing]\n\n\tYou spotted snakes with double tongue,\n\tThorny hedgehogs, be not seen;\n\tNewts and blind-worms, do no wrong,\n\tCome not near our fairy queen.\n\tPhilomel, with melody\n\tSing in our sweet lullaby;\n\tLulla, lulla, lullaby, lulla, lulla, lullaby:\n\tNever harm,\n\tNor spell nor charm,\n\tCome our lovely lady nigh;\n\tSo, good night, with lullaby.\n\tWeaving spiders, come not here;\n\tHence, you long-legg'd spinners, hence!\n\tBeetles black, approach not near;\n\tWorm nor snail, do no offence.\n\tPhilomel, with melody, &c.\n\nFairy\tHence, away! now all is well:\n\tOne aloof stand sentinel.\n\n\t[Exeunt Fairies. TITANIA sleeps]\n\n\t[Enter OBERON and squeezes the flower on TITANIA's eyelids]\n\nOBERON\tWhat thou seest when thou dost wake,\n\tDo it for thy true-love take,\n\tLove and languish for his sake:\n\tBe it ounce, or cat, or bear,\n\tPard, or boar with bristled hair,\n\tIn thy eye that shall appear\n\tWhen thou wakest, it is thy dear:\n\tWake when some vile thing is near.\n\n\t[Exit]\n\n\t[Enter LYSANDER and HERMIA]\n\nLYSANDER\tFair love, you faint with wandering in the wood;\n\tAnd to speak troth, I have forgot our way:\n\tWe'll rest us, Hermia, if you think it good,\n\tAnd tarry for the comfort of the day.\n\nHERMIA\tBe it so, Lysander: find you out a bed;\n\tFor I upon this bank will rest my head.\n\nLYSANDER\tOne turf shall serve as pillow for us both;\n\tOne heart, one bed, two bosoms and one troth.\n\nHERMIA\tNay, good Lysander; for my sake, my dear,\n\tLie further off yet, do not lie so near.\n\nLYSANDER\tO, take the sense, sweet, of my innocence!\n\tLove takes the meaning in love's conference.\n\tI mean, that my heart unto yours is knit\n\tSo that but one heart we can make of it;\n\tTwo bosoms interchained with an oath;\n\tSo then two bosoms and a single troth.\n\tThen by your side no bed-room me deny;\n\tFor lying so, Hermia, I do not lie.\n\nHERMIA\tLysander riddles very prettily:\n\tNow much beshrew my manners and my pride,\n\tIf Hermia meant to say Lysander lied.\n\tBut, gentle friend, for love and courtesy\n\tLie further off; in human modesty,\n\tSuch separation as may well be said\n\tBecomes a virtuous bachelor and a maid,\n\tSo far be distant; and, good night, sweet friend:\n\tThy love ne'er alter till thy sweet life end!\n\nLYSANDER\tAmen, amen, to that fair prayer, say I;\n\tAnd then end life when I end loyalty!\n\tHere is my bed: sleep give thee all his rest!\n\nHERMIA\tWith half that wish the wisher's eyes be press'd!\n\n\t[They sleep]\n\n\t[Enter PUCK]\n\nPUCK\tThrough the forest have I gone.\n\tBut Athenian found I none,\n\tOn whose eyes I might approve\n\tThis flower's force in stirring love.\n\tNight and silence.--Who is here?\n\tWeeds of Athens he doth wear:\n\tThis is he, my master said,\n\tDespised the Athenian maid;\n\tAnd here the maiden, sleeping sound,\n\tOn the dank and dirty ground.\n\tPretty soul! she durst not lie\n\tNear this lack-love, this kill-courtesy.\n\tChurl, upon thy eyes I throw\n\tAll the power this charm doth owe.\n\tWhen thou wakest, let love forbid\n\tSleep his seat on thy eyelid:\n\tSo awake when I am gone;\n\tFor I must now to Oberon.\n\n\t[Exit]\n\n\t[Enter DEMETRIUS and HELENA, running]\n\nHELENA\tStay, though thou kill me, sweet Demetrius.\n\nDEMETRIUS\tI charge thee, hence, and do not haunt me thus.\n\nHELENA\tO, wilt thou darkling leave me? do not so.\n\nDEMETRIUS\tStay, on thy peril: I alone will go.\n\n\t[Exit]\n\nHELENA\tO, I am out of breath in this fond chase!\n\tThe more my prayer, the lesser is my grace.\n\tHappy is Hermia, wheresoe'er she lies;\n\tFor she hath blessed and attractive eyes.\n\tHow came her eyes so bright? Not with salt tears:\n\tIf so, my eyes are oftener wash'd than hers.\n\tNo, no, I am as ugly as a bear;\n\tFor beasts that meet me run away for fear:\n\tTherefore no marvel though Demetrius\n\tDo, as a monster fly my presence thus.\n\tWhat wicked and dissembling glass of mine\n\tMade me compare with Hermia's sphery eyne?\n\tBut who is here? Lysander! on the ground!\n\tDead? or asleep? I see no blood, no wound.\n\tLysander if you live, good sir, awake.\n\nLYSANDER\t[Awaking]  And run through fire I will for thy sweet sake.\n\tTransparent Helena! Nature shows art,\n\tThat through thy bosom makes me see thy heart.\n\tWhere is Demetrius? O, how fit a word\n\tIs that vile name to perish on my sword!\n\nHELENA\tDo not say so, Lysander; say not so\n\tWhat though he love your Hermia? Lord, what though?\n\tYet Hermia still loves you: then be content.\n\nLYSANDER\tContent with Hermia! No; I do repent\n\tThe tedious minutes I with her have spent.\n\tNot Hermia but Helena I love:\n\tWho will not change a raven for a dove?\n\tThe will of man is by his reason sway'd;\n\tAnd reason says you are the worthier maid.\n\tThings growing are not ripe until their season\n\tSo I, being young, till now ripe not to reason;\n\tAnd touching now the point of human skill,\n\tReason becomes the marshal to my will\n\tAnd leads me to your eyes, where I o'erlook\n\tLove's stories written in love's richest book.\n\nHELENA\tWherefore was I to this keen mockery born?\n\tWhen at your hands did I deserve this scorn?\n\tIs't not enough, is't not enough, young man,\n\tThat I did never, no, nor never can,\n\tDeserve a sweet look from Demetrius' eye,\n\tBut you must flout my insufficiency?\n\tGood troth, you do me wrong, good sooth, you do,\n\tIn such disdainful manner me to woo.\n\tBut fare you well: perforce I must confess\n\tI thought you lord of more true gentleness.\n\tO, that a lady, of one man refused.\n\tShould of another therefore be abused!\n\n\t[Exit]\n\nLYSANDER\tShe sees not Hermia. Hermia, sleep thou there:\n\tAnd never mayst thou come Lysander near!\n\tFor as a surfeit of the sweetest things\n\tThe deepest loathing to the stomach brings,\n\tOr as tie heresies that men do leave\n\tAre hated most of those they did deceive,\n\tSo thou, my surfeit and my heresy,\n\tOf all be hated, but the most of me!\n\tAnd, all my powers, address your love and might\n\tTo honour Helen and to be her knight!\n\n\t[Exit]\n\nHERMIA\t[Awaking]  Help me, Lysander, help me! do thy best\n\tTo pluck this crawling serpent from my breast!\n\tAy me, for pity! what a dream was here!\n\tLysander, look how I do quake with fear:\n\tMethought a serpent eat my heart away,\n\tAnd you sat smiling at his cruel pray.\n\tLysander! what, removed? Lysander! lord!\n\tWhat, out of hearing? gone? no sound, no word?\n\tAlack, where are you speak, an if you hear;\n\tSpeak, of all loves! I swoon almost with fear.\n\tNo? then I well perceive you all not nigh\n\tEither death or you I'll find immediately.\n\n\t[Exit]\n\n\n\n\n\tA MIDSUMMER NIGHT'S DREAM\n\n\nACT III\n\n\n\nSCENE I\tThe wood. TITANIA lying asleep.\n\n\n\t[Enter QUINCE, SNUG, BOTTOM, FLUTE, SNOUT, and\n\tSTARVELING]\n\nBOTTOM\tAre we all met?\n\nQUINCE\tPat, pat; and here's a marvellous convenient place\n\tfor our rehearsal. This green plot shall be our\n\tstage, this hawthorn-brake our tiring-house; and we\n\twill do it in action as we will do it before the duke.\n\nBOTTOM\tPeter Quince,--\n\nQUINCE\tWhat sayest thou, bully Bottom?\n\nBOTTOM\tThere are things in this comedy of Pyramus and\n\tThisby that will never please. First, Pyramus must\n\tdraw a sword to kill himself; which the ladies\n\tcannot abide. How answer you that?\n\nSNOUT\tBy'r lakin, a parlous fear.\n\nSTARVELING\tI believe we must leave the killing out, when all is done.\n\nBOTTOM\tNot a whit: I have a device to make all well.\n\tWrite me a prologue; and let the prologue seem to\n\tsay, we will do no harm with our swords, and that\n\tPyramus is not killed indeed; and, for the more\n\tbetter assurance, tell them that I, Pyramus, am not\n\tPyramus, but Bottom the weaver: this will put them\n\tout of fear.\n\nQUINCE\tWell, we will have such a prologue; and it shall be\n\twritten in eight and six.\n\nBOTTOM\tNo, make it two more; let it be written in eight and eight.\n\nSNOUT\tWill not the ladies be afeard of the lion?\n\nSTARVELING\tI fear it, I promise you.\n\nBOTTOM\tMasters, you ought to consider with yourselves: to\n\tbring in--God shield us!--a lion among ladies, is a\n\tmost dreadful thing; for there is not a more fearful\n\twild-fowl than your lion living; and we ought to\n\tlook to 't.\n\nSNOUT\tTherefore another prologue must tell he is not a lion.\n\nBOTTOM\tNay, you must name his name, and half his face must\n\tbe seen through the lion's neck: and he himself\n\tmust speak through, saying thus, or to the same\n\tdefect,--'Ladies,'--or 'Fair-ladies--I would wish\n\tYou,'--or 'I would request you,'--or 'I would\n\tentreat you,--not to fear, not to tremble: my life\n\tfor yours. If you think I come hither as a lion, it\n\twere pity of my life: no I am no such thing; I am a\n\tman as other men are;' and there indeed let him name\n\this name, and tell them plainly he is Snug the joiner.\n\nQUINCE\tWell it shall be so. But there is two hard things;\n\tthat is, to bring the moonlight into a chamber; for,\n\tyou know, Pyramus and Thisby meet by moonlight.\n\nSNOUT\tDoth the moon shine that night we play our play?\n\nBOTTOM\tA calendar, a calendar! look in the almanac; find\n\tout moonshine, find out moonshine.\n\nQUINCE\tYes, it doth shine that night.\n\nBOTTOM\tWhy, then may you leave a casement of the great\n\tchamber window, where we play, open, and the moon\n\tmay shine in at the casement.\n\nQUINCE\tAy; or else one must come in with a bush of thorns\n\tand a lanthorn, and say he comes to disfigure, or to\n\tpresent, the person of Moonshine. Then, there is\n\tanother thing: we must have a wall in the great\n\tchamber; for Pyramus and Thisby says the story, did\n\ttalk through the chink of a wall.\n\nSNOUT\tYou can never bring in a wall. What say you, Bottom?\n\nBOTTOM\tSome man or other must present Wall: and let him\n\thave some plaster, or some loam, or some rough-cast\n\tabout him, to signify wall; and let him hold his\n\tfingers thus, and through that cranny shall Pyramus\n\tand Thisby whisper.\n\nQUINCE\tIf that may be, then all is well. Come, sit down,\n\tevery mother's son, and rehearse your parts.\n\tPyramus, you begin: when you have spoken your\n\tspeech, enter into that brake: and so every one\n\taccording to his cue.\n\n\t[Enter PUCK behind]\n\nPUCK\tWhat hempen home-spuns have we swaggering here,\n\tSo near the cradle of the fairy queen?\n\tWhat, a play toward! I'll be an auditor;\n\tAn actor too, perhaps, if I see cause.\n\nQUINCE\tSpeak, Pyramus. Thisby, stand forth.\n\nBOTTOM\tThisby, the flowers of odious savours sweet,--\n\nQUINCE\tOdours, odours.\n\nBOTTOM\t--odours savours sweet:\n\tSo hath thy breath, my dearest Thisby dear.\n\tBut hark, a voice! stay thou but here awhile,\n\tAnd by and by I will to thee appear.\n\n\t[Exit]\n\nPUCK\tA stranger Pyramus than e'er played here.\n\n\t[Exit]\n\nFLUTE\tMust I speak now?\n\nQUINCE\tAy, marry, must you; for you must understand he goes\n\tbut to see a noise that he heard, and is to come again.\n\nFLUTE\tMost radiant Pyramus, most lily-white of hue,\n\tOf colour like the red rose on triumphant brier,\n\tMost brisky juvenal and eke most lovely Jew,\n\tAs true as truest horse that yet would never tire,\n\tI'll meet thee, Pyramus, at Ninny's tomb.\n\nQUINCE\t'Ninus' tomb,' man: why, you must not speak that\n\tyet; that you answer to Pyramus: you speak all your\n\tpart at once, cues and all Pyramus enter: your cue\n\tis past; it is, 'never tire.'\n\nFLUTE\tO,--As true as truest horse, that yet would\n\tnever tire.\n\n\t[Re-enter PUCK, and BOTTOM with an ass's head]\n\nBOTTOM\tIf I were fair, Thisby, I were only thine.\n\nQUINCE\tO monstrous! O strange! we are haunted. Pray,\n\tmasters! fly, masters! Help!\n\n\t[Exeunt QUINCE, SNUG, FLUTE, SNOUT, and STARVELING]\n\nPUCK\tI'll follow you, I'll lead you about a round,\n\tThrough bog, through bush, through brake, through brier:\n\tSometime a horse I'll be, sometime a hound,\n\tA hog, a headless bear, sometime a fire;\n\tAnd neigh, and bark, and grunt, and roar, and burn,\n\tLike horse, hound, hog, bear, fire, at every turn.\n\n\t[Exit]\n\nBOTTOM\tWhy do they run away? this is a knavery of them to\n\tmake me afeard.\n\n\t[Re-enter SNOUT]\n\nSNOUT\tO Bottom, thou art changed! what do I see on thee?\n\nBOTTOM\tWhat do you see? you see an asshead of your own, do\n\tyou?\n\n\t[Exit SNOUT]\n\n\t[Re-enter QUINCE]\n\nQUINCE\tBless thee, Bottom! bless thee! thou art\n\ttranslated.\n\n\t[Exit]\n\nBOTTOM\tI see their knavery: this is to make an ass of me;\n\tto fright me, if they could. But I will not stir\n\tfrom this place, do what they can: I will walk up\n\tand down here, and I will sing, that they shall hear\n\tI am not afraid.\n\n\t[Sings]\n\n\tThe ousel cock so black of hue,\n\tWith orange-tawny bill,\n\tThe throstle with his note so true,\n\tThe wren with little quill,--\n\nTITANIA\t[Awaking]  What angel wakes me from my flowery bed?\n\nBOTTOM\t[Sings]\n\n\tThe finch, the sparrow and the lark,\n\tThe plain-song cuckoo gray,\n\tWhose note full many a man doth mark,\n\tAnd dares not answer nay;--\n\tfor, indeed, who would set his wit to so foolish\n\ta bird? who would give a bird the lie, though he cry\n\t'cuckoo' never so?\n\nTITANIA\tI pray thee, gentle mortal, sing again:\n\tMine ear is much enamour'd of thy note;\n\tSo is mine eye enthralled to thy shape;\n\tAnd thy fair virtue's force perforce doth move me\n\tOn the first view to say, to swear, I love thee.\n\nBOTTOM\tMethinks, mistress, you should have little reason\n\tfor that: and yet, to say the truth, reason and\n\tlove keep little company together now-a-days; the\n\tmore the pity that some honest neighbours will not\n\tmake them friends. Nay, I can gleek upon occasion.\n\nTITANIA\tThou art as wise as thou art beautiful.\n\nBOTTOM\tNot so, neither: but if I had wit enough to get out\n\tof this wood, I have enough to serve mine own turn.\n\nTITANIA\tOut of this wood do not desire to go:\n\tThou shalt remain here, whether thou wilt or no.\n\tI am a spirit of no common rate;\n\tThe summer still doth tend upon my state;\n\tAnd I do love thee: therefore, go with me;\n\tI'll give thee fairies to attend on thee,\n\tAnd they shall fetch thee jewels from the deep,\n\tAnd sing while thou on pressed flowers dost sleep;\n\tAnd I will purge thy mortal grossness so\n\tThat thou shalt like an airy spirit go.\n\tPeaseblossom! Cobweb! Moth! and Mustardseed!\n\n\t[Enter PEASEBLOSSOM, COBWEB, MOTH, and MUSTARDSEED]\n\nPEASEBLOSSOM\tReady.\n\nCOBWEB\t     And I.\n\nMOTH\t          And I.\n\nMUSTARDSEED\t                  And I.\n\nALL\tWhere shall we go?\n\nTITANIA\tBe kind and courteous to this gentleman;\n\tHop in his walks and gambol in his eyes;\n\tFeed him with apricocks and dewberries,\n\tWith purple grapes, green figs, and mulberries;\n\tThe honey-bags steal from the humble-bees,\n\tAnd for night-tapers crop their waxen thighs\n\tAnd light them at the fiery glow-worm's eyes,\n\tTo have my love to bed and to arise;\n\tAnd pluck the wings from Painted butterflies\n\tTo fan the moonbeams from his sleeping eyes:\n\tNod to him, elves, and do him courtesies.\n\nPEASEBLOSSOM\tHail, mortal!\n\nCOBWEB\tHail!\n\nMOTH\tHail!\n\nMUSTARDSEED\tHail!\n\nBOTTOM\tI cry your worship's mercy, heartily: I beseech your\n\tworship's name.\n\nCOBWEB\tCobweb.\n\nBOTTOM\tI shall desire you of more acquaintance, good Master\n\tCobweb: if I cut my finger, I shall make bold with\n\tyou. Your name, honest gentleman?\n\nPEASEBLOSSOM\tPeaseblossom.\n\nBOTTOM\tI pray you, commend me to Mistress Squash, your\n\tmother, and to Master Peascod, your father. Good\n\tMaster Peaseblossom, I shall desire you of more\n\tacquaintance too. Your name, I beseech you, sir?\n\nMUSTARDSEED\tMustardseed.\n\nBOTTOM\tGood Master Mustardseed, I know your patience well:\n\tthat same cowardly, giant-like ox-beef hath\n\tdevoured many a gentleman of your house: I promise\n\tyou your kindred had made my eyes water ere now. I\n\tdesire your more acquaintance, good Master\n\tMustardseed.\n\nTITANIA\tCome, wait upon him; lead him to my bower.\n\tThe moon methinks looks with a watery eye;\n\tAnd when she weeps, weeps every little flower,\n\tLamenting some enforced chastity.\n\tTie up my love's tongue bring him silently.\n\n\t[Exeunt]\n\n\n\n\n\tA MIDSUMMER NIGHT'S DREAM\n\n\nACT III\n\n\n\nSCENE II\tAnother part of the wood.\n\n\n\t[Enter OBERON]\n\nOBERON\tI wonder if Titania be awaked;\n\tThen, what it was that next came in her eye,\n\tWhich she must dote on in extremity.\n\n\t[Enter PUCK]\n\n\tHere comes my messenger.\n\t\t   How now, mad spirit!\n\tWhat night-rule now about this haunted grove?\n\nPUCK\tMy mistress with a monster is in love.\n\tNear to her close and consecrated bower,\n\tWhile she was in her dull and sleeping hour,\n\tA crew of patches, rude mechanicals,\n\tThat work for bread upon Athenian stalls,\n\tWere met together to rehearse a play\n\tIntended for great Theseus' nuptial-day.\n\tThe shallowest thick-skin of that barren sort,\n\tWho Pyramus presented, in their sport\n\tForsook his scene and enter'd in a brake\n\tWhen I did him at this advantage take,\n\tAn ass's nole I fixed on his head:\n\tAnon his Thisbe must be answered,\n\tAnd forth my mimic comes. When they him spy,\n\tAs wild geese that the creeping fowler eye,\n\tOr russet-pated choughs, many in sort,\n\tRising and cawing at the gun's report,\n\tSever themselves and madly sweep the sky,\n\tSo, at his sight, away his fellows fly;\n\tAnd, at our stamp, here o'er and o'er one falls;\n\tHe murder cries and help from Athens calls.\n\tTheir sense thus weak, lost with their fears\n\tthus strong,\n\tMade senseless things begin to do them wrong;\n\tFor briers and thorns at their apparel snatch;\n\tSome sleeves, some hats, from yielders all\n\tthings catch.\n\tI led them on in this distracted fear,\n\tAnd left sweet Pyramus translated there:\n\tWhen in that moment, so it came to pass,\n\tTitania waked and straightway loved an ass.\n\nOBERON\tThis falls out better than I could devise.\n\tBut hast thou yet latch'd the Athenian's eyes\n\tWith the love-juice, as I did bid thee do?\n\nPUCK\tI took him sleeping,--that is finish'd too,--\n\tAnd the Athenian woman by his side:\n\tThat, when he waked, of force she must be eyed.\n\n\t[Enter HERMIA and DEMETRIUS]\n\nOBERON\tStand close: this is the same Athenian.\n\nPUCK\tThis is the woman, but not this the man.\n\nDEMETRIUS\tO, why rebuke you him that loves you so?\n\tLay breath so bitter on your bitter foe.\n\nHERMIA\tNow I but chide; but I should use thee worse,\n\tFor thou, I fear, hast given me cause to curse,\n\tIf thou hast slain Lysander in his sleep,\n\tBeing o'er shoes in blood, plunge in the deep,\n\tAnd kill me too.\n\tThe sun was not so true unto the day\n\tAs he to me: would he have stolen away\n\tFrom sleeping Hermia? I'll believe as soon\n\tThis whole earth may be bored and that the moon\n\tMay through the centre creep and so displease\n\tHer brother's noontide with Antipodes.\n\tIt cannot be but thou hast murder'd him;\n\tSo should a murderer look, so dead, so grim.\n\nDEMETRIUS\tSo should the murder'd look, and so should I,\n\tPierced through the heart with your stern cruelty:\n\tYet you, the murderer, look as bright, as clear,\n\tAs yonder Venus in her glimmering sphere.\n\nHERMIA\tWhat's this to my Lysander? where is he?\n\tAh, good Demetrius, wilt thou give him me?\n\nDEMETRIUS\tI had rather give his carcass to my hounds.\n\nHERMIA\tOut, dog! out, cur! thou drivest me past the bounds\n\tOf maiden's patience. Hast thou slain him, then?\n\tHenceforth be never number'd among men!\n\tO, once tell true, tell true, even for my sake!\n\tDurst thou have look'd upon him being awake,\n\tAnd hast thou kill'd him sleeping? O brave touch!\n\tCould not a worm, an adder, do so much?\n\tAn adder did it; for with doubler tongue\n\tThan thine, thou serpent, never adder stung.\n\nDEMETRIUS\tYou spend your passion on a misprised mood:\n\tI am not guilty of Lysander's blood;\n\tNor is he dead, for aught that I can tell.\n\nHERMIA\tI pray thee, tell me then that he is well.\n\nDEMETRIUS\tAn if I could, what should I get therefore?\n\nHERMIA\tA privilege never to see me more.\n\tAnd from thy hated presence part I so:\n\tSee me no more, whether he be dead or no.\n\n\t[Exit]\n\nDEMETRIUS\tThere is no following her in this fierce vein:\n\tHere therefore for a while I will remain.\n\tSo sorrow's heaviness doth heavier grow\n\tFor debt that bankrupt sleep doth sorrow owe:\n\tWhich now in some slight measure it will pay,\n\tIf for his tender here I make some stay.\n\n\t[Lies down and sleeps]\n\nOBERON\tWhat hast thou done? thou hast mistaken quite\n\tAnd laid the love-juice on some true-love's sight:\n\tOf thy misprision must perforce ensue\n\tSome true love turn'd and not a false turn'd true.\n\nPUCK\tThen fate o'er-rules, that, one man holding troth,\n\tA million fail, confounding oath on oath.\n\nOBERON\tAbout the wood go swifter than the wind,\n\tAnd Helena of Athens look thou find:\n\tAll fancy-sick she is and pale of cheer,\n\tWith sighs of love, that costs the fresh blood dear:\n\tBy some illusion see thou bring her here:\n\tI'll charm his eyes against she do appear.\n\nPUCK\tI go, I go; look how I go,\n\tSwifter than arrow from the Tartar's bow.\n\n\t[Exit]\n\nOBERON\t   Flower of this purple dye,\n\tHit with Cupid's archery,\n\tSink in apple of his eye.\n\tWhen his love he doth espy,\n\tLet her shine as gloriously\n\tAs the Venus of the sky.\n\tWhen thou wakest, if she be by,\n\tBeg of her for remedy.\n\n\t[Re-enter PUCK]\n\nPUCK\t   Captain of our fairy band,\n\tHelena is here at hand;\n\tAnd the youth, mistook by me,\n\tPleading for a lover's fee.\n\tShall we their fond pageant see?\n\tLord, what fools these mortals be!\n\nOBERON\tStand aside: the noise they make\n\tWill cause Demetrius to awake.\n\nPUCK\tThen will two at once woo one;\n\tThat must needs be sport alone;\n\tAnd those things do best please me\n\tThat befal preposterously.\n\n\t[Enter LYSANDER and HELENA]\n\nLYSANDER\tWhy should you think that I should woo in scorn?\n\tScorn and derision never come in tears:\n\tLook, when I vow, I weep; and vows so born,\n\tIn their nativity all truth appears.\n\tHow can these things in me seem scorn to you,\n\tBearing the badge of faith, to prove them true?\n\nHELENA\tYou do advance your cunning more and more.\n\tWhen truth kills truth, O devilish-holy fray!\n\tThese vows are Hermia's: will you give her o'er?\n\tWeigh oath with oath, and you will nothing weigh:\n\tYour vows to her and me, put in two scales,\n\tWill even weigh, and both as light as tales.\n\nLYSANDER\tI had no judgment when to her I swore.\n\nHELENA\tNor none, in my mind, now you give her o'er.\n\nLYSANDER\tDemetrius loves her, and he loves not you.\n\nDEMETRIUS\t[Awaking]  O Helena, goddess, nymph, perfect, divine!\n\tTo what, my love, shall I compare thine eyne?\n\tCrystal is muddy. O, how ripe in show\n\tThy lips, those kissing cherries, tempting grow!\n\tThat pure congealed white, high Taurus snow,\n\tFann'd with the eastern wind, turns to a crow\n\tWhen thou hold'st up thy hand: O, let me kiss\n\tThis princess of pure white, this seal of bliss!\n\nHELENA\tO spite! O hell! I see you all are bent\n\tTo set against me for your merriment:\n\tIf you we re civil and knew courtesy,\n\tYou would not do me thus much injury.\n\tCan you not hate me, as I know you do,\n\tBut you must join in souls to mock me too?\n\tIf you were men, as men you are in show,\n\tYou would not use a gentle lady so;\n\tTo vow, and swear, and superpraise my parts,\n\tWhen I am sure you hate me with your hearts.\n\tYou both are rivals, and love Hermia;\n\tAnd now both rivals, to mock Helena:\n\tA trim exploit, a manly enterprise,\n\tTo conjure tears up in a poor maid's eyes\n\tWith your derision! none of noble sort\n\tWould so offend a virgin, and extort\n\tA poor soul's patience, all to make you sport.\n\nLYSANDER\tYou are unkind, Demetrius; be not so;\n\tFor you love Hermia; this you know I know:\n\tAnd here, with all good will, with all my heart,\n\tIn Hermia's love I yield you up my part;\n\tAnd yours of Helena to me bequeath,\n\tWhom I do love and will do till my death.\n\nHELENA\tNever did mockers waste more idle breath.\n\nDEMETRIUS\tLysander, keep thy Hermia; I will none:\n\tIf e'er I loved her, all that love is gone.\n\tMy heart to her but as guest-wise sojourn'd,\n\tAnd now to Helen is it home return'd,\n\tThere to remain.\n\nLYSANDER\t                  Helen, it is not so.\n\nDEMETRIUS\tDisparage not the faith thou dost not know,\n\tLest, to thy peril, thou aby it dear.\n\tLook, where thy love comes; yonder is thy dear.\n\n\t[Re-enter HERMIA]\n\nHERMIA\tDark night, that from the eye his function takes,\n\tThe ear more quick of apprehension makes;\n\tWherein it doth impair the seeing sense,\n\tIt pays the hearing double recompense.\n\tThou art not by mine eye, Lysander, found;\n\tMine ear, I thank it, brought me to thy sound\n\tBut why unkindly didst thou leave me so?\n\nLYSANDER\tWhy should he stay, whom love doth press to go?\n\nHERMIA\tWhat love could press Lysander from my side?\n\nLYSANDER\tLysander's love, that would not let him bide,\n\tFair Helena, who more engilds the night\n\tThan all you fiery oes and eyes of light.\n\tWhy seek'st thou me? could not this make thee know,\n\tThe hate I bear thee made me leave thee so?\n\nHERMIA\tYou speak not as you think: it cannot be.\n\nHELENA\tLo, she is one of this confederacy!\n\tNow I perceive they have conjoin'd all three\n\tTo fashion this false sport, in spite of me.\n\tInjurious Hermia! most ungrateful maid!\n\tHave you conspired, have you with these contrived\n\tTo bait me with this foul derision?\n\tIs all the counsel that we two have shared,\n\tThe sisters' vows, the hours that we have spent,\n\tWhen we have chid the hasty-footed time\n\tFor parting us,--O, is it all forgot?\n\tAll school-days' friendship, childhood innocence?\n\tWe, Hermia, like two artificial gods,\n\tHave with our needles created both one flower,\n\tBoth on one sampler, sitting on one cushion,\n\tBoth warbling of one song, both in one key,\n\tAs if our hands, our sides, voices and minds,\n\tHad been incorporate. So we grow together,\n\tLike to a double cherry, seeming parted,\n\tBut yet an union in partition;\n\tTwo lovely berries moulded on one stem;\n\tSo, with two seeming bodies, but one heart;\n\tTwo of the first, like coats in heraldry,\n\tDue but to one and crowned with one crest.\n\tAnd will you rent our ancient love asunder,\n\tTo join with men in scorning your poor friend?\n\tIt is not friendly, 'tis not maidenly:\n\tOur sex, as well as I, may chide you for it,\n\tThough I alone do feel the injury.\n\nHERMIA\tI am amazed at your passionate words.\n\tI scorn you not: it seems that you scorn me.\n\nHELENA\tHave you not set Lysander, as in scorn,\n\tTo follow me and praise my eyes and face?\n\tAnd made your other love, Demetrius,\n\tWho even but now did spurn me with his foot,\n\tTo call me goddess, nymph, divine and rare,\n\tPrecious, celestial? Wherefore speaks he this\n\tTo her he hates? and wherefore doth Lysander\n\tDeny your love, so rich within his soul,\n\tAnd tender me, forsooth, affection,\n\tBut by your setting on, by your consent?\n\tWhat thought I be not so in grace as you,\n\tSo hung upon with love, so fortunate,\n\tBut miserable most, to love unloved?\n\tThis you should pity rather than despise.\n\nHERNIA\tI understand not what you mean by this.\n\nHELENA\tAy, do, persever, counterfeit sad looks,\n\tMake mouths upon me when I turn my back;\n\tWink each at other; hold the sweet jest up:\n\tThis sport, well carried, shall be chronicled.\n\tIf you have any pity, grace, or manners,\n\tYou would not make me such an argument.\n\tBut fare ye well: 'tis partly my own fault;\n\tWhich death or absence soon shall remedy.\n\nLYSANDER\tStay, gentle Helena; hear my excuse:\n\tMy love, my life my soul, fair Helena!\n\nHELENA\tO excellent!\n\nHERMIA\t                  Sweet, do not scorn her so.\n\nDEMETRIUS\tIf she cannot entreat, I can compel.\n\nLYSANDER\tThou canst compel no more than she entreat:\n\tThy threats have no more strength than her weak prayers.\n\tHelen, I love thee; by my life, I do:\n\tI swear by that which I will lose for thee,\n\tTo prove him false that says I love thee not.\n\nDEMETRIUS\tI say I love thee more than he can do.\n\nLYSANDER\tIf thou say so, withdraw, and prove it too.\n\nDEMETRIUS\tQuick, come!\n\nHERMIA\tLysander, whereto tends all this?\n\nLYSANDER\tAway, you Ethiope!\n\nDEMETRIUS\t                  No, no; he'll [        ]\n\tSeem to break loose; take on as you would follow,\n\tBut yet come not: you are a tame man, go!\n\nLYSANDER\tHang off, thou cat, thou burr! vile thing, let loose,\n\tOr I will shake thee from me like a serpent!\n\nHERMIA\tWhy are you grown so rude? what change is this?\n\tSweet love,--\n\nLYSANDER\tThy love! out, tawny Tartar, out!\n\tOut, loathed medicine! hated potion, hence!\n\nHERMIA\tDo you not jest?\n\nHELENA\tYes, sooth; and so do you.\n\nLYSANDER\tDemetrius, I will keep my word with thee.\n\nDEMETRIUS\tI would I had your bond, for I perceive\n\tA weak bond holds you: I'll not trust your word.\n\nLYSANDER\tWhat, should I hurt her, strike her, kill her dead?\n\tAlthough I hate her, I'll not harm her so.\n\nHERMIA\tWhat, can you do me greater harm than hate?\n\tHate me! wherefore? O me! what news, my love!\n\tAm not I Hermia? are not you Lysander?\n\tI am as fair now as I was erewhile.\n\tSince night you loved me; yet since night you left\n\tme:\n\tWhy, then you left me--O, the gods forbid!--\n\tIn earnest, shall I say?\n\nLYSANDER\tAy, by my life;\n\tAnd never did desire to see thee more.\n\tTherefore be out of hope, of question, of doubt;\n\tBe certain, nothing truer; 'tis no jest\n\tThat I do hate thee and love Helena.\n\nHERMIA\tO me! you juggler! you canker-blossom!\n\tYou thief of love! what, have you come by night\n\tAnd stolen my love's heart from him?\n\nHELENA\tFine, i'faith!\n\tHave you no modesty, no maiden shame,\n\tNo touch of bashfulness? What, will you tear\n\tImpatient answers from my gentle tongue?\n\tFie, fie! you counterfeit, you puppet, you!\n\nHERMIA\tPuppet? why so? ay, that way goes the game.\n\tNow I perceive that she hath made compare\n\tBetween our statures; she hath urged her height;\n\tAnd with her personage, her tall personage,\n\tHer height, forsooth, she hath prevail'd with him.\n\tAnd are you grown so high in his esteem;\n\tBecause I am so dwarfish and so low?\n\tHow low am I, thou painted maypole? speak;\n\tHow low am I? I am not yet so low\n\tBut that my nails can reach unto thine eyes.\n\nHELENA\tI pray you, though you mock me, gentlemen,\n\tLet her not hurt me: I was never curst;\n\tI have no gift at all in shrewishness;\n\tI am a right maid for my cowardice:\n\tLet her not strike me. You perhaps may think,\n\tBecause she is something lower than myself,\n\tThat I can match her.\n\nHERMIA\tLower! hark, again.\n\nHELENA\tGood Hermia, do not be so bitter with me.\n\tI evermore did love you, Hermia,\n\tDid ever keep your counsels, never wrong'd you;\n\tSave that, in love unto Demetrius,\n\tI told him of your stealth unto this wood.\n\tHe follow'd you; for love I follow'd him;\n\tBut he hath chid me hence and threaten'd me\n\tTo strike me, spurn me, nay, to kill me too:\n\tAnd now, so you will let me quiet go,\n\tTo Athens will I bear my folly back\n\tAnd follow you no further: let me go:\n\tYou see how simple and how fond I am.\n\nHERMIA\tWhy, get you gone: who is't that hinders you?\n\nHELENA\tA foolish heart, that I leave here behind.\n\nHERMIA\tWhat, with Lysander?\n\nHELENA\tWith Demetrius.\n\nLYSANDER\tBe not afraid; she shall not harm thee, Helena.\n\nDEMETRIUS\tNo, sir, she shall not, though you take her part.\n\nHELENA\tO, when she's angry, she is keen and shrewd!\n\tShe was a vixen when she went to school;\n\tAnd though she be but little, she is fierce.\n\nHERMIA\t'Little' again! nothing but 'low' and 'little'!\n\tWhy will you suffer her to flout me thus?\n\tLet me come to her.\n\nLYSANDER\tGet you gone, you dwarf;\n\tYou minimus, of hindering knot-grass made;\n\tYou bead, you acorn.\n\nDEMETRIUS\tYou are too officious\n\tIn her behalf that scorns your services.\n\tLet her alone: speak not of Helena;\n\tTake not her part; for, if thou dost intend\n\tNever so little show of love to her,\n\tThou shalt aby it.\n\nLYSANDER\t                  Now she holds me not;\n\tNow follow, if thou darest, to try whose right,\n\tOf thine or mine, is most in Helena.\n\nDEMETRIUS\tFollow! nay, I'll go with thee, cheek by jole.\n\n\t[Exeunt LYSANDER and DEMETRIUS]\n\nHERMIA\tYou, mistress, all this coil is 'long of you:\n\tNay, go not back.\n\nHELENA\t                  I will not trust you, I,\n\tNor longer stay in your curst company.\n\tYour hands than mine are quicker for a fray,\n\tMy legs are longer though, to run away.\n\n\t[Exit]\n\nHERMIA\tI am amazed, and know not what to say.\n\n\t[Exit]\n\nOBERON\tThis is thy negligence: still thou mistakest,\n\tOr else committ'st thy knaveries wilfully.\n\nPUCK\tBelieve me, king of shadows, I mistook.\n\tDid not you tell me I should know the man\n\tBy the Athenian garment be had on?\n\tAnd so far blameless proves my enterprise,\n\tThat I have 'nointed an Athenian's eyes;\n\tAnd so far am I glad it so did sort\n\tAs this their jangling I esteem a sport.\n\nOBERON\tThou see'st these lovers seek a place to fight:\n\tHie therefore, Robin, overcast the night;\n\tThe starry welkin cover thou anon\n\tWith drooping fog as black as Acheron,\n\tAnd lead these testy rivals so astray\n\tAs one come not within another's way.\n\tLike to Lysander sometime frame thy tongue,\n\tThen stir Demetrius up with bitter wrong;\n\tAnd sometime rail thou like Demetrius;\n\tAnd from each other look thou lead them thus,\n\tTill o'er their brows death-counterfeiting sleep\n\tWith leaden legs and batty wings doth creep:\n\tThen crush this herb into Lysander's eye;\n\tWhose liquor hath this virtuous property,\n\tTo take from thence all error with his might,\n\tAnd make his eyeballs roll with wonted sight.\n\tWhen they next wake, all this derision\n\tShall seem a dream and fruitless vision,\n\tAnd back to Athens shall the lovers wend,\n\tWith league whose date till death shall never end.\n\tWhiles I in this affair do thee employ,\n\tI'll to my queen and beg her Indian boy;\n\tAnd then I will her charmed eye release\n\tFrom monster's view, and all things shall be peace.\n\nPUCK\tMy fairy lord, this must be done with haste,\n\tFor night's swift dragons cut the clouds full fast,\n\tAnd yonder shines Aurora's harbinger;\n\tAt whose approach, ghosts, wandering here and there,\n\tTroop home to churchyards: damned spirits all,\n\tThat in crossways and floods have burial,\n\tAlready to their wormy beds are gone;\n\tFor fear lest day should look their shames upon,\n\tThey willfully themselves exile from light\n\tAnd must for aye consort with black-brow'd night.\n\nOBERON\tBut we are spirits of another sort:\n\tI with the morning's love have oft made sport,\n\tAnd, like a forester, the groves may tread,\n\tEven till the eastern gate, all fiery-red,\n\tOpening on Neptune with fair blessed beams,\n\tTurns into yellow gold his salt green streams.\n\tBut, notwithstanding, haste; make no delay:\n\tWe may effect this business yet ere day.\n\n\t[Exit]\n\nPUCK\t   Up and down, up and down,\n\tI will lead them up and down:\n\tI am fear'd in field and town:\n\tGoblin, lead them up and down.\n\tHere comes one.\n\n\t[Re-enter LYSANDER]\n\nLYSANDER\tWhere art thou, proud Demetrius? speak thou now.\n\nPUCK\tHere, villain; drawn and ready. Where art thou?\n\nLYSANDER\tI will be with thee straight.\n\nPUCK\tFollow me, then,\n\tTo plainer ground.\n\n\t[Exit LYSANDER, as following the voice]\n\n\t[Re-enter DEMETRIUS]\n\nDEMETRIUS\t                  Lysander! speak again:\n\tThou runaway, thou coward, art thou fled?\n\tSpeak! In some bush? Where dost thou hide thy head?\n\nPUCK\tThou coward, art thou bragging to the stars,\n\tTelling the bushes that thou look'st for wars,\n\tAnd wilt not come? Come, recreant; come, thou child;\n\tI'll whip thee with a rod: he is defiled\n\tThat draws a sword on thee.\n\nDEMETRIUS\tYea, art thou there?\n\nPUCK\tFollow my voice: we'll try no manhood here.\n\n\t[Exeunt]\n\n\t[Re-enter LYSANDER]\n\nLYSANDER\tHe goes before me and still dares me on:\n\tWhen I come where he calls, then he is gone.\n\tThe villain is much lighter-heel'd than I:\n\tI follow'd fast, but faster he did fly;\n\tThat fallen am I in dark uneven way,\n\tAnd here will rest me.\n\n\t[Lies down]\n\n\tCome, thou gentle day!\n\tFor if but once thou show me thy grey light,\n\tI'll find Demetrius and revenge this spite.\n\n\t[Sleeps]\n\n\t[Re-enter PUCK and DEMETRIUS]\n\nPUCK\tHo, ho, ho! Coward, why comest thou not?\n\nDEMETRIUS\tAbide me, if thou darest; for well I wot\n\tThou runn'st before me, shifting every place,\n\tAnd darest not stand, nor look me in the face.\n\tWhere art thou now?\n\nPUCK\tCome hither: I am here.\n\nDEMETRIUS\tNay, then, thou mock'st me. Thou shalt buy this dear,\n\tIf ever I thy face by daylight see:\n\tNow, go thy way. Faintness constraineth me\n\tTo measure out my length on this cold bed.\n\tBy day's approach look to be visited.\n\n\t[Lies down and sleeps]\n\n\t[Re-enter HELENA]\n\nHELENA\tO weary night, O long and tedious night,\n\tAbate thy hour! Shine comforts from the east,\n\tThat I may back to Athens by daylight,\n\tFrom these that my poor company detest:\n\tAnd sleep, that sometimes shuts up sorrow's eye,\n\tSteal me awhile from mine own company.\n\n\t[Lies down and sleeps]\n\nPUCK\tYet but three? Come one more;\n\tTwo of both kinds make up four.\n\tHere she comes, curst and sad:\n\tCupid is a knavish lad,\n\tThus to make poor females mad.\n\n\t[Re-enter HERMIA]\n\nHERMIA\tNever so weary, never so in woe,\n\tBedabbled with the dew and torn with briers,\n\tI can no further crawl, no further go;\n\tMy legs can keep no pace with my desires.\n\tHere will I rest me till the break of day.\n\tHeavens shield Lysander, if they mean a fray!\n\n\t[Lies down and sleeps]\n\nPUCK\t                  On the ground\n\tSleep sound:\n\tI'll apply\n\tTo your eye,\n\tGentle lover, remedy.\n\n\t[Squeezing the juice on LYSANDER's eyes]\n\n\tWhen thou wakest,\n\tThou takest\n\tTrue delight\n\tIn the sight\n\tOf thy former lady's eye:\n\tAnd the country proverb known,\n\tThat every man should take his own,\n\tIn your waking shall be shown:\n\tJack shall have Jill;\n\tNought shall go ill;\n\tThe man shall have his mare again, and all shall be well.\n\n\t[Exit]\n\n\n\n\n\tA MIDSUMMER NIGHT'S DREAM\n\n\nACT IV\n\n\n\nSCENE I\tThe same. LYSANDER, DEMETRIUS, HELENA, and HERMIA\n\tlying asleep.\n\n\n\t[Enter TITANIA and BOTTOM; PEASEBLOSSOM, COBWEB, MOTH,\n\tMUSTARDSEED, and other Fairies attending; OBERON\n\tbehind unseen]\n\nTITANIA\tCome, sit thee down upon this flowery bed,\n\tWhile I thy amiable cheeks do coy,\n\tAnd stick musk-roses in thy sleek smooth head,\n\tAnd kiss thy fair large ears, my gentle joy.\n\nBOTTOM\tWhere's Peaseblossom?\n\nPEASEBLOSSOM\tReady.\n\nBOTTOM\tScratch my head Peaseblossom. Where's Mounsieur Cobweb?\n\nCOBWEB\tReady.\n\nBOTTOM\tMounsieur Cobweb, good mounsieur, get you your\n\tweapons in your hand, and kill me a red-hipped\n\thumble-bee on the top of a thistle; and, good\n\tmounsieur, bring me the honey-bag. Do not fret\n\tyourself too much in the action, mounsieur; and,\n\tgood mounsieur, have a care the honey-bag break not;\n\tI would be loath to have you overflown with a\n\thoney-bag, signior. Where's Mounsieur Mustardseed?\n\nMUSTARDSEED\tReady.\n\nBOTTOM\tGive me your neaf, Mounsieur Mustardseed. Pray you,\n\tleave your courtesy, good mounsieur.\n\nMUSTARDSEED\tWhat's your Will?\n\nBOTTOM\tNothing, good mounsieur, but to help Cavalery Cobweb\n\tto scratch. I must to the barber's, monsieur; for\n\tmethinks I am marvellous hairy about the face; and I\n\tam such a tender ass, if my hair do but tickle me,\n\tI must scratch.\n\nTITANIA\tWhat, wilt thou hear some music,\n\tmy sweet love?\n\nBOTTOM\tI have a reasonable good ear in music. Let's have\n\tthe tongs and the bones.\n\nTITANIA\tOr say, sweet love, what thou desirest to eat.\n\nBOTTOM\tTruly, a peck of provender: I could munch your good\n\tdry oats. Methinks I have a great desire to a bottle\n\tof hay: good hay, sweet hay, hath no fellow.\n\nTITANIA\tI have a venturous fairy that shall seek\n\tThe squirrel's hoard, and fetch thee new nuts.\n\nBOTTOM\tI had rather have a handful or two of dried peas.\n\tBut, I pray you, let none of your people stir me: I\n\thave an exposition of sleep come upon me.\n\nTITANIA\tSleep thou, and I will wind thee in my arms.\n\tFairies, begone, and be all ways away.\n\n\t[Exeunt fairies]\n\n\tSo doth the woodbine the sweet honeysuckle\n\tGently entwist; the female ivy so\n\tEnrings the barky fingers of the elm.\n\tO, how I love thee! how I dote on thee!\n\n\t[They sleep]\n\n\t[Enter PUCK]\n\nOBERON\t[Advancing]  Welcome, good Robin.\n\tSee'st thou this sweet sight?\n\tHer dotage now I do begin to pity:\n\tFor, meeting her of late behind the wood,\n\tSeeking sweet favours from this hateful fool,\n\tI did upbraid her and fall out with her;\n\tFor she his hairy temples then had rounded\n\tWith a coronet of fresh and fragrant flowers;\n\tAnd that same dew, which sometime on the buds\n\tWas wont to swell like round and orient pearls,\n\tStood now within the pretty flowerets' eyes\n\tLike tears that did their own disgrace bewail.\n\tWhen I had at my pleasure taunted her\n\tAnd she in mild terms begg'd my patience,\n\tI then did ask of her her changeling child;\n\tWhich straight she gave me, and her fairy sent\n\tTo bear him to my bower in fairy land.\n\tAnd now I have the boy, I will undo\n\tThis hateful imperfection of her eyes:\n\tAnd, gentle Puck, take this transformed scalp\n\tFrom off the head of this Athenian swain;\n\tThat, he awaking when the other do,\n\tMay all to Athens back again repair\n\tAnd think no more of this night's accidents\n\tBut as the fierce vexation of a dream.\n\tBut first I will release the fairy queen.\n\tBe as thou wast wont to be;\n\tSee as thou wast wont to see:\n\tDian's bud o'er Cupid's flower\n\tHath such force and blessed power.\n\tNow, my Titania; wake you, my sweet queen.\n\nTITANIA\tMy Oberon! what visions have I seen!\n\tMethought I was enamour'd of an ass.\n\nOBERON\tThere lies your love.\n\nTITANIA\tHow came these things to pass?\n\tO, how mine eyes do loathe his visage now!\n\nOBERON\tSilence awhile. Robin, take off this head.\n\tTitania, music call; and strike more dead\n\tThan common sleep of all these five the sense.\n\nTITANIA\tMusic, ho! music, such as charmeth sleep!\n\n\t[Music, still]\n\nPUCK\tNow, when thou wakest, with thine\n\town fool's eyes peep.\n\nOBERON\tSound, music! Come, my queen, take hands with me,\n\tAnd rock the ground whereon these sleepers be.\n\tNow thou and I are new in amity,\n\tAnd will to-morrow midnight solemnly\n\tDance in Duke Theseus' house triumphantly,\n\tAnd bless it to all fair prosperity:\n\tThere shall the pairs of faithful lovers be\n\tWedded, with Theseus, all in jollity.\n\nPUCK\tFairy king, attend, and mark:\n\tI do hear the morning lark.\n\nOBERON\tThen, my queen, in silence sad,\n\tTrip we after the night's shade:\n\tWe the globe can compass soon,\n\tSwifter than the wandering moon.\n\nTITANIA\tCome, my lord, and in our flight\n\tTell me how it came this night\n\tThat I sleeping here was found\n\tWith these mortals on the ground.\n\n\t[Exeunt]\n\n\t[Horns winded within]\n\n\t[Enter THESEUS, HIPPOLYTA, EGEUS, and train]\n\nTHESEUS\tGo, one of you, find out the forester;\n\tFor now our observation is perform'd;\n\tAnd since we have the vaward of the day,\n\tMy love shall hear the music of my hounds.\n\tUncouple in the western valley; let them go:\n\tDispatch, I say, and find the forester.\n\n\t[Exit an Attendant]\n\n\tWe will, fair queen, up to the mountain's top,\n\tAnd mark the musical confusion\n\tOf hounds and echo in conjunction.\n\nHIPPOLYTA\tI was with Hercules and Cadmus once,\n\tWhen in a wood of Crete they bay'd the bear\n\tWith hounds of Sparta: never did I hear\n\tSuch gallant chiding: for, besides the groves,\n\tThe skies, the fountains, every region near\n\tSeem'd all one mutual cry: I never heard\n\tSo musical a discord, such sweet thunder.\n\nTHESEUS\tMy hounds are bred out of the Spartan kind,\n\tSo flew'd, so sanded, and their heads are hung\n\tWith ears that sweep away the morning dew;\n\tCrook-knee'd, and dew-lapp'd like Thessalian bulls;\n\tSlow in pursuit, but match'd in mouth like bells,\n\tEach under each. A cry more tuneable\n\tWas never holla'd to, nor cheer'd with horn,\n\tIn Crete, in Sparta, nor in Thessaly:\n\tJudge when you hear. But, soft! what nymphs are these?\n\nEGEUS\tMy lord, this is my daughter here asleep;\n\tAnd this, Lysander; this Demetrius is;\n\tThis Helena, old Nedar's Helena:\n\tI wonder of their being here together.\n\nTHESEUS\tNo doubt they rose up early to observe\n\tThe rite of May, and hearing our intent,\n\tCame here in grace our solemnity.\n\tBut speak, Egeus; is not this the day\n\tThat Hermia should give answer of her choice?\n\nEGEUS\tIt is, my lord.\n\nTHESEUS\tGo, bid the huntsmen wake them with their horns.\n\n\t[Horns and shout within. LYSANDER, DEMETRIUS,\n\tHELENA, and HERMIA wake and start up]\n\n\tGood morrow, friends. Saint Valentine is past:\n\tBegin these wood-birds but to couple now?\n\nLYSANDER\tPardon, my lord.\n\nTHESEUS\t                  I pray you all, stand up.\n\tI know you two are rival enemies:\n\tHow comes this gentle concord in the world,\n\tThat hatred is so far from jealousy,\n\tTo sleep by hate, and fear no enmity?\n\nLYSANDER\tMy lord, I shall reply amazedly,\n\tHalf sleep, half waking: but as yet, I swear,\n\tI cannot truly say how I came here;\n\tBut, as I think,--for truly would I speak,\n\tAnd now do I bethink me, so it is,--\n\tI came with Hermia hither: our intent\n\tWas to be gone from Athens, where we might,\n\tWithout the peril of the Athenian law.\n\nEGEUS\tEnough, enough, my lord; you have enough:\n\tI beg the law, the law, upon his head.\n\tThey would have stolen away; they would, Demetrius,\n\tThereby to have defeated you and me,\n\tYou of your wife and me of my consent,\n\tOf my consent that she should be your wife.\n\nDEMETRIUS\tMy lord, fair Helen told me of their stealth,\n\tOf this their purpose hither to this wood;\n\tAnd I in fury hither follow'd them,\n\tFair Helena in fancy following me.\n\tBut, my good lord, I wot not by what power,--\n\tBut by some power it is,--my love to Hermia,\n\tMelted as the snow, seems to me now\n\tAs the remembrance of an idle gaud\n\tWhich in my childhood I did dote upon;\n\tAnd all the faith, the virtue of my heart,\n\tThe object and the pleasure of mine eye,\n\tIs only Helena. To her, my lord,\n\tWas I betroth'd ere I saw Hermia:\n\tBut, like in sickness, did I loathe this food;\n\tBut, as in health, come to my natural taste,\n\tNow I do wish it, love it, long for it,\n\tAnd will for evermore be true to it.\n\nTHESEUS\tFair lovers, you are fortunately met:\n\tOf this discourse we more will hear anon.\n\tEgeus, I will overbear your will;\n\tFor in the temple by and by with us\n\tThese couples shall eternally be knit:\n\tAnd, for the morning now is something worn,\n\tOur purposed hunting shall be set aside.\n\tAway with us to Athens; three and three,\n\tWe'll hold a feast in great solemnity.\n\tCome, Hippolyta.\n\n\t[Exeunt THESEUS, HIPPOLYTA, EGEUS, and train]\n\nDEMETRIUS\tThese things seem small and undistinguishable,\nHERMIA\tMethinks I see these things with parted eye,\n\tWhen every thing seems double.\n\nHELENA\tSo methinks:\n\tAnd I have found Demetrius like a jewel,\n\tMine own, and not mine own.\n\nDEMETRIUS\tAre you sure\n\tThat we are awake? It seems to me\n\tThat yet we sleep, we dream. Do not you think\n\tThe duke was here, and bid us follow him?\n\nHERMIA\tYea; and my father.\n\nHELENA\tAnd Hippolyta.\n\nLYSANDER\tAnd he did bid us follow to the temple.\n\nDEMETRIUS\tWhy, then, we are awake: let's follow him\n\tAnd by the way let us recount our dreams.\n\n\t[Exeunt]\n\nBOTTOM\t[Awaking]  When my cue comes, call me, and I will\n\tanswer: my next is, 'Most fair Pyramus.' Heigh-ho!\n\tPeter Quince! Flute, the bellows-mender! Snout,\n\tthe tinker! Starveling! God's my life, stolen\n\thence, and left me asleep! I have had a most rare\n\tvision. I have had a dream, past the wit of man to\n\tsay what dream it was: man is but an ass, if he go\n\tabout to expound this dream. Methought I was--there\n\tis no man can tell what. Methought I was,--and\n\tmethought I had,--but man is but a patched fool, if\n\the will offer to say what methought I had. The eye\n\tof man hath not heard, the ear of man hath not\n\tseen, man's hand is not able to taste, his tongue\n\tto conceive, nor his heart to report, what my dream\n\twas. I will get Peter Quince to write a ballad of\n\tthis dream: it shall be called Bottom's Dream,\n\tbecause it hath no bottom; and I will sing it in the\n\tlatter end of a play, before the duke:\n\tperadventure, to make it the more gracious, I shall\n\tsing it at her death.\n\n\t[Exit]\n\n\n\n\n\tA MIDSUMMER NIGHT'S DREAM\n\n\nACT IV\n\n\n\nSCENE II\tAthens. QUINCE'S house.\n\n\n\t[Enter QUINCE, FLUTE, SNOUT, and STARVELING]\n\nQUINCE\tHave you sent to Bottom's house? is he come home yet?\n\nSTARVELING\tHe cannot be heard of. Out of doubt he is\n\ttransported.\n\nFLUTE\tIf he come not, then the play is marred: it goes\n\tnot forward, doth it?\n\nQUINCE\tIt is not possible: you have not a man in all\n\tAthens able to discharge Pyramus but he.\n\nFLUTE\tNo, he hath simply the best wit of any handicraft\n\tman in Athens.\n\nQUINCE\tYea and the best person too; and he is a very\n\tparamour for a sweet voice.\n\nFLUTE\tYou must say 'paragon:' a paramour is, God bless us,\n\ta thing of naught.\n\n\t[Enter SNUG]\n\nSNUG\tMasters, the duke is coming from the temple, and\n\tthere is two or three lords and ladies more married:\n\tif our sport had gone forward, we had all been made\n\tmen.\n\nFLUTE\tO sweet bully Bottom! Thus hath he lost sixpence a\n\tday during his life; he could not have 'scaped\n\tsixpence a day: an the duke had not given him\n\tsixpence a day for playing Pyramus, I'll be hanged;\n\the would have deserved it: sixpence a day in\n\tPyramus, or nothing.\n\n\t[Enter BOTTOM]\n\nBOTTOM\tWhere are these lads? where are these hearts?\n\nQUINCE\tBottom! O most courageous day! O most happy hour!\n\nBOTTOM\tMasters, I am to discourse wonders: but ask me not\n\twhat; for if I tell you, I am no true Athenian. I\n\twill tell you every thing, right as it fell out.\n\nQUINCE\tLet us hear, sweet Bottom.\n\nBOTTOM\tNot a word of me. All that I will tell you is, that\n\tthe duke hath dined. Get your apparel together,\n\tgood strings to your beards, new ribbons to your\n\tpumps; meet presently at the palace; every man look\n\to'er his part; for the short and the long is, our\n\tplay is preferred. In any case, let Thisby have\n\tclean linen; and let not him that plays the lion\n\tpair his nails, for they shall hang out for the\n\tlion's claws. And, most dear actors, eat no onions\n\tnor garlic, for we are to utter sweet breath; and I\n\tdo not doubt but to hear them say, it is a sweet\n\tcomedy. No more words: away! go, away!\n\n\t[Exeunt]\n\n\n\n\n\tA MIDSUMMER NIGHT'S DREAM\n\n\nACT V\n\n\n\nSCENE I\tAthens. The palace of THESEUS.\n\n\n\t[Enter THESEUS, HIPPOLYTA, PHILOSTRATE, Lords and\n\tAttendants]\n\nHIPPOLYTA\t'Tis strange my Theseus, that these\n\tlovers speak of.\n\nTHESEUS\tMore strange than true: I never may believe\n\tThese antique fables, nor these fairy toys.\n\tLovers and madmen have such seething brains,\n\tSuch shaping fantasies, that apprehend\n\tMore than cool reason ever comprehends.\n\tThe lunatic, the lover and the poet\n\tAre of imagination all compact:\n\tOne sees more devils than vast hell can hold,\n\tThat is, the madman: the lover, all as frantic,\n\tSees Helen's beauty in a brow of Egypt:\n\tThe poet's eye, in fine frenzy rolling,\n\tDoth glance from heaven to earth, from earth to heaven;\n\tAnd as imagination bodies forth\n\tThe forms of things unknown, the poet's pen\n\tTurns them to shapes and gives to airy nothing\n\tA local habitation and a name.\n\tSuch tricks hath strong imagination,\n\tThat if it would but apprehend some joy,\n\tIt comprehends some bringer of that joy;\n\tOr in the night, imagining some fear,\n\tHow easy is a bush supposed a bear!\n\nHIPPOLYTA\tBut all the story of the night told over,\n\tAnd all their minds transfigured so together,\n\tMore witnesseth than fancy's images\n\tAnd grows to something of great constancy;\n\tBut, howsoever, strange and admirable.\n\nTHESEUS\tHere come the lovers, full of joy and mirth.\n\n\t[Enter LYSANDER, DEMETRIUS, HERMIA, and HELENA]\n\n\tJoy, gentle friends! joy and fresh days of love\n\tAccompany your hearts!\n\nLYSANDER\tMore than to us\n\tWait in your royal walks, your board, your bed!\n\nTHESEUS\tCome now; what masques, what dances shall we have,\n\tTo wear away this long age of three hours\n\tBetween our after-supper and bed-time?\n\tWhere is our usual manager of mirth?\n\tWhat revels are in hand? Is there no play,\n\tTo ease the anguish of a torturing hour?\n\tCall Philostrate.\n\nPHILOSTRATE\t                  Here, mighty Theseus.\n\nTHESEUS\tSay, what abridgement have you for this evening?\n\tWhat masque? what music? How shall we beguile\n\tThe lazy time, if not with some delight?\n\nPHILOSTRATE\tThere is a brief how many sports are ripe:\n\tMake choice of which your highness will see first.\n\n\t[Giving a paper]\n\nTHESEUS\t[Reads]  'The battle with the Centaurs, to be sung\n\tBy an Athenian eunuch to the harp.'\n\tWe'll none of that: that have I told my love,\n\tIn glory of my kinsman Hercules.\n\n\t[Reads]\n\n\t'The riot of the tipsy Bacchanals,\n\tTearing the Thracian singer in their rage.'\n\tThat is an old device; and it was play'd\n\tWhen I from Thebes came last a conqueror.\n\n\t[Reads]\n\n\t'The thrice three Muses mourning for the death\n\tOf Learning, late deceased in beggary.'\n\tThat is some satire, keen and critical,\n\tNot sorting with a nuptial ceremony.\n\n\t[Reads]\n\n\t'A tedious brief scene of young Pyramus\n\tAnd his love Thisbe; very tragical mirth.'\n\tMerry and tragical! tedious and brief!\n\tThat is, hot ice and wondrous strange snow.\n\tHow shall we find the concord of this discord?\n\nPHILOSTRATE\tA play there is, my lord, some ten words long,\n\tWhich is as brief as I have known a play;\n\tBut by ten words, my lord, it is too long,\n\tWhich makes it tedious; for in all the play\n\tThere is not one word apt, one player fitted:\n\tAnd tragical, my noble lord, it is;\n\tFor Pyramus therein doth kill himself.\n\tWhich, when I saw rehearsed, I must confess,\n\tMade mine eyes water; but more merry tears\n\tThe passion of loud laughter never shed.\n\nTHESEUS\tWhat are they that do play it?\n\nPHILOSTRATE\tHard-handed men that work in Athens here,\n\tWhich never labour'd in their minds till now,\n\tAnd now have toil'd their unbreathed memories\n\tWith this same play, against your nuptial.\n\nTHESEUS\tAnd we will hear it.\n\nPHILOSTRATE\tNo, my noble lord;\n\tIt is not for you: I have heard it over,\n\tAnd it is nothing, nothing in the world;\n\tUnless you can find sport in their intents,\n\tExtremely stretch'd and conn'd with cruel pain,\n\tTo do you service.\n\nTHESEUS\t                  I will hear that play;\n\tFor never anything can be amiss,\n\tWhen simpleness and duty tender it.\n\tGo, bring them in: and take your places, ladies.\n\n\t[Exit PHILOSTRATE]\n\nHIPPOLYTA\tI love not to see wretchedness o'er charged\n\tAnd duty in his service perishing.\n\nTHESEUS\tWhy, gentle sweet, you shall see no such thing.\n\nHIPPOLYTA\tHe says they can do nothing in this kind.\n\nTHESEUS\tThe kinder we, to give them thanks for nothing.\n\tOur sport shall be to take what they mistake:\n\tAnd what poor duty cannot do, noble respect\n\tTakes it in might, not merit.\n\tWhere I have come, great clerks have purposed\n\tTo greet me with premeditated welcomes;\n\tWhere I have seen them shiver and look pale,\n\tMake periods in the midst of sentences,\n\tThrottle their practised accent in their fears\n\tAnd in conclusion dumbly have broke off,\n\tNot paying me a welcome. Trust me, sweet,\n\tOut of this silence yet I pick'd a welcome;\n\tAnd in the modesty of fearful duty\n\tI read as much as from the rattling tongue\n\tOf saucy and audacious eloquence.\n\tLove, therefore, and tongue-tied simplicity\n\tIn least speak most, to my capacity.\n\n\t[Re-enter PHILOSTRATE]\n\nPHILOSTRATE\tSo please your grace, the Prologue is address'd.\n\nTHESEUS\tLet him approach.\n\n\t[Flourish of trumpets]\n\n\t[Enter QUINCE for the Prologue]\n\nPrologue\tIf we offend, it is with our good will.\n\tThat you should think, we come not to offend,\n\tBut with good will. To show our simple skill,\n\tThat is the true beginning of our end.\n\tConsider then we come but in despite.\n\tWe do not come as minding to contest you,\n\tOur true intent is. All for your delight\n\tWe are not here. That you should here repent you,\n\tThe actors are at hand and by their show\n\tYou shall know all that you are like to know.\n\nTHESEUS\tThis fellow doth not stand upon points.\n\nLYSANDER\tHe hath rid his prologue like a rough colt; he knows\n\tnot the stop. A good moral, my lord: it is not\n\tenough to speak, but to speak true.\n\nHIPPOLYTA\tIndeed he hath played on his prologue like a child\n\ton a recorder; a sound, but not in government.\n\nTHESEUS\tHis speech, was like a tangled chain; nothing\n\timpaired, but all disordered. Who is next?\n\n\t[Enter Pyramus and Thisbe, Wall, Moonshine, and Lion]\n\nPrologue\tGentles, perchance you wonder at this show;\n\tBut wonder on, till truth make all things plain.\n\tThis man is Pyramus, if you would know;\n\tThis beauteous lady Thisby is certain.\n\tThis man, with lime and rough-cast, doth present\n\tWall, that vile Wall which did these lovers sunder;\n\tAnd through Wall's chink, poor souls, they are content\n\tTo whisper. At the which let no man wonder.\n\tThis man, with lanthorn, dog, and bush of thorn,\n\tPresenteth Moonshine; for, if you will know,\n\tBy moonshine did these lovers think no scorn\n\tTo meet at Ninus' tomb, there, there to woo.\n\tThis grisly beast, which Lion hight by name,\n\tThe trusty Thisby, coming first by night,\n\tDid scare away, or rather did affright;\n\tAnd, as she fled, her mantle she did fall,\n\tWhich Lion vile with bloody mouth did stain.\n\tAnon comes Pyramus, sweet youth and tall,\n\tAnd finds his trusty Thisby's mantle slain:\n\tWhereat, with blade, with bloody blameful blade,\n\tHe bravely broach'd is boiling bloody breast;\n\tAnd Thisby, tarrying in mulberry shade,\n\tHis dagger drew, and died. For all the rest,\n\tLet Lion, Moonshine, Wall, and lovers twain\n\tAt large discourse, while here they do remain.\n\n\t[Exeunt Prologue, Thisbe, Lion, and Moonshine]\n\nTHESEUS\tI wonder if the lion be to speak.\n\nDEMETRIUS\tNo wonder, my lord: one lion may, when many asses do.\n\nWall\tIn this same interlude it doth befall\n\tThat I, one Snout by name, present a wall;\n\tAnd such a wall, as I would have you think,\n\tThat had in it a crannied hole or chink,\n\tThrough which the lovers, Pyramus and Thisby,\n\tDid whisper often very secretly.\n\tThis loam, this rough-cast and this stone doth show\n\tThat I am that same wall; the truth is so:\n\tAnd this the cranny is, right and sinister,\n\tThrough which the fearful lovers are to whisper.\n\nTHESEUS\tWould you desire lime and hair to speak better?\n\nDEMETRIUS\tIt is the wittiest partition that ever I heard\n\tdiscourse, my lord.\n\n\t[Enter Pyramus]\n\nTHESEUS\tPyramus draws near the wall: silence!\n\nPyramus\tO grim-look'd night! O night with hue so black!\n\tO night, which ever art when day is not!\n\tO night, O night! alack, alack, alack,\n\tI fear my Thisby's promise is forgot!\n\tAnd thou, O wall, O sweet, O lovely wall,\n\tThat stand'st between her father's ground and mine!\n\tThou wall, O wall, O sweet and lovely wall,\n\tShow me thy chink, to blink through with mine eyne!\n\n\t[Wall holds up his fingers]\n\n\tThanks, courteous wall: Jove shield thee well for this!\n\tBut what see I? No Thisby do I see.\n\tO wicked wall, through whom I see no bliss!\n\tCursed be thy stones for thus deceiving me!\n\nTHESEUS\tThe wall, methinks, being sensible, should curse again.\n\nPyramus\tNo, in truth, sir, he should not. 'Deceiving me'\n\tis Thisby's cue: she is to enter now, and I am to\n\tspy her through the wall. You shall see, it will\n\tfall pat as I told you. Yonder she comes.\n\n\t[Enter Thisbe]\n\nThisbe\tO wall, full often hast thou heard my moans,\n\tFor parting my fair Pyramus and me!\n\tMy cherry lips have often kiss'd thy stones,\n\tThy stones with lime and hair knit up in thee.\n\nPyramus\tI see a voice: now will I to the chink,\n\tTo spy an I can hear my Thisby's face. Thisby!\n\nThisbe\tMy love thou art, my love I think.\n\nPyramus\tThink what thou wilt, I am thy lover's grace;\n\tAnd, like Limander, am I trusty still.\n\nThisbe\tAnd I like Helen, till the Fates me kill.\n\nPyramus\tNot Shafalus to Procrus was so true.\n\nThisbe\tAs Shafalus to Procrus, I to you.\n\nPyramus\tO kiss me through the hole of this vile wall!\n\nThisbe\tI kiss the wall's hole, not your lips at all.\n\nPyramus\tWilt thou at Ninny's tomb meet me straightway?\n\nThisbe\t'Tide life, 'tide death, I come without delay.\n\n\t[Exeunt Pyramus and Thisbe]\n\nWall\tThus have I, Wall, my part discharged so;\n\tAnd, being done, thus Wall away doth go.\n\n\t[Exit]\n\nTHESEUS\tNow is the mural down between the two neighbours.\n\nDEMETRIUS\tNo remedy, my lord, when walls are so wilful to hear\n\twithout warning.\n\nHIPPOLYTA\tThis is the silliest stuff that ever I heard.\n\nTHESEUS\tThe best in this kind are but shadows; and the worst\n\tare no worse, if imagination amend them.\n\nHIPPOLYTA\tIt must be your imagination then, and not theirs.\n\nTHESEUS\tIf we imagine no worse of them than they of\n\tthemselves, they may pass for excellent men. Here\n\tcome two noble beasts in, a man and a lion.\n\n\t[Enter Lion and Moonshine]\n\nLion\tYou, ladies, you, whose gentle hearts do fear\n\tThe smallest monstrous mouse that creeps on floor,\n\tMay now perchance both quake and tremble here,\n\tWhen lion rough in wildest rage doth roar.\n\tThen know that I, one Snug the joiner, am\n\tA lion-fell, nor else no lion's dam;\n\tFor, if I should as lion come in strife\n\tInto this place, 'twere pity on my life.\n\nTHESEUS\tA very gentle beast, of a good conscience.\n\nDEMETRIUS\tThe very best at a beast, my lord, that e'er I saw.\n\nLYSANDER\tThis lion is a very fox for his valour.\n\nTHESEUS\tTrue; and a goose for his discretion.\n\nDEMETRIUS\tNot so, my lord; for his valour cannot carry his\n\tdiscretion; and the fox carries the goose.\n\nTHESEUS\tHis discretion, I am sure, cannot carry his valour;\n\tfor the goose carries not the fox. It is well:\n\tleave it to his discretion, and let us listen to the moon.\n\nMoonshine\tThis lanthorn doth the horned moon present;--\n\nDEMETRIUS\tHe should have worn the horns on his head.\n\nTHESEUS\tHe is no crescent, and his horns are\n\tinvisible within the circumference.\n\nMoonshine\tThis lanthorn doth the horned moon present;\n\tMyself the man i' the moon do seem to be.\n\nTHESEUS\tThis is the greatest error of all the rest: the man\n\tshould be put into the lanthorn. How is it else the\n\tman i' the moon?\n\nDEMETRIUS\tHe dares not come there for the candle; for, you\n\tsee, it is already in snuff.\n\nHIPPOLYTA\tI am aweary of this moon: would he would change!\n\nTHESEUS\tIt appears, by his small light of discretion, that\n\the is in the wane; but yet, in courtesy, in all\n\treason, we must stay the time.\n\nLYSANDER\tProceed, Moon.\n\nMoonshine\tAll that I have to say, is, to tell you that the\n\tlanthorn is the moon; I, the man in the moon; this\n\tthorn-bush, my thorn-bush; and this dog, my dog.\n\nDEMETRIUS\tWhy, all these should be in the lanthorn; for all\n\tthese are in the moon. But, silence! here comes Thisbe.\n\n\t[Enter Thisbe]\n\nThisbe\tThis is old Ninny's tomb. Where is my love?\n\nLion\t[Roaring]  Oh--\n\n\t[Thisbe runs off]\n\nDEMETRIUS\tWell roared, Lion.\n\nTHESEUS\tWell run, Thisbe.\n\nHIPPOLYTA\tWell shone, Moon. Truly, the moon shines with a\n\tgood grace.\n\n\t[The Lion shakes Thisbe's mantle, and exit]\n\nTHESEUS\tWell moused, Lion.\n\nLYSANDER\tAnd so the lion vanished.\n\nDEMETRIUS\tAnd then came Pyramus.\n\n\t[Enter Pyramus]\n\nPyramus\tSweet Moon, I thank thee for thy sunny beams;\n\tI thank thee, Moon, for shining now so bright;\n\tFor, by thy gracious, golden, glittering gleams,\n\tI trust to take of truest Thisby sight.\n\tBut stay, O spite!\n\tBut mark, poor knight,\n\tWhat dreadful dole is here!\n\tEyes, do you see?\n\tHow can it be?\n\tO dainty duck! O dear!\n\tThy mantle good,\n\tWhat, stain'd with blood!\n\tApproach, ye Furies fell!\n\tO Fates, come, come,\n\tCut thread and thrum;\n\tQuail, crush, conclude, and quell!\n\nTHESEUS\tThis passion, and the death of a dear friend, would\n\tgo near to make a man look sad.\n\nHIPPOLYTA\tBeshrew my heart, but I pity the man.\n\nPyramus\tO wherefore, Nature, didst thou lions frame?\n\tSince lion vile hath here deflower'd my dear:\n\tWhich is--no, no--which was the fairest dame\n\tThat lived, that loved, that liked, that look'd\n\twith cheer.\n\tCome, tears, confound;\n\tOut, sword, and wound\n\tThe pap of Pyramus;\n\tAy, that left pap,\n\tWhere heart doth hop:\n\n\t[Stabs himself]\n\n\tThus die I, thus, thus, thus.\n\tNow am I dead,\n\tNow am I fled;\n\tMy soul is in the sky:\n\tTongue, lose thy light;\n\tMoon take thy flight:\n\n\t[Exit Moonshine]\n\n\tNow die, die, die, die, die.\n\n\t[Dies]\n\nDEMETRIUS\tNo die, but an ace, for him; for he is but one.\n\nLYSANDER\tLess than an ace, man; for he is dead; he is nothing.\n\nTHESEUS\tWith the help of a surgeon he might yet recover, and\n\tprove an ass.\n\nHIPPOLYTA\tHow chance Moonshine is gone before Thisbe comes\n\tback and finds her lover?\n\nTHESEUS\tShe will find him by starlight. Here she comes; and\n\ther passion ends the play.\n\n\t[Re-enter Thisbe]\n\nHIPPOLYTA\tMethinks she should not use a long one for such a\n\tPyramus: I hope she will be brief.\n\nDEMETRIUS\tA mote will turn the balance, which Pyramus, which\n\tThisbe, is the better; he for a man, God warrant us;\n\tshe for a woman, God bless us.\n\nLYSANDER\tShe hath spied him already with those sweet eyes.\n\nDEMETRIUS\tAnd thus she means, videlicet:--\n\nThisbe\t          Asleep, my love?\n\tWhat, dead, my dove?\n\tO Pyramus, arise!\n\tSpeak, speak. Quite dumb?\n\tDead, dead? A tomb\n\tMust cover thy sweet eyes.\n\tThese My lips,\n\tThis cherry nose,\n\tThese yellow cowslip cheeks,\n\tAre gone, are gone:\n\tLovers, make moan:\n\tHis eyes were green as leeks.\n\tO Sisters Three,\n\tCome, come to me,\n\tWith hands as pale as milk;\n\tLay them in gore,\n\tSince you have shore\n\tWith shears his thread of silk.\n\tTongue, not a word:\n\tCome, trusty sword;\n\tCome, blade, my breast imbrue:\n\n\t[Stabs herself]\n\n\tAnd, farewell, friends;\n\tThus Thisby ends:\n\tAdieu, adieu, adieu.\n\n\t[Dies]\n\nTHESEUS\tMoonshine and Lion are left to bury the dead.\n\nDEMETRIUS\tAy, and Wall too.\n\nBOTTOM\t[Starting up]  No assure you; the wall is down that\n\tparted their fathers. Will it please you to see the\n\tepilogue, or to hear a Bergomask dance between two\n\tof our company?\n\nTHESEUS\tNo epilogue, I pray you; for your play needs no\n\texcuse. Never excuse; for when the players are all\n\tdead, there needs none to be blamed. Marry, if he\n\tthat writ it had played Pyramus and hanged himself\n\tin Thisbe's garter, it would have been a fine\n\ttragedy: and so it is, truly; and very notably\n\tdischarged. But come, your Bergomask: let your\n\tepilogue alone.\n\n\t[A dance]\n\n\tThe iron tongue of midnight hath told twelve:\n\tLovers, to bed; 'tis almost fairy time.\n\tI fear we shall out-sleep the coming morn\n\tAs much as we this night have overwatch'd.\n\tThis palpable-gross play hath well beguiled\n\tThe heavy gait of night. Sweet friends, to bed.\n\tA fortnight hold we this solemnity,\n\tIn nightly revels and new jollity.\n\n\t[Exeunt]\n\n\t[Enter PUCK]\n\nPUCK\t     Now the hungry lion roars,\n\tAnd the wolf behowls the moon;\n\tWhilst the heavy ploughman snores,\n\tAll with weary task fordone.\n\tNow the wasted brands do glow,\n\tWhilst the screech-owl, screeching loud,\n\tPuts the wretch that lies in woe\n\tIn remembrance of a shroud.\n\tNow it is the time of night\n\tThat the graves all gaping wide,\n\tEvery one lets forth his sprite,\n\tIn the church-way paths to glide:\n\tAnd we fairies, that do run\n\tBy the triple Hecate's team,\n\tFrom the presence of the sun,\n\tFollowing darkness like a dream,\n\tNow are frolic: not a mouse\n\tShall disturb this hallow'd house:\n\tI am sent with broom before,\n\tTo sweep the dust behind the door.\n\n\t[Enter OBERON and TITANIA with their train]\n\nOBERON\t     Through the house give gathering light,\n\tBy the dead and drowsy fire:\n\tEvery elf and fairy sprite\n\tHop as light as bird from brier;\n\tAnd this ditty, after me,\n\tSing, and dance it trippingly.\n\nTITANIA\tFirst, rehearse your song by rote\n\tTo each word a warbling note:\n\tHand in hand, with fairy grace,\n\tWill we sing, and bless this place.\n\n\t[Song and dance]\n\nOBERON\tNow, until the break of day,\n\tThrough this house each fairy stray.\n\tTo the best bride-bed will we,\n\tWhich by us shall blessed be;\n\tAnd the issue there create\n\tEver shall be fortunate.\n\tSo shall all the couples three\n\tEver true in loving be;\n\tAnd the blots of Nature's hand\n\tShall not in their issue stand;\n\tNever mole, hare lip, nor scar,\n\tNor mark prodigious, such as are\n\tDespised in nativity,\n\tShall upon their children be.\n\tWith this field-dew consecrate,\n\tEvery fairy take his gait;\n\tAnd each several chamber bless,\n\tThrough this palace, with sweet peace;\n\tAnd the owner of it blest\n\tEver shall in safety rest.\n\tTrip away; make no stay;\n\tMeet me all by break of day.\n\n\t[Exeunt OBERON, TITANIA, and train]\n\nPUCK\tIf we shadows have offended,\n\tThink but this, and all is mended,\n\tThat you have but slumber'd here\n\tWhile these visions did appear.\n\tAnd this weak and idle theme,\n\tNo more yielding but a dream,\n\tGentles, do not reprehend:\n\tif you pardon, we will mend:\n\tAnd, as I am an honest Puck,\n\tIf we have unearned luck\n\tNow to 'scape the serpent's tongue,\n\tWe will make amends ere long;\n\tElse the Puck a liar call;\n\tSo, good night unto you all.\n\tGive me your hands, if we be friends,\n\tAnd Robin shall restore amends.\n)\n"
     }, {
       "metadata" : { },
       "data" : {
-        "text/html" : "8"
+        "text/html" : ""
       },
       "output_type" : "execute_result",
-      "execution_count" : 23
+      "execution_count" : 51
     } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : true,
+      "collapsed" : true,
+      "id" : "642487B2BEF34B7486E14F09BA3FA862"
+    },
+    "cell_type" : "code",
+    "source" : "",
+    "outputs" : [ ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : true,
+      "collapsed" : true,
+      "id" : "B033C6A025BB4DAAAB576357B911974B"
+    },
+    "cell_type" : "code",
+    "source" : "",
+    "outputs" : [ ]
   }, {
     "metadata" : {
       "id" : "B63454514AF841A7824D0A78CCE324C6"
@@ -752,14 +786,56 @@
     "outputs" : [ {
       "name" : "stdout",
       "output_type" : "stream",
-      "text" : "wordFileNameOnes: org.apache.spark.rdd.RDD[((String, String), Int)] = MapPartitionsRDD[14] at flatMap at <console>:62\nres51: org.apache.spark.rdd.RDD[((String, String), Int)] = MapPartitionsRDD[14] at flatMap at <console>:62\n"
+      "text" : "wordFileNameOnes: org.apache.spark.rdd.RDD[((String, String), Int)] = MapPartitionsRDD[12] at flatMap at <console>:61\nres91: org.apache.spark.rdd.RDD[((String, String), Int)] = MapPartitionsRDD[12] at flatMap at <console>:61\n"
     }, {
       "metadata" : { },
       "data" : {
-        "text/html" : "MapPartitionsRDD[14] at flatMap at &lt;console&gt;:62"
+        "text/html" : "MapPartitionsRDD[12] at flatMap at &lt;console&gt;:61"
       },
       "output_type" : "execute_result",
-      "execution_count" : 29
+      "execution_count" : 52
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false,
+      "id" : "B9A6AE4D94A443BDA467B4D9EBBE43FC"
+    },
+    "cell_type" : "code",
+    "source" : "wordFileNameOnes.count",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "res93: Long = 173336\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : "173336"
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 53
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false,
+      "id" : "DB9A436FE9DD48C18E0C1B37B6E73999"
+    },
+    "cell_type" : "code",
+    "source" : "wordFileNameOnes.take(10).foreach(println)",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "((,midsummersnightsdream),1)\n((A,midsummersnightsdream),1)\n((MIDSUMMER,midsummersnightsdream),1)\n((NIGHT,midsummersnightsdream),1)\n((S,midsummersnightsdream),1)\n((DREAM,midsummersnightsdream),1)\n((DRAMATIS,midsummersnightsdream),1)\n((PERSONAE,midsummersnightsdream),1)\n((THESEUS,midsummersnightsdream),1)\n((Duke,midsummersnightsdream),1)\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : ""
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 54
     } ]
   }, {
     "metadata" : {
@@ -869,14 +945,14 @@
     "outputs" : [ {
       "name" : "stdout",
       "output_type" : "stream",
-      "text" : "uniques: org.apache.spark.rdd.RDD[((String, String), Int)] = ShuffledRDD[15] at reduceByKey at <console>:64\nres57: org.apache.spark.rdd.RDD[((String, String), Int)] = ShuffledRDD[15] at reduceByKey at <console>:64\n"
+      "text" : "uniques: org.apache.spark.rdd.RDD[((String, String), Int)] = ShuffledRDD[13] at reduceByKey at <console>:63\nres97: org.apache.spark.rdd.RDD[((String, String), Int)] = ShuffledRDD[13] at reduceByKey at <console>:63\n"
     }, {
       "metadata" : { },
       "data" : {
-        "text/html" : "ShuffledRDD[15] at reduceByKey at &lt;console&gt;:64"
+        "text/html" : "ShuffledRDD[13] at reduceByKey at &lt;console&gt;:63"
       },
       "output_type" : "execute_result",
-      "execution_count" : 32
+      "execution_count" : 55
     } ]
   }, {
     "metadata" : {
@@ -902,14 +978,14 @@
     "outputs" : [ {
       "name" : "stdout",
       "output_type" : "stream",
-      "text" : "res59: Long = 27276\n"
+      "text" : "res99: Long = 27276\n"
     }, {
       "metadata" : { },
       "data" : {
         "text/html" : "27276"
       },
       "output_type" : "execute_result",
-      "execution_count" : 33
+      "execution_count" : 56
     } ]
   }, {
     "metadata" : {
@@ -956,15 +1032,25 @@
     "outputs" : [ {
       "name" : "stdout",
       "output_type" : "stream",
-      "text" : "words: org.apache.spark.rdd.RDD[(String, (String, Int))] = MapPartitionsRDD[16] at map at <console>:66\n"
+      "text" : "words: org.apache.spark.rdd.RDD[(String, (String, Int))] = MapPartitionsRDD[14] at map at <console>:65\n"
     }, {
       "metadata" : { },
       "data" : {
         "text/html" : ""
       },
       "output_type" : "execute_result",
-      "execution_count" : 35
+      "execution_count" : 57
     } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : true,
+      "id" : "0677B45945B84EFFB81120DC3E329253"
+    },
+    "cell_type" : "code",
+    "source" : "rdd.mapPartitions { partition =>\n  val jdbc = openJDBC\n  partition.foreach(record => jdbc.writeToMyDatabase())\n}",
+    "outputs" : [ ]
   }, {
     "metadata" : {
       "id" : "D2412BFCCAE942448B2F0F2A83755325"
@@ -989,14 +1075,14 @@
     "outputs" : [ {
       "name" : "stdout",
       "output_type" : "stream",
-      "text" : "wordGroups: org.apache.spark.rdd.RDD[(String, Iterable[(String, Int)])] = ShuffledRDD[24] at sortByKey at <console>:70\nres66: org.apache.spark.rdd.RDD[(String, Iterable[(String, Int)])] = ShuffledRDD[24] at sortByKey at <console>:70\n"
+      "text" : "wordGroups: org.apache.spark.rdd.RDD[(String, Iterable[(String, Int)])] = ShuffledRDD[18] at sortByKey at <console>:67\nres102: org.apache.spark.rdd.RDD[(String, Iterable[(String, Int)])] = ShuffledRDD[18] at sortByKey at <console>:67\n"
     }, {
       "metadata" : { },
       "data" : {
-        "text/html" : "ShuffledRDD[24] at sortByKey at &lt;console&gt;:70"
+        "text/html" : "ShuffledRDD[18] at sortByKey at &lt;console&gt;:67"
       },
       "output_type" : "execute_result",
-      "execution_count" : 37
+      "execution_count" : 58
     } ]
   }, {
     "metadata" : {
@@ -1016,14 +1102,14 @@
     "outputs" : [ {
       "name" : "stdout",
       "output_type" : "stream",
-      "text" : "res68: Long = 11951\n"
+      "text" : "res104: Long = 11951\n"
     }, {
       "metadata" : { },
       "data" : {
         "text/html" : "11951"
       },
       "output_type" : "execute_result",
-      "execution_count" : 38
+      "execution_count" : 59
     } ]
   }, {
     "metadata" : {
@@ -1044,7 +1130,7 @@
         "text/html" : ""
       },
       "output_type" : "execute_result",
-      "execution_count" : 39
+      "execution_count" : 60
     } ]
   }, {
     "metadata" : {
@@ -1064,14 +1150,14 @@
     "outputs" : [ {
       "name" : "stdout",
       "output_type" : "stream",
-      "text" : "iiFirstPass2: org.apache.spark.rdd.RDD[(String, String)] = MapPartitionsRDD[25] at mapValues at <console>:70\n"
+      "text" : "iiFirstPass2: org.apache.spark.rdd.RDD[(String, String)] = MapPartitionsRDD[19] at mapValues at <console>:69\n"
     }, {
       "metadata" : { },
       "data" : {
         "text/html" : ""
       },
       "output_type" : "execute_result",
-      "execution_count" : 40
+      "execution_count" : 61
     } ]
   }, {
     "metadata" : {
@@ -1098,7 +1184,7 @@
         "text/html" : ""
       },
       "output_type" : "execute_result",
-      "execution_count" : 41
+      "execution_count" : 62
     } ]
   }, {
     "metadata" : {
@@ -1112,6 +1198,48 @@
     },
     "cell_type" : "markdown",
     "source" : "> **NOTE:** If you would prefer to make a copy of the code in a new cell, use the _Insert_ menu above to add cells. Or, learn another keyboard shortcut; `ESC` (escape key), followed by `A` for insert before or `B` for insert after. Then hit return to edit. Note the toolbar pop-down for setting the format of the cell. This cell you're reading is _Markdown_. Make sure to use _Code_ for your source code cells."
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false,
+      "id" : "F8DFDE55DFC542758E4869AB319A3B81"
+    },
+    "cell_type" : "code",
+    "source" : "val iiFirstPass1 = sc.wholeTextFiles(shakespeare.toString).\n    flatMap { location_contents_tuple2 => \n        val words = location_contents_tuple2._2.toLowerCase.split(\"\"\"\\W+\"\"\")\n        val words2 = words.filter(_ != \"\")\n        val fileName = location_contents_tuple2._1.split(pathSeparator).last\n        words2.map(word => ((word, fileName), 1))\n    }.\n    reduceByKey((count1, count2) => count1 + count2).\n    map { word_file_count_tup3 => \n        (word_file_count_tup3._1._1, (word_file_count_tup3._1._2, word_file_count_tup3._2)) \n    }.\n    groupByKey.\n    sortByKey(ascending = true).\n    mapValues { iterable => \n        val vect = iterable.toVector.sortBy { file_count_tup2 => \n            (-file_count_tup2._2, file_count_tup2._1)\n        }\n        vect.mkString(\",\")\n    }",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "iiFirstPass1: org.apache.spark.rdd.RDD[(String, String)] = MapPartitionsRDD[29] at mapValues at <console>:80\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : ""
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 63
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false,
+      "id" : "99F32FA708704775B8E7F05E3F9C2255"
+    },
+    "cell_type" : "code",
+    "source" : "iiFirstPass1.take(30).foreach(println)",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "(a,(loveslabourslost,507),(merrywivesofwindsor,494),(muchadoaboutnothing,492),(asyoulikeit,461),(tamingoftheshrew,445),(twelfthnight,416),(midsummersnightsdream,281),(comedyoferrors,254))\n(abandon,(asyoulikeit,4),(tamingoftheshrew,1),(twelfthnight,1))\n(abate,(loveslabourslost,1),(midsummersnightsdream,1),(tamingoftheshrew,1))\n(abatement,(twelfthnight,1))\n(abbess,(comedyoferrors,8))\n(abbey,(comedyoferrors,9))\n(abbominable,(loveslabourslost,1))\n(abbreviated,(loveslabourslost,1))\n(abed,(asyoulikeit,1),(twelfthnight,1))\n(abetting,(comedyoferrors,1))\n(abhominable,(loveslabourslost,1))\n(abhor,(asyoulikeit,1),(comedyoferrors,1),(loveslabourslost,1),(merrywivesofwindsor,1),(muchadoaboutnothing,1))\n(abhors,(twelfthnight,2))\n(abide,(merrywivesofwindsor,3),(midsummersnightsdream,2))\n(abides,(muchadoaboutnothing,1))\n(ability,(muchadoaboutnothing,1),(twelfthnight,1))\n(abject,(comedyoferrors,1),(tamingoftheshrew,1))\n(abjure,(midsummersnightsdream,1))\n(abjured,(tamingoftheshrew,1),(twelfthnight,1))\n(able,(merrywivesofwindsor,4),(midsummersnightsdream,2),(asyoulikeit,1),(comedyoferrors,1),(tamingoftheshrew,1))\n(aboard,(comedyoferrors,5),(tamingoftheshrew,1))\n(abode,(tamingoftheshrew,1))\n(abominable,(asyoulikeit,1),(merrywivesofwindsor,1))\n(abortive,(loveslabourslost,1))\n(abound,(midsummersnightsdream,1))\n(about,(muchadoaboutnothing,35),(merrywivesofwindsor,27),(twelfthnight,10),(tamingoftheshrew,9),(asyoulikeit,7),(comedyoferrors,7),(midsummersnightsdream,7),(loveslabourslost,6))\n(above,(merrywivesofwindsor,6),(twelfthnight,6),(tamingoftheshrew,4),(loveslabourslost,3),(asyoulikeit,1),(comedyoferrors,1),(muchadoaboutnothing,1))\n(abraham,(merrywivesofwindsor,2))\n(abridgement,(midsummersnightsdream,1))\n(abroad,(loveslabourslost,2),(tamingoftheshrew,1))\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : ""
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 64
+    } ]
   }, {
     "metadata" : {
       "id" : "BC161EB30C3B4F4EA5E341E88523BE8C"
@@ -1153,25 +1281,81 @@
       "id" : "4AC1B06955A74550AF9304053604DEEC"
     },
     "cell_type" : "code",
-    "source" : "val ii1 = sc.wholeTextFiles(shakespeare.toString).\n    flatMap {\n        case (location, contents) => \n            val words = contents.split(\"\"\"\\W+\"\"\").\n                filter(word => word.size > 0)                      // #1\n            val fileName = location.split(pathSeparator).last\n            words.map(word => ((word.toLowerCase, fileName), 1))   // #2\n    }.\n    reduceByKey((count1, count2) => count1 + count2).\n    map { \n        case ((word, fileName), count) => (word, (fileName, count)) \n    }.\n    groupByKey.\n    sortByKey(ascending = true).\n    mapValues { iterable => \n        val vect = iterable.toVector.sortBy { \n            case (fileName, count) => (-count, fileName) \n        }\n        vect.mkString(\",\")\n    }",
+    "source" : "val ii1 = sc.wholeTextFiles(shakespeare.toString).\n  flatMap {\n        case (location, contents) => \n            val words = contents.split(\"\"\"\\W+\"\"\").\n                filter(word => word.size > 0)                      // #1\n            val fileName = location.split(pathSeparator).last\n            words.map(word => ((word.toLowerCase, fileName), 1))   // #2\n    }.\n    reduceByKey((count1, count2) => count1 + count2).\n    map { \n        case ((word, fileName), count) => (word, (fileName, count)) \n    }.\n    groupByKey.\n    sortByKey(ascending = true).\n    mapValues { iterable => \n        val vect = iterable.toVector.sortBy { \n            case (fileName, count) => (-count, fileName) \n        }\n        vect.mkString(\",\")\n    }.\n    map { case (key, value) => (key.toUpperCase, value.toLowerCase) \n    }",
     "outputs" : [ {
       "name" : "stdout",
       "output_type" : "stream",
-      "text" : "ii1: org.apache.spark.rdd.RDD[(String, String)] = MapPartitionsRDD[45] at mapValues at <console>:82\n"
+      "text" : "ii1: org.apache.spark.rdd.RDD[(String, String)] = MapPartitionsRDD[50] at map at <console>:87\n"
     }, {
       "metadata" : { },
       "data" : {
         "text/html" : ""
       },
       "output_type" : "execute_result",
-      "execution_count" : 43
+      "execution_count" : 73
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false,
+      "id" : "B62E8C2FDBFD46B49A3A1FFC7CFA02AC"
+    },
+    "cell_type" : "code",
+    "source" : "ii1.take(10).foreach(println)",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "(A,(loveslabourslost,507),(merrywivesofwindsor,494),(muchadoaboutnothing,492),(asyoulikeit,461),(tamingoftheshrew,445),(twelfthnight,416),(midsummersnightsdream,281),(comedyoferrors,254))\n(ABANDON,(asyoulikeit,4),(tamingoftheshrew,1),(twelfthnight,1))\n(ABATE,(loveslabourslost,1),(midsummersnightsdream,1),(tamingoftheshrew,1))\n(ABATEMENT,(twelfthnight,1))\n(ABBESS,(comedyoferrors,8))\n(ABBEY,(comedyoferrors,9))\n(ABBOMINABLE,(loveslabourslost,1))\n(ABBREVIATED,(loveslabourslost,1))\n(ABED,(asyoulikeit,1),(twelfthnight,1))\n(ABETTING,(comedyoferrors,1))\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : ""
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 74
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : true,
+      "id" : "8F6101EC8BD04430831705BF43D03644"
+    },
+    "cell_type" : "code",
+    "source" : "",
+    "outputs" : [ ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false,
+      "presentation" : {
+        "tabs_state" : "{\n  \"tab_id\": \"#tab2040086508-0\"\n}",
+        "pivot_chart_state" : "{\n  \"hiddenAttributes\": [],\n  \"menuLimit\": 200,\n  \"cols\": [],\n  \"rows\": [],\n  \"vals\": [],\n  \"exclusions\": {},\n  \"inclusions\": {},\n  \"unusedAttrsVertical\": 85,\n  \"autoSortUnusedAttrs\": false,\n  \"inclusionsInfo\": {},\n  \"aggregatorName\": \"Count\",\n  \"rendererName\": \"Table\"\n}"
+      },
+      "id" : "345E7B7DC2E540CF87E4006F20A7545E"
+    },
+    "cell_type" : "code",
+    "source" : "List(\"one\", (3, 3.14), 3L).map {// x => x match {\n    case \"one\" => \"found one\"\n    case s: String => \"found STring\"\n    case l: Long => \"found long\"\n    case (2, x) => \"found (2,...)\"\n    case (_, x) => \"found (_,...)\"\n//}\n}",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "res126: List[String] = List(found one, found (_,...), found long)\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : "<div>\n      <script data-this=\"{&quot;dataId&quot;:&quot;anon2f31a4bdbb9e7b8f5aca8820127f3136&quot;,&quot;dataInit&quot;:[{&quot;string value&quot;:&quot;found one&quot;},{&quot;string value&quot;:&quot;found (_,...)&quot;},{&quot;string value&quot;:&quot;found long&quot;}],&quot;genId&quot;:&quot;2040086508&quot;}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/req(['../javascripts/notebook/playground','../javascripts/notebook/magic/tabs'], \n      function(playground, _magictabs) {\n        // data ==> data-this (in observable.js's scopedEval) ==> this in JS => { dataId, dataInit, ... }\n        // this ==> scope (in observable.js's scopedEval) ==> this.parentElement ==> div.container below (toHtml)\n\n        playground.call(data,\n                        this\n                        ,\n                        {\n    \"f\": _magictabs,\n    \"o\": {}\n  }\n  \n                        \n                        \n                      );\n      }\n    );/*]]>*/</script>\n    <div>\n        <div>\n          <ul class=\"nav nav-tabs\" id=\"ul2040086508\"><li>\n                <a href=\"#tab2040086508-0\"><i class=\"fa fa-table\"/></a>\n              </li><li>\n                <a href=\"#tab2040086508-1\"><i class=\"fa fa-cubes\"/></a>\n              </li></ul>\n\n          <div class=\"tab-content\" id=\"tab2040086508\"><div class=\"tab-pane\" id=\"tab2040086508-0\">\n              <div>\n      <script data-this=\"{&quot;dataId&quot;:&quot;anon27fac63a1153085920fb77c33303e317&quot;,&quot;dataInit&quot;:[{&quot;string value&quot;:&quot;found one&quot;},{&quot;string value&quot;:&quot;found (_,...)&quot;},{&quot;string value&quot;:&quot;found long&quot;}],&quot;genId&quot;:&quot;970564054&quot;}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/req(['../javascripts/notebook/playground','../javascripts/notebook/magic/tableChart'], \n      function(playground, _magictableChart) {\n        // data ==> data-this (in observable.js's scopedEval) ==> this in JS => { dataId, dataInit, ... }\n        // this ==> scope (in observable.js's scopedEval) ==> this.parentElement ==> div.container below (toHtml)\n\n        playground.call(data,\n                        this\n                        ,\n                        {\n    \"f\": _magictableChart,\n    \"o\": {\"headers\":[\"string value\"],\"width\":600,\"height\":400}\n  }\n  \n                        \n                        \n                      );\n      }\n    );/*]]>*/</script>\n    <div>\n        <p data-bind=\"text: value\"><script data-this=\"{&quot;valueId&quot;:&quot;anon6dcb30a0515d34e9ac3c333bace8bb7c&quot;}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/\nreq(\n['observable', 'knockout'],\nfunction (O, ko) {\n  ko.applyBindings({\n      value: O.makeObservable(valueId)\n    },\n    this\n  );\n});\n        /*]]>*/</script></p> <span style=\"color:red\"><p data-bind=\"text: value\"><script data-this=\"{&quot;valueId&quot;:&quot;anon30cf8fdbc2022da2432e89f2bc380a45&quot;}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/\nreq(\n['observable', 'knockout'],\nfunction (O, ko) {\n  ko.applyBindings({\n      value: O.makeObservable(valueId)\n    },\n    this\n  );\n});\n        /*]]>*/</script></p></span>\n        <div>\n        </div>\n      </div></div>\n              </div><div class=\"tab-pane\" id=\"tab2040086508-1\">\n              <div>\n      <script data-this=\"{&quot;dataId&quot;:&quot;anon06d75bd6f03ea3083dcea84f68be69f8&quot;,&quot;dataInit&quot;:[{&quot;string value&quot;:&quot;found one&quot;},{&quot;string value&quot;:&quot;found (_,...)&quot;},{&quot;string value&quot;:&quot;found long&quot;}],&quot;genId&quot;:&quot;1552108457&quot;}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/req(['../javascripts/notebook/playground','../javascripts/notebook/magic/pivotChart'], \n      function(playground, _magicpivotChart) {\n        // data ==> data-this (in observable.js's scopedEval) ==> this in JS => { dataId, dataInit, ... }\n        // this ==> scope (in observable.js's scopedEval) ==> this.parentElement ==> div.container below (toHtml)\n\n        playground.call(data,\n                        this\n                        ,\n                        {\n    \"f\": _magicpivotChart,\n    \"o\": {\"width\":600,\"height\":400,\"derivedAttributes\":{},\"extraOptions\":{}}\n  }\n  \n                        \n                        \n                      );\n      }\n    );/*]]>*/</script>\n    <div>\n        <p data-bind=\"text: value\"><script data-this=\"{&quot;valueId&quot;:&quot;anon10bd8c809fdb0354eaec37a582969dcc&quot;}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/\nreq(\n['observable', 'knockout'],\nfunction (O, ko) {\n  ko.applyBindings({\n      value: O.makeObservable(valueId)\n    },\n    this\n  );\n});\n        /*]]>*/</script></p> <span style=\"color:red\"><p data-bind=\"text: value\"><script data-this=\"{&quot;valueId&quot;:&quot;anonab06902eb36492acb1f2c3e41b503c55&quot;}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/\nreq(\n['observable', 'knockout'],\nfunction (O, ko) {\n  ko.applyBindings({\n      value: O.makeObservable(valueId)\n    },\n    this\n  );\n});\n        /*]]>*/</script></p></span>\n        <div>\n        </div>\n      </div></div>\n              </div></div>\n        </div>\n      </div></div>"
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 72
     } ]
   }, {
     "metadata" : {
       "id" : "8881B4F7C5914C4380FCE7C450174D29"
     },
     "cell_type" : "markdown",
-    "source" : "Compare with your exercise solutions above. I added the filtering inside the function passed to `flatMap`. My choice reduces the number of output records from `flatMap` by at most one record per input line, which shouldn't have a significant impact on performance. Filtering itself adds some extra overhead. \n\nAlso, the way Spark implements steps like `map`, `flatMap`, `filter`, it would incur about the same overhead if I used `RDD.filter` instead. Note that we could also do the filtering later in the pipeline, after `groupByKey`, for example. So, whichever approach you implemented above is probably fine. You could do performance profiling of the different approaches, but you may not notice a significance difference until you use very large input data sets."
+    "source" : "}Compare with your exercise solutions above. I added the filtering inside the function passed to `flatMap`. My choice reduces the number of output records from `flatMap` by at most one record per input line, which shouldn't have a significant impact on performance. Filtering itself adds some extra overhead. \n\nAlso, the way Spark implements steps like `map`, `flatMap`, `filter`, it would incur about the same overhead if I used `RDD.filter` instead. Note that we could also do the filtering later in the pipeline, after `groupByKey`, for example. So, whichever approach you implemented above is probably fine. You could do performance profiling of the different approaches, but you may not notice a significance difference until you use very large input data sets."
   }, {
     "metadata" : {
       "id" : "AEFCD90AF8BF4D9C8944AAAC966D885D"
@@ -1190,14 +1374,14 @@
     "outputs" : [ {
       "name" : "stdout",
       "output_type" : "stream",
-      "text" : "import org.apache.spark.sql.SQLContext\nsqlContext: org.apache.spark.sql.SQLContext = org.apache.spark.sql.SQLContext@6f97424e\n"
+      "text" : "import org.apache.spark.sql.SQLContext\nsqlContext: org.apache.spark.sql.SQLContext = org.apache.spark.sql.SQLContext@e503e44\n"
     }, {
       "metadata" : { },
       "data" : {
         "text/html" : ""
       },
       "output_type" : "execute_result",
-      "execution_count" : 44
+      "execution_count" : 75
     } ]
   }, {
     "metadata" : {
@@ -1224,7 +1408,7 @@
         "text/html" : ""
       },
       "output_type" : "execute_result",
-      "execution_count" : 46
+      "execution_count" : 76
     } ]
   }, {
     "metadata" : {
@@ -1244,14 +1428,56 @@
     "outputs" : [ {
       "name" : "stdout",
       "output_type" : "stream",
-      "text" : "res80: org.apache.spark.sql.DataFrame = [word: string, locations_counts: string]\n"
+      "text" : "res133: org.apache.spark.sql.DataFrame = [word: string, locations_counts: string]\n"
     }, {
       "metadata" : { },
       "data" : {
-        "text/html" : "<div class=\"df-canvas\">\n      <script data-this=\"{&quot;dataId&quot;:&quot;anon6f8d6d8dd468346e8520714d404c975f&quot;,&quot;partitionIndexId&quot;:&quot;anon54844360db00aa330226bc6244c5188f&quot;,&quot;numPartitions&quot;:417,&quot;dfSchema&quot;:{&quot;type&quot;:&quot;struct&quot;,&quot;fields&quot;:[{&quot;name&quot;:&quot;word&quot;,&quot;type&quot;:&quot;string&quot;,&quot;nullable&quot;:true,&quot;metadata&quot;:{}},{&quot;name&quot;:&quot;locations_counts&quot;,&quot;type&quot;:&quot;string&quot;,&quot;nullable&quot;:true,&quot;metadata&quot;:{}}]}}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/req(['../javascripts/notebook/dataframe','../javascripts/notebook/consoleDir'], \n      function(dataframe, extension) {\n        dataframe.call(data, this, extension);\n      }\n    );/*]]>*/</script>\n      <link rel=\"stylesheet\" href=\"/assets/stylesheets/ipython/css/dataframe.css\" type=\"text/css\"/>\n    </div>"
+        "text/html" : "<div class=\"df-canvas\">\n      <script data-this=\"{&quot;dataId&quot;:&quot;anon6de8c95e851a4f0363f588fcbfd40353&quot;,&quot;partitionIndexId&quot;:&quot;anon52e95bb92b7f62fce7c92fd3e762d9be&quot;,&quot;numPartitions&quot;:417,&quot;dfSchema&quot;:{&quot;type&quot;:&quot;struct&quot;,&quot;fields&quot;:[{&quot;name&quot;:&quot;word&quot;,&quot;type&quot;:&quot;string&quot;,&quot;nullable&quot;:true,&quot;metadata&quot;:{}},{&quot;name&quot;:&quot;locations_counts&quot;,&quot;type&quot;:&quot;string&quot;,&quot;nullable&quot;:true,&quot;metadata&quot;:{}}]}}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/req(['../javascripts/notebook/dataframe','../javascripts/notebook/consoleDir'], \n      function(dataframe, extension) {\n        dataframe.call(data, this, extension);\n      }\n    );/*]]>*/</script>\n      <link rel=\"stylesheet\" href=\"/assets/stylesheets/ipython/css/dataframe.css\" type=\"text/css\"/>\n    </div>"
       },
       "output_type" : "execute_result",
-      "execution_count" : 47
+      "execution_count" : 77
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false,
+      "id" : "C401CCFF8B244318A035975A6AFC41B6"
+    },
+    "cell_type" : "code",
+    "source" : "ii1DF.show(truncate=false, numRows=5)",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "+---------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+\n|word     |locations_counts                                                                                                                                                                       |\n+---------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+\n|A        |(loveslabourslost,507),(merrywivesofwindsor,494),(muchadoaboutnothing,492),(asyoulikeit,461),(tamingoftheshrew,445),(twelfthnight,416),(midsummersnightsdream,281),(comedyoferrors,254)|\n|ABANDON  |(asyoulikeit,4),(tamingoftheshrew,1),(twelfthnight,1)                                                                                                                                  |\n|ABATE    |(loveslabourslost,1),(midsummersnightsdream,1),(tamingoftheshrew,1)                                                                                                                    |\n|ABATEMENT|(twelfthnight,1)                                                                                                                                                                       |\n|ABBESS   |(comedyoferrors,8)                                                                                                                                                                     |\n+---------+---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------+\nonly showing top 5 rows\n\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : ""
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 81
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false,
+      "id" : "8155E017145448248295E0EDB873D20D"
+    },
+    "cell_type" : "code",
+    "source" : "ii1DF.printSchema",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "root\n |-- word: string (nullable = true)\n |-- locations_counts: string (nullable = true)\n\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : ""
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 82
     } ]
   }, {
     "metadata" : {
@@ -1313,14 +1539,14 @@
     "outputs" : [ {
       "name" : "stdout",
       "output_type" : "stream",
-      "text" : "ii: org.apache.spark.rdd.RDD[(String, Int, scala.collection.immutable.Vector[String], scala.collection.immutable.Vector[Int])] = MapPartitionsRDD[61] at map at <console>:83\n"
+      "text" : "ii: org.apache.spark.rdd.RDD[(String, Int, scala.collection.immutable.Vector[String], scala.collection.immutable.Vector[Int])] = MapPartitionsRDD[74] at map at <console>:82\n"
     }, {
       "metadata" : { },
       "data" : {
         "text/html" : ""
       },
       "output_type" : "execute_result",
-      "execution_count" : 48
+      "execution_count" : 83
     } ]
   }, {
     "metadata" : {
@@ -1353,7 +1579,7 @@
         "text/html" : ""
       },
       "output_type" : "execute_result",
-      "execution_count" : 49
+      "execution_count" : 85
     } ]
   }, {
     "metadata" : {
@@ -1380,7 +1606,7 @@
         "text/html" : ""
       },
       "output_type" : "execute_result",
-      "execution_count" : 50
+      "execution_count" : 87
     } ]
   }, {
     "metadata" : {
@@ -1400,14 +1626,14 @@
     "outputs" : [ {
       "name" : "stdout",
       "output_type" : "stream",
-      "text" : "import notebook.front.widgets.Sql\nimport notebook.front.widgets.Sql._\nres87: notebook.front.widgets.Sql = <Sql widget>\n"
+      "text" : "import notebook.front.widgets.Sql\nimport notebook.front.widgets.Sql._\nres154: notebook.front.widgets.Sql = <Sql widget>\n"
     }, {
       "metadata" : { },
       "data" : {
-        "text/html" : "<p data-bind=\"text: value\"><script data-this=\"{&quot;valueId&quot;:&quot;anone05fae5d2974f2e1ee4920a568ac5912&quot;}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/\nreq(\n['observable', 'knockout'],\nfunction (O, ko) {\n  ko.applyBindings({\n      value: O.makeObservable(valueId)\n    },\n    this\n  );\n});\n        /*]]>*/</script></p><p data-bind=\"text: value\">\n      <script data-this=\"{&quot;valueId&quot;:&quot;anon75999f7522f6bde71957419b21818198&quot;}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/ req(\n              ['observable', 'knockout'],\n              function (O, ko) {\n                ko.applyBindings({\n                    value: O.makeObservable(valueId)\n                  },\n                  this\n                );\n              }\n            );\n        /*]]>*/</script>\n    </p>"
+        "text/html" : "<p data-bind=\"text: value\"><script data-this=\"{&quot;valueId&quot;:&quot;anonb83533afd7a4322a88cf4f07e9579bc7&quot;}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/\nreq(\n['observable', 'knockout'],\nfunction (O, ko) {\n  ko.applyBindings({\n      value: O.makeObservable(valueId)\n    },\n    this\n  );\n});\n        /*]]>*/</script></p><p data-bind=\"text: value\">\n      <script data-this=\"{&quot;valueId&quot;:&quot;anone24ba4ce964748df7583bc6e074ba51c&quot;}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/ req(\n              ['observable', 'knockout'],\n              function (O, ko) {\n                ko.applyBindings({\n                    value: O.makeObservable(valueId)\n                  },\n                  this\n                );\n              }\n            );\n        /*]]>*/</script>\n    </p>"
       },
       "output_type" : "execute_result",
-      "execution_count" : 51
+      "execution_count" : 88
     } ]
   }, {
     "metadata" : {
@@ -1427,15 +1653,25 @@
     "outputs" : [ {
       "name" : "stdout",
       "output_type" : "stream",
-      "text" : "topLocations: org.apache.spark.sql.DataFrame = [word: string, total_count: int, top_location: string, top_count: int]\nres89: org.apache.spark.sql.DataFrame = [word: string, total_count: int, top_location: string, top_count: int]\n"
+      "text" : "topLocations: org.apache.spark.sql.DataFrame = [word: string, total_count: int, top_location: string, top_count: int]\nres156: org.apache.spark.sql.DataFrame = [word: string, total_count: int, top_location: string, top_count: int]\n"
     }, {
       "metadata" : { },
       "data" : {
-        "text/html" : "<div class=\"df-canvas\">\n      <script data-this=\"{&quot;dataId&quot;:&quot;anon6b6387a0ac47659977e33adcecbcf6e8&quot;,&quot;partitionIndexId&quot;:&quot;anon226d00f5ba2be25708fe46d68ad052d8&quot;,&quot;numPartitions&quot;:417,&quot;dfSchema&quot;:{&quot;type&quot;:&quot;struct&quot;,&quot;fields&quot;:[{&quot;name&quot;:&quot;word&quot;,&quot;type&quot;:&quot;string&quot;,&quot;nullable&quot;:true,&quot;metadata&quot;:{}},{&quot;name&quot;:&quot;total_count&quot;,&quot;type&quot;:&quot;integer&quot;,&quot;nullable&quot;:false,&quot;metadata&quot;:{}},{&quot;name&quot;:&quot;top_location&quot;,&quot;type&quot;:&quot;string&quot;,&quot;nullable&quot;:true,&quot;metadata&quot;:{}},{&quot;name&quot;:&quot;top_count&quot;,&quot;type&quot;:&quot;integer&quot;,&quot;nullable&quot;:true,&quot;metadata&quot;:{}}]}}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/req(['../javascripts/notebook/dataframe','../javascripts/notebook/consoleDir'], \n      function(dataframe, extension) {\n        dataframe.call(data, this, extension);\n      }\n    );/*]]>*/</script>\n      <link rel=\"stylesheet\" href=\"/assets/stylesheets/ipython/css/dataframe.css\" type=\"text/css\"/>\n    </div>"
+        "text/html" : "<div class=\"df-canvas\">\n      <script data-this=\"{&quot;dataId&quot;:&quot;anona512ad1c1a5446d143fdee5be1e84d1b&quot;,&quot;partitionIndexId&quot;:&quot;anonacd3a92509fc580ffde4fa03b6eb5cca&quot;,&quot;numPartitions&quot;:417,&quot;dfSchema&quot;:{&quot;type&quot;:&quot;struct&quot;,&quot;fields&quot;:[{&quot;name&quot;:&quot;word&quot;,&quot;type&quot;:&quot;string&quot;,&quot;nullable&quot;:true,&quot;metadata&quot;:{}},{&quot;name&quot;:&quot;total_count&quot;,&quot;type&quot;:&quot;integer&quot;,&quot;nullable&quot;:false,&quot;metadata&quot;:{}},{&quot;name&quot;:&quot;top_location&quot;,&quot;type&quot;:&quot;string&quot;,&quot;nullable&quot;:true,&quot;metadata&quot;:{}},{&quot;name&quot;:&quot;top_count&quot;,&quot;type&quot;:&quot;integer&quot;,&quot;nullable&quot;:true,&quot;metadata&quot;:{}}]}}\" type=\"text/x-scoped-javascript\">/*<![CDATA[*/req(['../javascripts/notebook/dataframe','../javascripts/notebook/consoleDir'], \n      function(dataframe, extension) {\n        dataframe.call(data, this, extension);\n      }\n    );/*]]>*/</script>\n      <link rel=\"stylesheet\" href=\"/assets/stylesheets/ipython/css/dataframe.css\" type=\"text/css\"/>\n    </div>"
       },
       "output_type" : "execute_result",
-      "execution_count" : 52
+      "execution_count" : 89
     } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : true,
+      "id" : "8ED0282590954CDB8063E02816635F8F"
+    },
+    "cell_type" : "code",
+    "source" : "df1.join(df2, df1(\"id1\") === df2(\"record_locator\"))  // foo.bar(baz)  ==> foo bar baz",
+    "outputs" : [ ]
   }, {
     "metadata" : {
       "id" : "C24DF412925D422F963BA25EF2B0676F"
@@ -1467,7 +1703,7 @@
         "text/html" : ""
       },
       "output_type" : "execute_result",
-      "execution_count" : 53
+      "execution_count" : 90
     } ]
   }, {
     "metadata" : {
@@ -1567,6 +1803,69 @@
       },
       "output_type" : "execute_result",
       "execution_count" : 55
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false,
+      "id" : "1F07801CF65E4334B3DFE890C1559728"
+    },
+    "cell_type" : "code",
+    "source" : "val list = 0 to 10\n",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "list: scala.collection.immutable.Range.Inclusive = Range(0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10)\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : ""
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 91
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false,
+      "id" : "C9A63A07B119411682DC74E7A4273BF0"
+    },
+    "cell_type" : "code",
+    "source" : "// list.reduceLeft(_+_)\nlist.foldRight(\"\")((s,x) => s\"($s,$x)\")\n",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "res179: String = (0,(1,(2,(3,(4,(5,(6,(7,(8,(9,(10,)))))))))))\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : "(0,(1,(2,(3,(4,(5,(6,(7,(8,(9,(10,)))))))))))"
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 101
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false,
+      "id" : "DF1CB655F15F46C48EA5B2F9440C9428"
+    },
+    "cell_type" : "code",
+    "source" : "list.foldLeft(\"\")((s,x) => s\"($s,$x)\")\n",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "res181: String = (((((((((((,0),1),2),3),4),5),6),7),8),9),10)\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : "(((((((((((,0),1),2),3),4),5),6),7),8),9),10)"
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 102
     } ]
   }, {
     "metadata" : {
