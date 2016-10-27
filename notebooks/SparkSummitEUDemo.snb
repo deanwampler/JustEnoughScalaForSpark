@@ -1,0 +1,382 @@
+{
+  "metadata" : {
+    "name" : "SparkSummitEUDemo",
+    "user_save_timestamp" : "1970-01-01T01:00:00.000Z",
+    "auto_save_timestamp" : "1970-01-01T01:00:00.000Z",
+    "language_info" : {
+      "name" : "scala",
+      "file_extension" : "scala",
+      "codemirror_mode" : "text/x-scala"
+    },
+    "trusted" : true,
+    "customLocalRepo" : null,
+    "customRepos" : null,
+    "customDeps" : null,
+    "customImports" : null,
+    "customArgs" : null,
+    "customSparkConf" : null
+  },
+  "cells" : [ {
+    "metadata" : {
+      "id" : "95AD1C7DA24C4FB3A6FD4FA6571E9159"
+    },
+    "cell_type" : "markdown",
+    "source" : "# Just Enough Scala for Spark: Demo\n_Spark Summit EU_<br/>\nOctober 27, 2016<br/>\n[Dean Wampler](mailto:dean@lightbend.com)"
+  }, {
+    "metadata" : {
+      "id" : "7150BB73A11642BD84E1BC53B8AB6F6A"
+    },
+    "cell_type" : "markdown",
+    "source" : "Why was Scala chosen to implement Spark? Why is it the best language choice for developers using Spark, and maybe even data scientists? This demo illustrates several Scala features that make Scala Spark code a joy to write and highly productive, too!\n\nIt's based on the following free tutorial I wrote: [github.com/deanwampler/JustEnoughScalaForSpark](https://github.com/deanwampler/JustEnoughScalaForSpark). \n\nThe comments here are relatively terse, since this notebook is used for a live demo. See the tutorial for a detailed explanation of the constructs used here."
+  }, {
+    "metadata" : {
+      "id" : "EF5BE41BD5234B8DBE0259848B23A2D4"
+    },
+    "cell_type" : "markdown",
+    "source" : "## Inverted Index\nTokenize a corpus of documents into words, create an index of words to the documents where they are found, including the counts per document.\n\nWe'll use several plays of Shakespeare, taken from [http://www.cs.usyd.edu.au/~matty/Shakespeare/](http://www.cs.usyd.edu.au/~matty/Shakespeare/) and downloaded to the `data` directory under this `notebooks` directory."
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false,
+      "id" : "742BA93363C8458586D5986FC477A6E8"
+    },
+    "cell_type" : "code",
+    "source" : "import java.io.File\nval shakespeare = new File(\"notebooks/data/demo/shakespeare\")",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "import java.io.File\nshakespeare: java.io.File = notebooks/data/demo/shakespeare\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : ""
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 38
+    } ]
+  }, {
+    "metadata" : {
+      "id" : "CB4145DFD104469CA9E16524D89FAB2A"
+    },
+    "cell_type" : "markdown",
+    "source" : "Here's our first version. It's one long expressions (note the periods at the end of lines). It's nice and concise, but a little hard to read. We'll fix that..."
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false,
+      "id" : "75681190D6A843688B247A2047685D76"
+    },
+    "cell_type" : "code",
+    "source" : "val iiFirstPass1 = sc.wholeTextFiles(shakespeare.toString).\n    flatMap { location_contents_tuple2 =>   // two-element tuple: (filename, contents)\n        val words = location_contents_tuple2._2.split(\"\"\"\\W+\"\"\")\n        val fileName = location_contents_tuple2._1.split(File.separator).last\n        words.map(word => ((word, fileName), 1))  // two-element tuple with two-elem. tuple key!\n    }.\n    // The previous and next expressions are effectively this query:\n    // \"SELECT word, COUNT(*) FROM ... GROUP BY word\"\n    reduceByKey((count1, count2) => count1 + count2).  \n    map { word_file_count_tup3 =>   // Setup the word as the key, not the (word,filename)\n        (word_file_count_tup3._1._1, (word_file_count_tup3._1._2, word_file_count_tup3._2))\n        // output: (word, (filename, count))\n    }.\n    groupByKey.  // group by words\n    sortByKey(ascending = true).\n    mapValues { iterable => \n        val vect = iterable.toVector.sortBy { file_count_tup2 => \n            (-file_count_tup2._2, file_count_tup2._1)  // sort by count descending, then file\n        }\n        vect.mkString(\",\")   // make a comma-separated string of the (file,count) pairs\n    }",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "iiFirstPass1: org.apache.spark.rdd.RDD[(String, String)] = MapPartitionsRDD[12] at mapValues at <console>:71\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : ""
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 6
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false,
+      "id" : "B7FA85533B2946CA8EF4CA1B38513083"
+    },
+    "cell_type" : "code",
+    "source" : "iiFirstPass1.take(20).foreach(println)",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "(,(asyoulikeit,1),(comedyoferrors,1),(loveslabourslost,1),(merrywivesofwindsor,1),(midsummersnightsdream,1),(muchadoaboutnothing,1),(tamingoftheshrew,1),(twelfthnight,1))\n(A,(loveslabourslost,78),(tamingoftheshrew,59),(twelfthnight,47),(comedyoferrors,42),(midsummersnightsdream,39),(merrywivesofwindsor,38),(asyoulikeit,34),(muchadoaboutnothing,31))\n(ABOUT,(muchadoaboutnothing,18))\n(ACT,(merrywivesofwindsor,23),(asyoulikeit,22),(twelfthnight,18),(muchadoaboutnothing,17),(tamingoftheshrew,12),(comedyoferrors,11),(loveslabourslost,9),(midsummersnightsdream,9))\n(ADAM,(asyoulikeit,16))\n(ADO,(muchadoaboutnothing,18))\n(ADRIANA,(comedyoferrors,85))\n(ADRIANO,(loveslabourslost,111))\n(AEGEON,(comedyoferrors,20))\n(AEMELIA,(comedyoferrors,16))\n(AEMILIA,(comedyoferrors,3))\n(AEacides,(tamingoftheshrew,1))\n(AEgeon,(comedyoferrors,7))\n(AEgle,(midsummersnightsdream,1))\n(AEmilia,(comedyoferrors,4))\n(AEsculapius,(merrywivesofwindsor,1))\n(AGUECHEEK,(twelfthnight,2))\n(ALL,(midsummersnightsdream,2),(tamingoftheshrew,2))\n(AMIENS,(asyoulikeit,16))\n(ANDREW,(twelfthnight,104))\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : ""
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 8
+    } ]
+  }, {
+    "metadata" : {
+      "id" : "07883F6EDCE3489A81132219C2034539"
+    },
+    "cell_type" : "markdown",
+    "source" : "Okay, that works, but let's make it much easier to read, and faster to write, by exploiting my favorite Scala feature, _pattern matching_. Compare the following code to the previous version. Is it easier to read, after my explanation of the pattern-matching syntax?"
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false,
+      "id" : "BFDD3BBE38A14FAB8689EED7C73F2111"
+    },
+    "cell_type" : "code",
+    "source" : "val ii = sc.wholeTextFiles(shakespeare.toString).\n    flatMap { case (filePath, contents) =>\n        // Now we'll also add a filter to eliminate zero-length words.\n        val words = contents.split(\"\"\"\\W+\"\"\").filter(word => word.length > 0)\n        val fileName = filePath.split(File.separator).last\n        words.map(word => ((word.toLowerCase, fileName), 1))  // two-element tuple with two-elem. tuple key!\n    }.\n    // The previous and next expressions are effectively this query:\n    // \"SELECT word, COUNT(*) FROM ... GROUP BY word\"\n    reduceByKey(_ + _).    // \"Placeholder\" syntax for the two function arguments.\n    map { case ((word, fileName), count) =>  (word, (fileName, count)) }. // Now obvious!!\n    groupByKey.  // group by words\n    sortByKey(ascending = true).\n    mapValues { iterable =>   // Actually a `CompactBuffer` object.\n      val vect = iterable.toVector.sortBy { \n        case (file,count)  => (-count, file)  // sort by count descending, then file\n      }\n      vect.mkString(\",\")   // make a comma-separated string of the (file,count) pairs\n    }",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "ii: org.apache.spark.rdd.RDD[(String, String)] = MapPartitionsRDD[48] at mapValues at <console>:75\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : ""
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 20
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false,
+      "id" : "9882D267DED644BA805A36BA950F7159"
+    },
+    "cell_type" : "code",
+    "source" : "ii.take(20).foreach(println)",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "(a,(loveslabourslost,507),(merrywivesofwindsor,494),(muchadoaboutnothing,492),(asyoulikeit,461),(tamingoftheshrew,445),(twelfthnight,416),(midsummersnightsdream,281),(comedyoferrors,254))\n(abandon,(asyoulikeit,4),(tamingoftheshrew,1),(twelfthnight,1))\n(abate,(loveslabourslost,1),(midsummersnightsdream,1),(tamingoftheshrew,1))\n(abatement,(twelfthnight,1))\n(abbess,(comedyoferrors,8))\n(abbey,(comedyoferrors,9))\n(abbominable,(loveslabourslost,1))\n(abbreviated,(loveslabourslost,1))\n(abed,(asyoulikeit,1),(twelfthnight,1))\n(abetting,(comedyoferrors,1))\n(abhominable,(loveslabourslost,1))\n(abhor,(asyoulikeit,1),(comedyoferrors,1),(loveslabourslost,1),(merrywivesofwindsor,1),(muchadoaboutnothing,1))\n(abhors,(twelfthnight,2))\n(abide,(merrywivesofwindsor,3),(midsummersnightsdream,2))\n(abides,(muchadoaboutnothing,1))\n(ability,(muchadoaboutnothing,1),(twelfthnight,1))\n(abject,(comedyoferrors,1),(tamingoftheshrew,1))\n(abjure,(midsummersnightsdream,1))\n(abjured,(tamingoftheshrew,1),(twelfthnight,1))\n(able,(merrywivesofwindsor,4),(midsummersnightsdream,2),(asyoulikeit,1),(comedyoferrors,1),(tamingoftheshrew,1))\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : ""
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 21
+    } ]
+  }, {
+    "metadata" : {
+      "id" : "09B89CBB027B4D7ABB3C0AB897298AE8"
+    },
+    "cell_type" : "markdown",
+    "source" : "Note that the output words are different, because we've combined upper and lower case words together, so the results are changed."
+  }, {
+    "metadata" : {
+      "id" : "DD4E53BC6D6E4EB083B81E3BB5B1EE73"
+    },
+    "cell_type" : "markdown",
+    "source" : "Now let's finish with a look at a few other useful Scala features."
+  }, {
+    "metadata" : {
+      "id" : "C002B672DACD461188EBAAAB132B444B"
+    },
+    "cell_type" : "markdown",
+    "source" : "## Type Inference and Static Typing\nYou get the safety of static typing without having to write it all out. Plus, the Scala interpreter tells you what you just created. For example, what did we have after the `flatMap` + `reduceByKey` steps?? Let's find out."
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false,
+      "id" : "C06119900BD04E9F8E3B6DC5C552B5C4"
+    },
+    "cell_type" : "code",
+    "source" : "val steps = sc.wholeTextFiles(shakespeare.toString).\n    flatMap { case (filePath, contents) =>\n        val words = contents.split(\"\"\"\\W+\"\"\").filter(word => word.length > 0)\n        val fileName = filePath.split(File.separator).last\n        words.map(word => ((word.toLowerCase, fileName), 1))\n    }.\n    reduceByKey(_ + _)",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "steps: org.apache.spark.rdd.RDD[((String, String), Int)] = ShuffledRDD[52] at reduceByKey at <console>:68\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : ""
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 22
+    } ]
+  }, {
+    "metadata" : {
+      "id" : "401ED5A224B94F12815964F6268AF07C"
+    },
+    "cell_type" : "markdown",
+    "source" : "Note the type information shown to us in the result. We created an `RDD` with \"records\" of type `((String, String), Int)`."
+  }, {
+    "metadata" : {
+      "id" : "AAD98A10A7344FF284647C2E03494A2F"
+    },
+    "cell_type" : "markdown",
+    "source" : "## Case Classes\nA very convenient way to define simple types that are \"structures\" or \"records\". Use by the [Dataset](http://spark.apache.org/docs/1.6.2/api/scala/index.html#org.apache.spark.sql.Dataset) API, too.\n\nLet's suppose we want to represent the output of the previous \"steps\" as a type with convenient methods, for example, a `toJSONString` method. "
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false,
+      "id" : "440ABEE93D0C48308683D73AD540F5CB"
+    },
+    "cell_type" : "code",
+    "source" : "case class StepRecord(\n  word:     String,\n  fileName: String,\n  count:    Int) {\n  \n  def toJSONString: String = s\"\"\"{\"word\": \"$word\", \"fileName\": \"$fileName\", \"count\", $count}\"\"\"\n}",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "defined class StepRecord\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : ""
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 25
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false,
+      "id" : "790DEB8351C8479EB61B75C2390C886E"
+    },
+    "cell_type" : "code",
+    "source" : "val steps2 = steps.map { case ((word, fileName), count) => StepRecord(word, fileName, count) }",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "steps2: org.apache.spark.rdd.RDD[StepRecord] = MapPartitionsRDD[54] at map at <console>:66\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : ""
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 27
+    } ]
+  }, {
+    "metadata" : {
+      "id" : "257C5157DD2946F684E0E4ABC57C9D98"
+    },
+    "cell_type" : "markdown",
+    "source" : "Note the `RDD` type signature. "
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false,
+      "id" : "6148E674BA0C4BF9BC6DFE9F9A8593D4"
+    },
+    "cell_type" : "code",
+    "source" : "steps2.take(20).foreach(println)",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "StepRecord(dexterity,merrywivesofwindsor,1)\nStepRecord(crest,asyoulikeit,1)\nStepRecord(whole,comedyoferrors,2)\nStepRecord(lamb,muchadoaboutnothing,2)\nStepRecord(force,muchadoaboutnothing,2)\nStepRecord(letter,merrywivesofwindsor,20)\nStepRecord(blunt,tamingoftheshrew,3)\nStepRecord(bestow,asyoulikeit,1)\nStepRecord(wast,comedyoferrors,1)\nStepRecord(rear,midsummersnightsdream,1)\nStepRecord(crossing,tamingoftheshrew,1)\nStepRecord(wronged,merrywivesofwindsor,4)\nStepRecord(revolve,twelfthnight,1)\nStepRecord(er,merrywivesofwindsor,11)\nStepRecord(renown,asyoulikeit,1)\nStepRecord(cubiculo,twelfthnight,1)\nStepRecord(power,loveslabourslost,8)\nStepRecord(lips,tamingoftheshrew,3)\nStepRecord(upshot,twelfthnight,1)\nStepRecord(approach,midsummersnightsdream,5)\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : ""
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 28
+    } ]
+  }, {
+    "metadata" : {
+      "id" : "6E79D4CA91354AAE8EBF039C6B0BC448"
+    },
+    "cell_type" : "markdown",
+    "source" : "Now let's convert to JSON strings."
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false,
+      "id" : "86B35E9F93A046E682B1C7DA38582379"
+    },
+    "cell_type" : "code",
+    "source" : "val stepsJSON = steps2.map(record => record.toJSONString)",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "stepsJSON: org.apache.spark.rdd.RDD[String] = MapPartitionsRDD[55] at map at <console>:68\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : ""
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 29
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false,
+      "id" : "57FE2EEF3E1A47CEA569529F2A6A9818"
+    },
+    "cell_type" : "code",
+    "source" : "stepsJSON.take(20).foreach(println)",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "{\"word\": \"dexterity\", \"fileName\": \"merrywivesofwindsor\", \"count\", 1}\n{\"word\": \"crest\", \"fileName\": \"asyoulikeit\", \"count\", 1}\n{\"word\": \"whole\", \"fileName\": \"comedyoferrors\", \"count\", 2}\n{\"word\": \"lamb\", \"fileName\": \"muchadoaboutnothing\", \"count\", 2}\n{\"word\": \"force\", \"fileName\": \"muchadoaboutnothing\", \"count\", 2}\n{\"word\": \"letter\", \"fileName\": \"merrywivesofwindsor\", \"count\", 20}\n{\"word\": \"blunt\", \"fileName\": \"tamingoftheshrew\", \"count\", 3}\n{\"word\": \"bestow\", \"fileName\": \"asyoulikeit\", \"count\", 1}\n{\"word\": \"wast\", \"fileName\": \"comedyoferrors\", \"count\", 1}\n{\"word\": \"rear\", \"fileName\": \"midsummersnightsdream\", \"count\", 1}\n{\"word\": \"crossing\", \"fileName\": \"tamingoftheshrew\", \"count\", 1}\n{\"word\": \"wronged\", \"fileName\": \"merrywivesofwindsor\", \"count\", 4}\n{\"word\": \"revolve\", \"fileName\": \"twelfthnight\", \"count\", 1}\n{\"word\": \"er\", \"fileName\": \"merrywivesofwindsor\", \"count\", 11}\n{\"word\": \"renown\", \"fileName\": \"asyoulikeit\", \"count\", 1}\n{\"word\": \"cubiculo\", \"fileName\": \"twelfthnight\", \"count\", 1}\n{\"word\": \"power\", \"fileName\": \"loveslabourslost\", \"count\", 8}\n{\"word\": \"lips\", \"fileName\": \"tamingoftheshrew\", \"count\", 3}\n{\"word\": \"upshot\", \"fileName\": \"twelfthnight\", \"count\", 1}\n{\"word\": \"approach\", \"fileName\": \"midsummersnightsdream\", \"count\", 5}\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : ""
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 30
+    } ]
+  }, {
+    "metadata" : {
+      "id" : "161A0BAECC9F458683E7DA8EF6D952D0"
+    },
+    "cell_type" : "markdown",
+    "source" : "Finally, why the `case` keyword? Because the compiler generates support for pattern matching for free!! Observe the following use of pattern matching to discard the fileName and implement the class _Word Count_."
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false,
+      "id" : "2831734D75924A1F843130A1BD76B238"
+    },
+    "cell_type" : "code",
+    "source" : "val wordCount = steps2.map { \n  case StepRecord(word, _, count) => (word, count) \n}.reduceByKey(_ + _).\nkeyBy {\n  case (word, count) => count\n}.\nsortByKey(ascending = false)  // count descending",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "wordCount: org.apache.spark.rdd.RDD[(Int, (String, Int))] = ShuffledRDD[63] at sortByKey at <console>:74\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : ""
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 36
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : false,
+      "id" : "B1DBE0C4EBB2495EA80915217B9EE0B5"
+    },
+    "cell_type" : "code",
+    "source" : "wordCount.take(100).foreach(println)",
+    "outputs" : [ {
+      "name" : "stdout",
+      "output_type" : "stream",
+      "text" : "(5208,(i,5208))\n(4880,(the,4880))\n(4866,(and,4866))\n(3501,(to,3501))\n(3490,(you,3490))\n(3350,(a,3350))\n(3226,(of,3226))\n(2236,(in,2236))\n(2195,(my,2195))\n(2102,(that,2102))\n(2088,(is,2088))\n(1764,(me,1764))\n(1716,(not,1716))\n(1603,(it,1603))\n(1579,(for,1579))\n(1439,(with,1439))\n(1369,(he,1369))\n(1359,(s,1359))\n(1345,(your,1345))\n(1329,(be,1329))\n(1284,(will,1284))\n(1225,(sir,1225))\n(1200,(but,1200))\n(1172,(this,1172))\n(1155,(have,1155))\n(1125,(as,1125))\n(1066,(her,1066))\n(987,(so,987))\n(984,(his,984))\n(974,(him,974))\n(918,(what,918))\n(891,(thou,891))\n(815,(no,815))\n(765,(if,765))\n(763,(do,763))\n(718,(by,718))\n(694,(she,694))\n(662,(love,662))\n(659,(are,659))\n(655,(all,655))\n(646,(shall,646))\n(629,(good,629))\n(591,(d,591))\n(585,(we,585))\n(576,(come,576))\n(574,(thee,574))\n(563,(am,563))\n(557,(thy,557))\n(538,(on,538))\n(537,(man,537))\n(527,(well,527))\n(508,(now,508))\n(507,(o,507))\n(506,(here,506))\n(504,(at,504))\n(500,(mistress,500))\n(494,(ll,494))\n(475,(would,475))\n(474,(or,474))\n(451,(how,451))\n(440,(let,440))\n(438,(there,438))\n(437,(enter,437))\n(436,(they,436))\n(424,(go,424))\n(424,(an,424))\n(420,(then,420))\n(415,(one,415))\n(404,(was,404))\n(397,(more,397))\n(394,(page,394))\n(375,(when,375))\n(372,(know,372))\n(370,(master,370))\n(370,(say,370))\n(366,(hath,366))\n(360,(like,360))\n(359,(why,359))\n(344,(from,344))\n(334,(see,334))\n(331,(than,331))\n(330,(don,330))\n(329,(did,329))\n(318,(were,318))\n(318,(which,318))\n(316,(may,316))\n(312,(our,312))\n(301,(them,301))\n(298,(make,298))\n(297,(lord,297))\n(289,(ford,289))\n(285,(some,285))\n(284,(out,284))\n(275,(rosalind,275))\n(265,(had,265))\n(262,(such,262))\n(261,(too,261))\n(259,(their,259))\n(252,(must,252))\n(252,(should,252))\n"
+    }, {
+      "metadata" : { },
+      "data" : {
+        "text/html" : ""
+      },
+      "output_type" : "execute_result",
+      "execution_count" : 37
+    } ]
+  }, {
+    "metadata" : {
+      "trusted" : true,
+      "input_collapsed" : false,
+      "collapsed" : true,
+      "id" : "E148557CA5B44F2681E229DAEBD4E79B"
+    },
+    "cell_type" : "code",
+    "source" : "",
+    "outputs" : [ ]
+  } ],
+  "nbformat" : 4
+}
