@@ -2,19 +2,24 @@
 
 [![Join the chat at https://gitter.im/deanwampler/JustEnoughScalaForSpark](https://badges.gitter.im/deanwampler/JustEnoughScalaForSpark.svg)](https://gitter.im/deanwampler/JustEnoughScalaForSpark?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
+Strata Singapore, December 6, 2016<br/>
 Strata NYC, September 27, 2016<br/>
 [Dean Wampler, Ph.D.](mailto:deanwampler@gmail.com)<br/>
 [Lightbend, Inc.](http://lightbend.com)
 
 This tutorial covers the most important features and idioms of [Scala](http://scala-lang.org/) you need to use [Apache Spark's](http://spark.apache.org/) Scala APIs. Because Spark is written in Scala, Spark is driving interest in Scala, especially for _data engineers_. _Data scientists_ sometimes use Scala, but most use Python or R.
 
-To see what I'm doing at [Lightbend](http://lightbend.com), see [lightbend.com/fast-data-platform](http://lightbend.com/fast-data-platform). Visit our booth at Strata! We're also [hiring](http://www.lightbend.com/company/careers)!
+At Strata Singapore? Come to my talk or office hour:
+* [Scala and the JVM as a big data platform: Lessons from Apache Spark](http://conferences.oreilly.com/strata/hadoop-big-data-sg/public/schedule/detail/54315), Wednesday, December 7, 12:05-12:45.
+* [Office Hour](http://conferences.oreilly.com/strata/hadoop-big-data-sg/public/schedule/detail/56312), Wednesday, December 7, 13:45-14:25.
+
+To see what we're doing at [Lightbend](http://lightbend.com), see [lightbend.com/fast-data-platform](http://lightbend.com/fast-data-platform). We're also [hiring](http://www.lightbend.com/company/careers)!
 
 ## Prerequisites
 
 I'll assume you have prior programming experience, in any language. Some familiarity with Java is assumed, but if you don't know Java, you should be able to search for explanations for anything unfamiliar.
 
-This isn't an introduction to Spark itself. Some prior exposure to Spark is helpful, but I'll briefly explain most Spark concepts we'll encounter, too. 
+This isn't an introduction to Spark itself. Some prior exposure to Spark is helpful, but I'll briefly explain most Spark concepts we'll encounter, too.
 
 Throughout, you'll find links to more information on important topics.
 
@@ -24,7 +29,12 @@ Begin by cloning or downloading the tutorial GitHub project [github.com/deanwamp
 
 ## Using Spark Notebook
 
-This tutorial uses a _notebook_ format, which is popular with data scientists, but also useful for data engineers. While most of the popular notebooks, like [iPython/Jupyter](https://ipython.org/), [Zeppelin](http://zeppelin-project.org/), and [Databricks](https://databricks.com/) support Scala, we'll use a Scala-centric notebook environment called [Spark Notebook](http://spark-notebook.io) ([http://spark-notebook.io](http://spark-notebook.io)). 
+This tutorial uses a _notebook_ format, which is popular with data scientists, but also useful for data engineers. We'll use a Scala-centric notebook environment called [Spark Notebook](http://spark-notebook.io). Here is a list of some other popular notebook environments that also support Scala and Spark (with appropriate plugins):
+
+* [iPython/Jupyter](https://ipython.org/) + [Apache Toree](https://toree.apache.org/)
+* [Zeppelin](http://zeppelin-project.org/)
+* [Databricks](https://databricks.com/)
+* [Beaker](http://beakernotebook.com/ )
 
 You will need to install and run the Spark Notebook runtime. You can do this either by downloading it and running it "natively" on your computer, or by running it in [Docker](https://docker.com). (Using Docker may work better on Windows.)
 
@@ -32,27 +42,27 @@ You will need to install and run the Spark Notebook runtime. You can do this eit
 
 You'll need the Java 7 or 8 (preferred) JRE (Java Runtime Environment) installed. Go [here](https://java.com/en/download/help/index_installing.xml) for instructions, if necessary.
 
-A separate Scala installation is _not_ required.
+A separate Scala installation is _not_ required. It's bundled with Spark Notebook.
 
 ### Downloading Spark Notebook
 
 If you want to run it "natively" (i.e., not use Docker), visit one of the following download pages and click the _Download here_ link:
 
-* [Zip](http://spark-notebook.io/dl/zip/0.6.3/2.11/1.6.2/2.7.2/true/true) file (for all platforms).
-* [Tgz](http://spark-notebook.io/dl/tgz/0.6.3/2.11/1.6.2/2.7.2/true/true) file (best for Mac OSX or Linux).
+* [Zip](http://spark-notebook.io/dl/zip/0.7.0/2.11/2.0.2/2.7.2/true/true) file (for all platforms).
+* [Tgz](http://spark-notebook.io/dl/tgz/0.7.0/2.11/2.0.2/2.7.2/true/true) file (best for Mac OSX or Linux).
 
-> We're using notebook version 0.6.3 built for Spark 1.6.2, Hadoop 2.7.2, and Scala 2.11, with Hive and Parquet extensions. (See [spark-notebook.io](http://spark-notebook.io) for other configurations.) We aren't using Spark 2.0.0, because support for it is still experimental, but the actual Spark version is less important for our purposes, since we're here to learn Scala.
+> We're using notebook version 0.7.0 built for Spark 2.0.2, Hadoop 2.7.2, and Scala 2.11, with Hive and Parquet extensions. (See [spark-notebook.io](http://spark-notebook.io) for other configurations.) Most of what we'll learn applies equally to Spark 1.6.X and Scala 2.10.X releases.
 
 Expand the archive somewhere convenient.
 
-Start Spark Notebook as follows. Open a command window and change the working directory to the root directory where you expanded the Spark Notebook archive. Run the following command:
+Start Spark Notebook as follows. Open a terminal/command window and change the working directory to the root directory where you expanded the Spark Notebook archive. Run the following command:
 ```
 bin/spark-notebook
 ```
 
 You'll see some log messages that then it will wait...
 
-> If you get an error that it fails to start, make sure Java is installed and on your path. (Run `java -version` in the same command window.) If that's not an issue, try moving the Spark Notebook folder to a directory where the full path has *no* whitespace (i.e., `C:\Foo Bar\Baz` has whitespace between `Foo` and `Bar`).
+> If you get an error that it fails to start, make sure Java is installed and on your path. (Run `java -version` in the same terminal.) If Java isn't an issue, try moving the Spark Notebook folder to a directory where the full path has **no** whitespace (i.e., `C:\Foo Bar\Baz` has whitespace between `Foo` and `Bar`).
 
 Now jump to <a href="#RunningTutorial">Running the Tutorial</a>.
 
@@ -64,14 +74,22 @@ Once Docker is installed and running, open a command window and run these two co
 
 
 ```
-docker pull andypetrella/spark-notebook:0.6.3-scala-2.11.7-spark-1.6.2-hadoop-2.7.2-with-hive-with-parquet
-docker run -p 9000:9000 andypetrella/spark-notebook:0.6.3-scala-2.11.7-spark-1.6.2-hadoop-2.7.2-with-hive-with-parquet
+docker pull andypetrella/spark-notebook:0.7.0-scala-2.11.8-spark-2.0.1-hadoop-2.7.2-with-hive
+docker run -p 9000:9000 andypetrella/spark-notebook:0.7.0-scala-2.11.8-spark-2.0.1-hadoop-2.7.2-with-hive
 ```
+
+(We use the Docker build for Spark 2.0.1, rather than 2.0.2 here.)
 
 <a name="RunningTutorial"></a>
 ## Running the Tutorial
 
-However you started Spark Notebook, open your browser to [localhost:9000](http://localhost:9000/). The UI has a "SPARK NOTEBOOK" banner and shows several directories and notebooks for sample applications that come with Spark Notebook.
+However you started Spark Notebook, you'll see a line in the terminal like this:
+
+```
+[info] play - Listening for HTTP on /0:0:0:0:0:0:0:0:9000
+```
+
+It might show port 9001 or similar. Open your browser to [localhost:9000](http://localhost:9000/) or the port shown, if different. The UI has a **SPARK NOTEBOOK** banner and shows several directories and notebooks for sample applications that come with the application.
 
 > **NOTE:** If you are using Docker and you didn't use the `-p 9000:9000` option, replace `localhost` with your Docker image IP address. On Windows or Mac OSX, use the command `docker-machine ls` or `docker-machine env` to see what it is.
 
@@ -90,7 +108,7 @@ I've highlighted the "click here" link and the new line for the notebook.
 
 Click the "Upload" button.
 
-Now the line is moved towards the bottom of the page and the buttons on the right-hand side are different. 
+Now the line is moved towards the bottom of the page and the buttons on the right-hand side are different.
 
 ![Step 2](images/step2.jpg)
 <center><b>Figure 2:</b> After Uploading the Notebook</center>
@@ -101,16 +119,16 @@ Click the [JustEnoughScalaForSpark link](http://localhost:9000/notebooks/JustEno
 <center><b>Figure 3:</b> After Starting the Notebook</center>
 
 
-> **NOTE:** If the new tab fails to open or the notebook fails to load as shown, check the terminal window where you started Spark Notebook. Are there any error messages? 
-> 
+> **NOTE:** If the new tab fails to open or the notebook fails to load as shown, check the terminal window where you started Spark Notebook. Are there any error messages?
+>
 > An alternative is to copy the `JustEnoughScalaForSpark.snb` notebook into the `notebooks` directory of the Spark Notebook distribution. If you aren't using docker, use any file copy method you like, if you are using docker, use the command `docker ps` to find the id of the running image (a 12-digit hex number), then use the command `docker cp /path/to/JustEnoughScalaForSpark.snb NNNN:/opt/docker/notebooks`, where you should replace `NNNN` with your actual id.
-> 
+>
 > If you can't debug the issue, post questions to the [Gitter channel](https://gitter.im/deanwampler/JustEnoughScalaForSpark) or post issues to the [GitHub repo](https://github.com/deanwampler/JustEnoughScalaForSpark/issues).
- 
+
 ## What's Next?
 
-Congratulations! You are now ready to go through the tutorial. 
+Congratulations! You are now ready to go through the tutorial.
 
 Please post any feedback, bugs, or even pull requests to the [project's GitHub page](https://github.com/deanwampler/JustEnoughScalaForSpark). Thanks.
 
-Dean Wampler, September 2016
+[Dean Wampler](mailto:deanwampler@gmail.com), December 2016
