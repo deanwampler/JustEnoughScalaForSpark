@@ -97,7 +97,7 @@
       "id" : "8C9131CF1E354A2CB9103CA66C6470E9"
     },
     "cell_type" : "markdown",
-    "source" : "Here are few other bits of information we can get from the `SparkContext`:"
+    "source" : "Here are a few other bits of information we can get from the `SparkContext`:"
   }, {
     "metadata" : {
       "trusted" : true,
