@@ -89,7 +89,9 @@ However you started Spark Notebook, you'll see a line in the terminal like this:
 
 It might show port 9001 or similar. Open your browser to [localhost:9000](http://localhost:9000/) or the port shown, if different. The UI has a **SPARK NOTEBOOK** banner and shows several directories and notebooks for sample applications that come with the application.
 
-> **NOTE:** If you are using Docker and you didn't use the `-p 9000:9000` option, replace `localhost` with your Docker image IP address. On Windows or Mac OSX, use the command `docker-machine ls` or `docker-machine env` to see what it is.
+> **NOTES:** 
+> If you are using Docker with the `-p 9000:9000` option, but the `[info]` line shows a _different_ port, e.g., `9001`, then `control-c` to kill the process and restart, replacing `9000` with the actual port used.
+> If you are using Docker and you didn't use the `-p 9000:9000` option, replace `localhost` with your Docker image IP address. On Windows or Mac OSX, use the command `docker-machine ls` or `docker-machine env` to see what it is.
 
 Now we need to load the tutorial in Spark Notebook.
 

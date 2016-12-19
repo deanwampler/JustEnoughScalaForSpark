@@ -82,6 +82,12 @@
     "source" : "> **Tips:**\n\n> Invoke the _Help > Keyboard Shortcuts_ menu item, then capture the page as an image (it's a modal dialog, unfortunately). Learn a few shortcuts each day.\n\n> For now, just know that you can click into any cell to move the focus. When you're in a cell, `shift+enter` evaluates the cell (parses and renders the Markdown or runs the code), then moves to the next cell. Try it for a few cells. I'll wait...\n\n> Finally, there is a right-hand sidebar with useful information. If you want to view or hide the sidebar, use the _View > Toggle sidebar_ menu item. In the sidebar you'll see a link _open SparkUI_ to see Spark's own web UI. Use it to see more information about what your Spark jobs are doing."
   }, {
     "metadata" : {
+      "id" : "E564A62836C7112AEB90CD6"
+    },
+    "cell_type" : "markdown",
+    "source" : ">  **If You Are Using Docker...**\n\n> Unfortunately, this notebook will disappear, along with any edits you make to it, once the Docker image is shutdown. I recommend that you periodically use _File > Download as > Spark Notebook (.snb)_ to save your work!"
+  }, {
+    "metadata" : {
       "id" : "1085BD83DF844ADC87E5E73DC4F419B6"
     },
     "cell_type" : "markdown",
