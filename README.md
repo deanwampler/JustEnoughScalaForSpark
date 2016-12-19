@@ -74,11 +74,9 @@ Once Docker is installed and running, open a command window and run these two co
 
 
 ```
-docker pull andypetrella/spark-notebook:0.7.0-scala-2.11.8-spark-2.0.1-hadoop-2.7.2-with-hive
-docker run -p 9000:9000 andypetrella/spark-notebook:0.7.0-scala-2.11.8-spark-2.0.1-hadoop-2.7.2-with-hive
+docker pull andypetrella/spark-notebook:0.7.0-scala-2.11.8-spark-2.0.2-hadoop-2.7.2-with-hive
+docker run -p 9000:9000 andypetrella/spark-notebook:0.7.0-scala-2.11.8-spark-2.0.2-hadoop-2.7.2-with-hive
 ```
-
-(We use the Docker build for Spark 2.0.1, rather than 2.0.2 here.)
 
 <a name="RunningTutorial"></a>
 ## Running the Tutorial
