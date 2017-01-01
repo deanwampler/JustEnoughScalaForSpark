@@ -75,7 +75,7 @@ Once Docker is installed and running, open a command window and run these two co
 
 ```
 docker pull andypetrella/spark-notebook:0.7.0-scala-2.11.8-spark-2.0.2-hadoop-2.7.2-with-hive
-docker run -p 9000:9000 andypetrella/spark-notebook:0.7.0-scala-2.11.8-spark-2.0.2-hadoop-2.7.2-with-hive
+docker run -p 9001:9001 andypetrella/spark-notebook:0.7.0-scala-2.11.8-spark-2.0.2-hadoop-2.7.2-with-hive
 ```
 
 <a name="RunningTutorial"></a>
@@ -84,14 +84,14 @@ docker run -p 9000:9000 andypetrella/spark-notebook:0.7.0-scala-2.11.8-spark-2.0
 However you started Spark Notebook, you'll see a line in the terminal like this:
 
 ```
-[info] play - Listening for HTTP on /0:0:0:0:0:0:0:0:9000
+[info] play - Listening for HTTP on /0:0:0:0:0:0:0:0:9001
 ```
 
-It might show port 9001 or similar. Open your browser to [localhost:9000](http://localhost:9000/) or the port shown, if different. The UI has a **SPARK NOTEBOOK** banner and shows several directories and notebooks for sample applications that come with the application.
+It might show another port, but 9001 is the current default used by Spark Notebook. Open your browser to [localhost:9001](http://localhost:9001/) or the port shown, if different. The UI has a **SPARK NOTEBOOK** banner and shows several directories and notebooks for sample applications that come with the application.
 
 > **NOTES:** 
-> If you are using Docker with the `-p 9000:9000` option, but the `[info]` line shows a _different_ port, e.g., `9001`, then `control-c` to kill the process and restart, replacing `9000` with the actual port used.
-> If you are using Docker and you didn't use the `-p 9000:9000` option, replace `localhost` with your Docker image IP address. On Windows or Mac OSX, use the command `docker-machine ls` or `docker-machine env` to see what it is.
+> If you are using Docker with the `-p 9001:9001` option, but the `[info]` line shows a _different_ port, e.g., `9001`, then `control-c` to kill the process and restart, replacing `9001` with the actual port used.
+> If you are using Docker and you didn't use the `-p 9001:9001` option, replace `localhost` with your Docker image IP address. Use the command `docker-machine ls` or `docker-machine env` to see what it is.
 
 Now we need to load the tutorial in Spark Notebook.
 
@@ -113,7 +113,7 @@ Now the line is moved towards the bottom of the page and the buttons on the righ
 ![Step 2](images/step2.jpg)
 <center><b>Figure 2:</b> After Uploading the Notebook</center>
 
-Click the [JustEnoughScalaForSpark link](http://localhost:9000/notebooks/JustEnoughScalaForSpark.snb) (on the left) and the tutorial notebook will open in another browser tab. (It might take a minute to load completely.) The top of the page should look like this:
+Click the [JustEnoughScalaForSpark link](http://localhost:9001/notebooks/JustEnoughScalaForSpark.snb) (on the left) and the tutorial notebook will open in another browser tab. (It might take a minute to load completely.) The top of the page should look like this:
 
 ![Step 3](images/step3.jpg)
 <center><b>Figure 3:</b> After Starting the Notebook</center>
