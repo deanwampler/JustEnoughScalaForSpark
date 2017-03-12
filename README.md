@@ -133,6 +133,8 @@ Click the [JustEnoughScalaForSpark link](http://localhost:9001/notebooks/JustEno
 
 Congratulations! You are now ready to go through the tutorial.
 
+If you have trouble running it, a PDF printout of the notebook can also be found in the `notebooks` directory.
+
 Please post any feedback, bugs, or even pull requests to the [project's GitHub page](https://github.com/deanwampler/JustEnoughScalaForSpark). Thanks.
 
 [Dean Wampler](mailto:deanwampler@gmail.com), March 2017
