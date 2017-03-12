@@ -41,7 +41,7 @@ Here's how to get started:
 
 ### Install Java 7 or 8
 
-You'll need the Java 7 or 8 (preferred) JRE (Java Runtime Environment) installed. You probably already have it installed, but if not, go [here](https://java.com/en/download/help/index_installing.xml) for instructions.
+You'll need the Java 7 or 8 JDK (Java Development Kit) installed (Java 8 is recommended). You probably already have it installed, but if not, go [here](https://java.com/en/download/help/index_installing.xml) for instructions.
 
 > Not sure if you have Java installed? Open a command/terminal window and type `java -version`. If you get `command not found`, well...
 
