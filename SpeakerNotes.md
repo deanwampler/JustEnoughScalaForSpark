@@ -13,9 +13,9 @@ The first time you teach this tutorial, you might find it useful to print these 
 
 ## About the Tutorial
 
-I've mostly taught this as a 1/2 day (~3 hour) tutorial. _There is way too much material for even a full day._ Therefore, the content is designed to cover the "Scala 101" essentials, then offer "Scala 102" additions. I even organized the material into 101 and 102 major sections.
+I've mostly taught this as a 1/2 day (~3 hour) tutorial. _There is way too much material for a half day, perhaps even for a full day._ Therefore, the content is designed to cover the "Scala 101" essentials, then offer "Scala 102" additions. I even organized the material into 101 and 102 major sections.
 
-You won't even finish the 101 material in a 1/2 day. That's okay. Also, feel free to skip or expand sections, as you see fit. I welcome feedback on what works and what doesn't work. I try to get to the section _Our Final Version: Supporting SQL Queries_, although not necessarily through the part about filtering for "stop" words.
+You won't finish the 101 material in a 1/2 day, especially if you give the class plenty of time to play with the code. That's okay. Also, feel free to skip or expand sections, as you see fit. I welcome feedback on what works and what doesn't work. I try to get to the section _Our Final Version: Supporting SQL Queries_, although not necessarily through the part about filtering for "stop" words.
 
 The student will drink from a fire hose, but hopefully get the "gist" of the important points, then have the material to review later for better understanding.
 
@@ -23,12 +23,34 @@ I don't read the text cells (too boring!), but just summarize what they say. I t
 
 There's a tension between a tutorial designed for live teaching and one designed for self-study. I've written the tutorial content for the latter case, which makes it accessible to more people, but the classroom experience can be a little overwhelming with all the text in front of you.
 
+## Before Class
+
+If you're in a time-boxed setting, like a 1/2 day conference tutorial, it's **essential** that the students setup the tutorial materials ahead of time. Here's an email that I've had conferences send to perspective students:
+
+> Hello!
+>
+> Welcome to my tutorial, "Just Enough Scala for Spark." It's VERY important that you set up the tutorial material before our session. Unfortunately, with just half a day and a large crowd, I won't be able to help anyone with problems during the session.
+>
+> Please clone or download the following GitHub repo:
+>
+> https://github.com/deanwampler/JustEnoughScalaForSpark
+>
+> Then, follow the setup instructions in the README.md file (https://github.com/deanwampler/JustEnoughScalaForSpark/blob/master/README.md).
+>
+> If you have problems, post an issue to the GitHub repo (https://github.com/deanwampler/JustEnoughScalaForSpark/issues) or ask for help on the project's Gitter channel (https://gitter.im/deanwampler/JustEnoughScalaForSpark). I'll try to help.
+>
+> See you soon!
+>
+> Dean Wampler
+
+Edit to taste...
+
 ## Getting Started
 
 I begin with a show of hands:
 
 * How many have some Scala experience?
-* How many have some Spark experience (in any language)?
+* How many have some Spark experience, in any language?
 
 The answer for a large group with a spectrum from beginner to expert. I teach to the least experienced student, but occasionally mention more advanced concepts to keep the more experienced person engaged. Hopefully the expert isn't too bored; at least he or she has exercises to play with.
 
@@ -36,15 +58,15 @@ The answer for a large group with a spectrum from beginner to expert. I teach to
 
 I added the [Gitter channel](https://gitter.im/deanwampler/JustEnoughScalaForSpark?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) to encourage people to ask for help in advance of the tutorial sessions I've done. The sessions are too large and too short to offer help during them.
 
-Spark Notebook removes many cross-platform hassles, but it has bugs on Windows. This is why I suggest that using Docker might be the best way to run the tutorial on Windows. If it appears that students using a Windows laptop can't get Spark Notebook or the tutorial to work, recommend that they try Docker if they can.
+Spark Notebook removes many cross-platform hassles, but it has proven unreliable on Windows. This is why I now require that Windows users run it in Docker instead. I know that some students will have corporate laptops and won't be allowed to install Docker. They can try running the Notebook on Windows directly, but there is a high risk it will fail to work.
 
-Worst case, if someone can't get things working, encourage them pair with a neighbor or follow along with the PDF of a notebook snapshot in the `notebooks` directory.
+Worst case, if someone can't get things working, encourage them pair with a neighbor or follow along using the PDF of the tutorial notebook that's also in the `notebooks` directory.
 
 ## Loading the Tutorial Notebook
 
-Assuming they successfully start Spark Notebook, the end of the README describes how to load the tutorial Notebook into the environment. This is not a very user-friendly process, so I always walk through it in class.
+Assuming a successful installation of Spark Notebook, the end of the README describes how to load the tutorial Notebook into the environment. This is not a very user-friendly process, so I always walk through it in class.
 
-From now on in these notes, we'll assume that we're in the tutorial notebook itself. Section titles in "quotes" refer to sections in the tutorial itself.
+From now on in these notes, I'll assume that we're in the tutorial notebook itself. Section titles in "quotes" refer to sections in the tutorial itself.
 
 ## "For More on Scala"
 
@@ -57,16 +79,19 @@ I also demonstrate the tip for searching for information using the Spark Scalado
 This is a good place to demonstrate how to use the notebooks:
 
 * Navigate the cells using up and down arrow keys or clicking.
-* Evaluate cells using `shift+return` or menu items. Do this for the first Scala that prints "Hello World!" and a Markdown cell.
+* Evaluate cells using `shift+return` or menu items. Do this for the first Scala cell that prints "Hello World!" and for a Markdown cell.
 * Point out the toolbar menu item that shows the type of cell.
 * Bring up the _Help > Keyboard Shortcuts_.
 * Show the sidebar (_View > Toggle Sidebar_), then hide it again.
+* In general, point out how useful notebooks are for learning and mixing documentation, code, and graphs of data.
 
 ## "Let's Download Some Data ..."
 
 I emphasize again that we'll go through a lot of details, but the student should focus on the general concepts and refer back to the notebook cells for details later. We have to cover a lot of particulars to get to the "interesting stuff".
 
 I rely on the fact that they can intuitively figure out a lot of details as they read them. The comment convention is a good example, especially for people with Java experience.
+
+Note that the sizes of the data files are not very big, so it should work reasonable well even for a big class using a conference WiFi.
 
 ## "Download the Files"
 
