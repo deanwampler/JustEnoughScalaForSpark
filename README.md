@@ -2,11 +2,11 @@
 
 [![Join the chat at https://gitter.im/deanwampler/JustEnoughScalaForSpark](https://badges.gitter.im/deanwampler/JustEnoughScalaForSpark.svg)](https://gitter.im/deanwampler/JustEnoughScalaForSpark?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
+Spark Summit San Francisco, June 5, 2017 (Taught by [Chaoran Yu](https://github.com/yuchaoran2011))<br/>
+Strata London, May 23, 2017<br/>
 Strata San Jose, March 14, 2017<br/>
 Strata Singapore, December 6, 2016<br/>
 Strata NYC, September 27, 2016<br/>
-Strata London, May 23, 2017<br/>
-Spark Summit San Francisco, June 5, 2017 (Taught by [Chaoran Yu](https://github.com/yuchaoran2011))<br/>
 [Dean Wampler, Ph.D.](mailto:deanwampler@gmail.com)<br/>
 [Lightbend, Inc.](http://lightbend.com)
 
