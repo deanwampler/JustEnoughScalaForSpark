@@ -172,6 +172,7 @@ If it didn't work, here are some additional troubleshooting tips:
 
 > **More Troubleshooting:**
 > If the notebook cell output shows an error that `globalScope is undefined` or similar, this usually means it failed to download all the dependencies _or_ you are trying to run Spark Notebook natively on Windows and you hit a known bug.
+> If you see a message "Kernel starting please wait", that never goes away, trying running the notebook in read-only mode. Close the tab, then on the first browser tab where you uploaded the notebook, click the orange _Shutdown_ button, if the notebook is still running, then click the orange _View (read-only)_ button.
 > Other problems might result in different errors. Use the following steps to diagnose the problem.
 > 1. In your browser, open the _developer tools_ and look at the JavaScript or Web console output. It may show an error emitted by the Scala or JavaScript compilers.
 >   * If there is an error about an invalid backslash (`\`) in a string, you are on Windows and you must run in Docker.
