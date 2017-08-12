@@ -103,7 +103,7 @@ Now jump to <a href="#running-tutorial">Running the Tutorial</a>.
 
 <a name="docker-installation"></a>
 #### Docker Installation
-> **TLDR** For *nix users running bash, there is a convenient run script in the root directory that will download and run the correct docker image and link in the example for you. 
+> **TLDR** For *nix users running bash, there is a convenient run script in the root directory, ```run-notebook-with-docker.sh``` that will download and run the correct docker image and link in the example for you. 
 
 This the approach required for Windows users, as discussed above. It's also suitable for MacOS and Linux users.
 
