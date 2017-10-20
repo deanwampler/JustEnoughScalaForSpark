@@ -54,17 +54,15 @@ I begin with a show of hands:
 
 The answer for a large group with a spectrum from beginner to expert. I teach to the least experienced student, but occasionally mention more advanced concepts to keep the more experienced person engaged. Hopefully the expert isn't too bored; at least he or she has exercises to play with.
 
-## Getting Spark Notebook to Work
+## Getting the Tutorial to Work
 
 I added the [Gitter channel](https://gitter.im/deanwampler/JustEnoughScalaForSpark?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge) to encourage people to ask for help in advance of the tutorial sessions I've done. The sessions are too large and too short to offer help during them.
 
-Spark Notebook removes many cross-platform hassles, but it has proven unreliable on Windows. This is why I now require that Windows users run it in Docker instead. I know that some students will have corporate laptops and won't be allowed to install Docker. They can try running the Notebook on Windows directly, but there is a high risk it will fail to work.
-
-Worst case, if someone can't get things working, encourage them pair with a neighbor or follow along using the PDF of the tutorial notebook that's also in the `notebooks` directory.
+One reason I recently switched to a Docker image is to remove almost all possible problems, assuming the user can run Docker on his or her workstation. Worst case, if someone can't get things working, encourage them to pair with a neighbor or follow along using the PDF of the tutorial notebook that's also in the `notebooks` directory.
 
 ## Loading the Tutorial Notebook
 
-Assuming a successful installation of Spark Notebook, the end of the README describes how to load the tutorial Notebook into the environment. This is not a very user-friendly process, so I always walk through it in class.
+Assuming a successful installation of the Jupyter image, the end of the README describes how to load the tutorial notebook into the environment. This process is not as user-friendly as it could be, so I always walk through it in class.
 
 From now on in these notes, I'll assume that we're in the tutorial notebook itself. Section titles in "quotes" refer to sections in the tutorial itself.
 
