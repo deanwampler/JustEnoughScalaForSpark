@@ -68,6 +68,8 @@ docker run -it --rm -p 8888:8888 -v "$PWD/data":/data jupyter/all-spark-notebook
 docker run -it --rm -p 8888:8888 -v "%CD%\data":/data jupyter/all-spark-notebook
 ```
 
+> **Note:** On Windows, you may get the following error: _C:\Program Files\Docker\Docker\Resources\bin\docker.exe: Error response from daemon: D: drive is not shared. Please share it in Docker for Windows Settings."_ If so, do the following. On your tray, next to your clock, right-click on Docker, then click on Settings. You'll see the _Shared Drives_. Mark your drive and hit apply. See [this Docker forum thread](https://forums.docker.com/t/cannot-share-drive-in-windows-10/28798/5) for more tips.
+
 The `-p 8888:8888` argument tells Docker to "tunnel" port 8888 out of the container to your local environment, so you can get to the Jupyter UI.
 
 The `-v PATH:/data` tells Docker to mount the `data` directory under your current working directory, so it's available as `/data` inside the container. _This is essential to provide access to this data_.
