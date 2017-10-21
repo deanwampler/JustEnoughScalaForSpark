@@ -2,13 +2,16 @@
 
 [![Join the chat at https://gitter.im/deanwampler/JustEnoughScalaForSpark](https://badges.gitter.im/deanwampler/JustEnoughScalaForSpark.svg)](https://gitter.im/deanwampler/JustEnoughScalaForSpark?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
-Spark Summit San Francisco, June 5, 2017 (Taught by [Chaoran Yu](https://github.com/yuchaoran2011))<br/>
-Strata London, May 23, 2017<br/>
-Strata San Jose, March 14, 2017<br/>
-Strata Singapore, December 6, 2016<br/>
-Strata NYC, September 27, 2016<br/>
-[Dean Wampler, Ph.D.](mailto:deanwampler@gmail.com)<br/>
+* Spark Summit San Francisco, June 5, 2017
+* Strata London, May 23, 2017
+* Strata San Jose, March 14, 2017
+* Strata Singapore, December 6, 2016
+* Strata NYC, September 27, 2016
+
+[Dean Wampler, Ph.D.](mailto:deanwampler@gmail.com) and [Chaoran Yu](https://github.com/yuchaoran2011)<br/>
 [Lightbend, Inc.](http://lightbend.com)
+
+> **NEW:** This tutorial now uses a Docker image with Jupyter and Spark, for a much more robust, easy to use, and "industry standard" experience.
 
 This tutorial covers the most important features and idioms of [Scala](http://scala-lang.org/) you need to use [Apache Spark's](http://spark.apache.org/) Scala APIs. Because Spark is written in Scala, Spark is driving interest in Scala, especially for _data engineers_. _Data scientists_ sometimes use Scala, but most use Python or R.
 
@@ -48,13 +51,28 @@ There are other notebook tools you might investigate for your team's needs:
 
 If you need to install Docker, follow the installation instructions at [docker.com](https://www.docker.com/products/overview) (the _community edition_ is sufficient).
 
-Next, open a terminal window and run this command to download and run the image:
+Now we'll run the docker image. It's important to follow the next steps carefully. We're going to mount the directory of data we want to use so that it's accessible inside the running container:
+
+* Open a terminal or command window
+* Change to the directory where you expanded the tutorial project or cloned the repo.
+* To download and run the Docker image, run the following command:
+  * _If you are on MacOS or Linux_:
 
 ```bash
-docker run -it --rm -p 8888:8888 jupyter/all-spark-notebook
+docker run -it --rm -p 8888:8888 -v "$PWD/data":/data jupyter/all-spark-notebook
 ```
 
-The `-p 8888:8888` argument tells Docker to "tunnel" port 8888 out of the container to your local environment, so you can get to the Jupyter UI. You should see output similar to the following:
+  * _If you are on Windows_:
+
+```bash
+docker run -it --rm -p 8888:8888 -v "%CD%\data":/data jupyter/all-spark-notebook
+```
+
+The `-p 8888:8888` argument tells Docker to "tunnel" port 8888 out of the container to your local environment, so you can get to the Jupyter UI.
+
+The `-v PATH:/data` tells Docker to mount the `data` directory under your current working directory, so it's available as `/data` inside the container. _This is essential to provide access to this data_.
+
+You should see output similar to the following:
 
 ```bash
 Unable to find image 'jupyter/all-spark-notebook:latest' locally
@@ -76,7 +94,7 @@ Execute the command: jupyter notebook
 
 Now copy and paste the URL shown in a browser window.
 
-> **Warning:** When you quit the Docker container at the end of the tutorial, all your changes will be lost! To save them, export the notebook using the _File_ menu that's on the upper left-hand side of each browser page.
+> **Warning:** When you quit the Docker container at the end of the tutorial, all your changes will be lost! To save them, export the notebook using the _File > Download as > Notebook_ menu item in toolbar.
 
 ## Running the Tutorial
 
@@ -94,9 +112,13 @@ It opens in a new browser tab. It will take several seconds to load. (It's big!)
 
 Finally, you'll notice there is a box around the first "cell". This cell has one line of source code `println("Hello World!")`. Above this cell is a toolbar with a button that has a right-pointing arrow and the word _run_. Click that button to run this code cell. Or, use the menu item _Cell > Run Cells_.
 
-It will print the output, `Hello World!` just below the input text field.
+After many seconds, once initialization has completed, it will print the output, `Hello World!` just below the input text field.
 
-If that worked, you're done setting up the tutorial!
+Do the same thing for the next box. It should print `Array(shakespeare)`.
+
+> **Warning:** If instead you see `Array()` or `null` is printed, the mounting of the `data` directory did not work correctly. In the terminal window, use `control-c` to exit from the Docker container, make sure you are in the root directory of the project (`data` should be a subdirectory), restart the docker image, and make sure you enter the command exactly as shown.
+
+If these steps worked, you're done setting up the tutorial!
 
 <a name="getting-help"></a>
 ## Getting Help
