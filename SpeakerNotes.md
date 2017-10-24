@@ -83,7 +83,7 @@ This is a good place to demonstrate how to use the notebooks:
 * Show the sidebar (_View > Toggle Sidebar_), then hide it again.
 * In general, point out how useful notebooks are for learning and mixing documentation, code, and graphs of data.
 
-## "Let's Download Some Data ..."
+## "Let's Load Some Data ..."
 
 I emphasize again that we'll go through a lot of details, but the student should focus on the general concepts and refer back to the notebook cells for details later. We have to cover a lot of particulars to get to the "interesting stuff".
 
@@ -91,13 +91,7 @@ I rely on the fact that they can intuitively figure out a lot of details as they
 
 Note that the sizes of the data files are not very big, so it should work reasonable well even for a big class using a conference WiFi.
 
-## "Download the Files"
-
-This is a long and tedious method (blame Java verbosity; it's essentially a Java method in Scala syntax).
-
-Discuss the import statements and the method signature as another example (i.e., this one returns a `File`).
-
-Then, just briefly describe the algorithm and move on.
+## "Setup the Files"
 
 Discuss how the `if` example demonstrates that conditionals are expressions:
 
@@ -108,11 +102,11 @@ val success = if (shakespeare.exists == false) {   // doesn't exist already?
 
 For the `for` comprehension, I describe the "gist" of what it's doing in the Scala cell, then let the subsequent Markdown cells explain how `for` comprehensions work. Again, emphasize that these are expressions.
 
-We explain the `collection.foreach(println)` in subsequent cells, so in this cell, just tell them we'll come back to it.
+We explain the `failures.foreach(println)` in subsequent cells, so in this cell, just tell them we'll come back to it.
 
-## "Functions"
+## "Passing Functions as Arguments"
 
-Now we explain the concept of _functions_ and return to `collection.foreach(println)` as an example.
+Now we explain the concept of _functions_ and return to `collection.foreach(println)` as an example (using `plays` as the collection).
 
 Explain each example, noting that passing `println` vs. `str => println(str)` are **not** the same thing! In the first case, we're using `println` as the function. In the second case, we're passing an anonymous function that _calls_ `println`.
 
