@@ -36,22 +36,26 @@ Begin by cloning or downloading the tutorial GitHub project [github.com/deanwamp
 
 ## About Jupyter with Spark
 
-This tutorial uses a [Docker](https://docker.com) image that combines the popular [Jupyter](http://jupyter.org/) notebook environment with all the tools you need to run Spark, including the Scala language, called the [All Spark Notebook](https://hub.docker.com/r/jupyter/all-spark-notebook/).
+This tutorial uses a [Docker](https://docker.com) image that combines the popular [Jupyter](http://jupyter.org/) notebook environment with all the tools you need to run Spark, including the Scala language, called the [All Spark Notebook](https://hub.docker.com/r/jupyter/all-spark-notebook/). It bundles [Apache Toree](https://toree.apache.org/) to provide Spark and Scala access. The [webpage](https://hub.docker.com/r/jupyter/all-spark-notebook/) for this Docker image discusses useful information like using Python as well as Scala, user authentication topics, running your Spark jobs on clusters, rather than local mode, etc.
 
-There are other notebook tools you might investigate for your team's needs:
+There are other notebook options you might investigate for your needs:
 
-* [IBM Data Science Experience](http://datascience.ibm.com/)
-* [iPython/Jupyter](https://ipython.org/) + [Apache Toree](https://toree.apache.org/) - an alternative to our Jupyter configuration
-* [Zeppelin](http://zeppelin-project.org/)
-* [Beaker](http://beakernotebook.com/)
-* [Databricks](https://databricks.com/)
-* [Spark Notebook](http://spark-notebook.io)
+**Open source:**
+
+* [Jupyter](https://ipython.org/) + [BeakerX](http://beakerx.com/) - a powerful set of extensions for Jupyter
+* [Zeppelin](http://zeppelin-project.org/) - a popular tool in big data environments
+* [Spark Notebook](http://spark-notebook.io) - a powerful tool, but not as polished or well maintained
+
+**Commercial:**
+
+* [Databricks](https://databricks.com/) - a feature-rich, commercial, cloud-based service
+* [IBM Data Science Experience](http://datascience.ibm.com/) - IBM's full-featured environment for data science
 
 ## Running the Tutorial
 
 If you need to install Docker, follow the installation instructions at [docker.com](https://www.docker.com/products/overview) (the _community edition_ is sufficient).
 
-Now we'll run the docker image. It's important to follow the next steps carefully. We're going to mount the directory of data we want to use so that it's accessible inside the running container:
+Now we'll run the docker image. It's important to follow the next steps carefully. We're going to mount the working directory in the running container so it's accessible inside the running container. We'll need it for our notebook, our data, etc.
 
 * Open a terminal or command window
 * Change to the directory where you expanded the tutorial project or cloned the repo
@@ -60,20 +64,25 @@ Now we'll run the docker image. It's important to follow the next steps carefull
 The MacOS and Linux `run.sh` command executes this command:
 
 ```bash
-docker run -it --rm -p 8888:8888 -v "$PWD/data":/data jupyter/all-spark-notebook
+docker run -it --rm \
+  -p 8888:8888 -p 4040:4040 \
+  --cpus=2.0 --memory=2000M \
+  -v "$PWD":/home/jovyan/work \
+  "$@" \
+  jupyter/all-spark-notebook
 ```
 
-The Windows `run.bat` command executes this command:
+The Windows `run.bat` command is similar, but uses Windows conventions.
 
-```bash
-docker run -it --rm -p 8888:8888 -v "%CD%\data":/data jupyter/all-spark-notebook
-```
+The `--cpus=... --memory=...` arguments were added because the notebook "kernel" is prone to crashing with the default values. Edit to taste. Also, it will help to keep only one notebook (other than the Introduction) open at a time.
 
-The `-v PATH:/data` tells Docker to mount the `data` directory under your current working directory, so it's available as `/data` inside the container. _This is essential to provide access to this data_.
+The `-v $PWD:/home/jovyan/work` tells Docker to mount the current working directory inside the container as `/home/jovyan/work`. _This is essential to provide access to the tutorial data and notebooks_. When you open the notebook UI (discussed shortly), you'll see this folder listed.
 
 > **Note:** On Windows, you may get the following error: _C:\Program Files\Docker\Docker\Resources\bin\docker.exe: Error response from daemon: D: drive is not shared. Please share it in Docker for Windows Settings."_ If so, do the following. On your tray, next to your clock, right-click on Docker, then click on Settings. You'll see the _Shared Drives_. Mark your drive and hit apply. See [this Docker forum thread](https://forums.docker.com/t/cannot-share-drive-in-windows-10/28798/5) for more tips.
 
-The `-p 8888:8888` argument tells Docker to "tunnel" port 8888 out of the container to your local environment, so you can get to the Jupyter UI.
+The `-p 8888:8888 -p 4040:4040` arguments tells Docker to "tunnel" ports 8888 and 4040 out of the container to your local environment, so you can get to the Jupyter UI at port 8888 and the Spark driver UI at 4040.
+
+> **Note:** Here we use just one notebook, but if we used several notebooks concurrently, the _second_ notebook's Spark instance would use port 4041, the third would use 4042, etc.. Keep this in mind if you adapt this project for your own needs.
 
 You should see output similar to the following:
 
@@ -97,29 +106,21 @@ Execute the command: jupyter notebook
 
 Now copy and paste the URL shown in a browser window.
 
-> **Warning:** When you quit the Docker container at the end of the tutorial, all your changes will be lost! To save them, export the notebook using the _File > Download as > Notebook_ menu item in toolbar.
+> **Tip:** If you're using _iTerm_ on a Mac, just click the URL while holding the command key.
+
+> **Warning:** When you quit the Docker container at the end of the tutorial, all your changes will be lost, unless they are in or under the current working directory that we mounted! To save notebooks you defined in other locations, export them using the _File > Download as > Notebook_ menu item in toolbar.
 
 ## Running the Tutorial
 
-Now we need to load the tutorial into Jupyter.
+Now we can load the tutorial. Once you open the Jupyter UI, you'll see the `work` listed. Click once to open it, then open `notebooks`, then click on the tutorial notebook, `JustEnoughScalaForSpark.ipynb`. It will open in a new tab. (The PDF is a print out of the notebook, in case you have trouble running the notebook itself.)
 
-* Click the _Upload_ button on the upper right-hand side of the UI.
-* Browse to where you downloaded and expanded the tutorial, then to the `notebooks` directory. \
-* Open `JustEnoughScalaForSpark`.
-* Click the blue _Upload_ button.
-* Click the link for the tutorial that is now shown in the list of notebooks.
-
-It opens in a new browser tab. It will take several seconds to load. (It's big!)
-
->  **Tip:** If the new tab fails to open or the notebook fails to load as shown, check the terminal window where you started Jupyter. Are there any error messages?
-
-Finally, you'll notice there is a box around the first "cell". This cell has one line of source code `println("Hello World!")`. Above this cell is a toolbar with a button that has a right-pointing arrow and the word _run_. Click that button to run this code cell. Or, use the menu item _Cell > Run Cells_.
+You'll notice there is a box around the first "cell". This cell has one line of source code `println("Hello World!")`. Above this cell is a toolbar with a button that has a right-pointing arrow and the word _run_. Click that button to run this code cell. Or, use the menu item _Cell > Run Cells_.
 
 After many seconds, once initialization has completed, it will print the output, `Hello World!` just below the input text field.
 
-Do the same thing for the next box. It should print `Array(shakespeare)`.
+Do the same thing for the next box. It should print `[merrywivesofwindsor, twelfthnight, midsummersnightsdream, loveslabourslost, asyoulikeit, comedyoferrors, muchadoaboutnothing, tamingoftheshrew]`, the contents of the `/home/jovyan/work/data/shakespeare` folder, the texts for several of Shakespeare's plays. We'll use these files as data.
 
-> **Warning:** If instead you see `Array()` or `null` is printed, the mounting of the `data` directory did not work correctly. In the terminal window, use `control-c` to exit from the Docker container, make sure you are in the root directory of the project (`data` should be a subdirectory), restart the docker image, and make sure you enter the command exactly as shown.
+> **Warning:** If instead you see `[]` or `null` printed, the mounting of the current working directory did not work correctly when the container was started. In the terminal window, use `control-c` to exit from the Docker container, make sure you are in the root directory of the project (`data` and `notebooks` should be subdirectories), restart the docker image, and make sure you enter the command exactly as shown.
 
 If these steps worked, you're done setting up the tutorial!
 
