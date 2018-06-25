@@ -48,14 +48,14 @@ There are other notebook options you might investigate for your needs:
 
 **Commercial:**
 
-* [IBM Data Science Experience](http://datascience.ibm.com/) - IBM's full-featured environment for data science
 * [Databricks](https://databricks.com/) - a feature-rich, commercial, cloud-based service
+* [IBM Data Science Experience](http://datascience.ibm.com/) - IBM's full-featured environment for data science
 
 ## Running the Tutorial
 
 If you need to install Docker, follow the installation instructions at [docker.com](https://www.docker.com/products/overview) (the _community edition_ is sufficient).
 
-Now we'll run the docker image. It's important to follow the next steps carefully. We're going to mount the directory of data we want to use so that it's accessible inside the running container:
+Now we'll run the docker image. It's important to follow the next steps carefully. We're going to mount the working directory in the running container so it's accessible inside the running container. We'll need it for our notebook, our data, etc.
 
 * Open a terminal or command window
 * Change to the directory where you expanded the tutorial project or cloned the repo
@@ -67,8 +67,7 @@ The MacOS and Linux `run.sh` command executes this command:
 docker run -it --rm \
   -p 8888:8888 -p 4040:4040 \
   --cpus=2.0 --memory=2000M \
-  -v "$PWD/data":/home/jovyan/data \
-  -v "$PWD/notebooks":/home/jovyan/notebooks \
+  -v "$PWD":/home/jovyan/work \
   "$@" \
   jupyter/all-spark-notebook
 ```
@@ -77,11 +76,13 @@ The Windows `run.bat` command is similar, but uses Windows conventions.
 
 The `--cpus=... --memory=...` arguments were added because the notebook "kernel" is prone to crashing with the default values. Edit to taste. Also, it will help to keep only one notebook (other than the Introduction) open at a time.
 
-The `-v PATH:/home/jovyan/dir` tells Docker to mount the `dir` directory under your current working directory, so it's available as `/home/jovyan/dir` inside the container. _This is essential to provide access to the tutorial data and notebooks_. When you open the notebook UI (discussed shortly), you'll see these folders listed.
+The `-v $PWD:/home/jovyan/work` tells Docker to mount the current working directory inside the container as `/home/jovyan/work`. _This is essential to provide access to the tutorial data and notebooks_. When you open the notebook UI (discussed shortly), you'll see this folder listed.
 
 > **Note:** On Windows, you may get the following error: _C:\Program Files\Docker\Docker\Resources\bin\docker.exe: Error response from daemon: D: drive is not shared. Please share it in Docker for Windows Settings."_ If so, do the following. On your tray, next to your clock, right-click on Docker, then click on Settings. You'll see the _Shared Drives_. Mark your drive and hit apply. See [this Docker forum thread](https://forums.docker.com/t/cannot-share-drive-in-windows-10/28798/5) for more tips.
 
 The `-p 8888:8888 -p 4040:4040` arguments tells Docker to "tunnel" ports 8888 and 4040 out of the container to your local environment, so you can get to the Jupyter UI at port 8888 and the Spark driver UI at 4040.
+
+> **Note:** Here we use just one notebook, but if we used several notebooks concurrently, the _second_ notebook's Spark instance would use port 4041, the third would use 4042, etc.. Keep this in mind if you adapt this project for your own needs.
 
 You should see output similar to the following:
 
@@ -105,19 +106,21 @@ Execute the command: jupyter notebook
 
 Now copy and paste the URL shown in a browser window.
 
-> **Warning:** When you quit the Docker container at the end of the tutorial, all your changes will be lost, unless they are in the `data` and `notebooks` directories that we mounted! To save notebooks you defined in other locations, export them using the _File > Download as > Notebook_ menu item in toolbar.
+> **Tip:** If you're using _iTerm_ on a Mac, just click the URL while holding the command key.
+
+> **Warning:** When you quit the Docker container at the end of the tutorial, all your changes will be lost, unless they are in or under the current working directory that we mounted! To save notebooks you defined in other locations, export them using the _File > Download as > Notebook_ menu item in toolbar.
 
 ## Running the Tutorial
 
-Now we can load the tutorial. If you open the Jupyter UI, you'll see a folder `notebooks`. Open that, then click on the tutorial notebook, `JustEnoughScalaForSpark.ipynb`. It will open in a new tab.
+Now we can load the tutorial. Once you open the Jupyter UI, you'll see the `work` listed. Click once to open it, then open `notebooks`, then click on the tutorial notebook, `JustEnoughScalaForSpark.ipynb`. It will open in a new tab. (The PDF is a print out of the notebook, in case you have trouble running the notebook itself.)
 
 You'll notice there is a box around the first "cell". This cell has one line of source code `println("Hello World!")`. Above this cell is a toolbar with a button that has a right-pointing arrow and the word _run_. Click that button to run this code cell. Or, use the menu item _Cell > Run Cells_.
 
 After many seconds, once initialization has completed, it will print the output, `Hello World!` just below the input text field.
 
-Do the same thing for the next box. It should print `Array(shakespeare)`.
+Do the same thing for the next box. It should print `[merrywivesofwindsor, twelfthnight, midsummersnightsdream, loveslabourslost, asyoulikeit, comedyoferrors, muchadoaboutnothing, tamingoftheshrew]`, the contents of the `/home/jovyan/work/data/shakespeare` folder, the texts for several of Shakespeare's plays. We'll use these files as data.
 
-> **Warning:** If instead you see `Array()` or `null` is printed, the mounting of the `data` directory did not work correctly. In the terminal window, use `control-c` to exit from the Docker container, make sure you are in the root directory of the project (`data` should be a subdirectory), restart the docker image, and make sure you enter the command exactly as shown.
+> **Warning:** If instead you see `[]` or `null` printed, the mounting of the current working directory did not work correctly when the container was started. In the terminal window, use `control-c` to exit from the Docker container, make sure you are in the root directory of the project (`data` and `notebooks` should be subdirectories), restart the docker image, and make sure you enter the command exactly as shown.
 
 If these steps worked, you're done setting up the tutorial!
 
