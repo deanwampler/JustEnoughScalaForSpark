@@ -37,5 +37,5 @@ do
 done
 
 # Invoke this script with NOOP=echo run.sh ... to see the command but not run it:
-$NOOP docker run -it --rm -p 8888:8888 -p 4040:4040 --cpus=2.0 --memory=5000M \
+$NOOP docker run -it --rm -p 8888:8888 -p 4040:4040 --cpus=2.0 --memory=2500M \
   -v "$PWD":$home/$(basename $PWD) "${docker_options[@]}" $image

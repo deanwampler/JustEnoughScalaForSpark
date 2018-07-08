@@ -11,7 +11,7 @@
 [Dean Wampler, Ph.D.](mailto:deanwampler@gmail.com) and [Chaoran Yu](https://github.com/yuchaoran2011)<br/>
 [Lightbend, Inc.](http://lightbend.com)
 
-> **NEW:** This tutorial now uses a Docker image with Jupyter and Spark, for a much more robust, easy to use, and "industry standard" experience. There is also an potion to use a BeakerX image (http://beakerx.com).
+> **NEW:** This tutorial now uses a Docker image with Jupyter and Spark, for a much more robust, easy to use, and "industry standard" experience. There is also an option to use a BeakerX image (http://beakerx.com).
 
 This tutorial covers the most important features and idioms of [Scala](http://scala-lang.org/) you need to use [Apache Spark's](http://spark.apache.org/) Scala APIs. Because Spark is written in Scala, Spark is driving interest in Scala, especially for _data engineers_. _Data scientists_ sometimes use Scala, but most use Python or R.
 
@@ -55,6 +55,16 @@ This tutorial uses a [Docker](https://docker.com) image that combines the popula
 
 As an alternative, you can also use [BeakerX](http://beakerx.com), which is also based on Jupyter and includes a number of useful tools for using different programming languages, plotting data, etc.
 
+### Beaker Configuration
+
+> **WARNING:** If you use BeakerX, you have to do one of two additional configuration steps.
+
+First option: After starting BeakerX as described below, click the _BeakerX_ tab in the home page and set the JVM heap space to 0.5 GB or greater, before opening the tutorial notebook.
+
+Second option: Set your laptop's Docker environment to have at least 2.5GB of memory. For Macs, the default setting is 2GB and for Windows it may be 1GB. Find the _Preferences_ in your Docker environment and set the memory to 2.5GB.
+
+### Other Notebook Environments
+
 There are other notebook options you might investigate for your needs:
 
 **Open source:**
@@ -90,7 +100,7 @@ docker run -it --rm -p 8888:8888 -p 4040:4040 --cpus=2.0 --memory=2000M \
 
 The Windows `run.bat` command is similar, but uses Windows conventions. If you use BeakerX, `/home/beakerx` is used for the directory and `beakerx/beakerx` is used for the Docker image.
 
-The `--cpus=... --memory=...` arguments were added because the notebook "kernel" is prone to crashing with the default values. Edit to taste. Also, it will help to shutdown notebooks after you've finished with them.
+The `--cpus=... --memory=...` arguments were added because the notebook "kernel" is prone to crashing with the default values. Edit to taste. Also, it will help to shut down notebooks after you've finished with them.
 
 The `-v $PWD:/home/jovyan/JustEnoughScalaForSpark` tells Docker to mount the current working directory inside the container as `/home/jovyan/JustEnoughScalaForSpark`, where `/home/jovyan` is the "home" directory for the environment inside the running container. (The home directory for BeakerX is `/home/beakerx`.)
 
@@ -133,7 +143,12 @@ Now copy and paste the URL shown in a browser window.
 
 ## Working through the Tutorial
 
-Now we can load the tutorial. Once you open the URL, you'll see the `JustEnoughScalaForSpark` listed. Click once to open it, then open `notebooks`, then click on the tutorial notebook, `JustEnoughScalaForSpark.ipynb`. It will open in a new tab.
+Now we can load the tutorial. Once you open the URL, you'll see the `JustEnoughScalaForSpark` listed. Click once to open it, then open `notebooks`, then click one of the tutorial notebooks:
+
+* `JustEnoughScalaForSpark.ipynb` if using Jupyter
+* `JustEnoughScalaForSpark-BeakerX.ipynb` if using BeakerX
+
+It will open in a new tab. (The reason a separate BeakerX notebook is required is because we have to start Spark explicitly in BeakerX notebooks, while it's started for us automatically in the Jupyter Docker image.)
 
 > **Tip:** The `notebooks` directory also contains [PDF](notebooks/JustEnoughScalaForSpark.pdf) and [HTML](notebooks/JustEnoughScalaForSpark.html) print outs of the notebook, in case you have trouble running the notebook itself.
 
