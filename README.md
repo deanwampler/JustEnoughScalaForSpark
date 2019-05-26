@@ -11,7 +11,9 @@
 [Dean Wampler, Ph.D.](mailto:deanwampler@gmail.com) and [Chaoran Yu](https://github.com/yuchaoran2011)<br/>
 [Lightbend, Inc.](http://lightbend.com)
 
-> **NEW:** This tutorial now uses a Docker image with Jupyter and Spark, for a much more robust, easy to use, and "industry standard" experience.
+> **NEW:** François Sarradin (@fsarradin) and colleagues translated this tutorial to French. You can find it [here](https://github.com/univalence/CeQuilFautDeScalaPourSpark).
+
+This tutorial now uses a Docker image with Jupyter and Spark, for a much more robust, easy to use, and "industry standard" experience.
 
 This tutorial covers the most important features and idioms of [Scala](http://scala-lang.org/) you need to use [Apache Spark's](http://spark.apache.org/) Scala APIs. Because Spark is written in Scala, Spark is driving interest in Scala, especially for _data engineers_. _Data scientists_ sometimes use Scala, but most use Python or R.
 
