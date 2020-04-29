@@ -8,16 +8,15 @@
 * Strata Singapore, December 6, 2016
 * Strata NYC, September 27, 2016
 
-[Dean Wampler, Ph.D.](mailto:deanwampler@gmail.com) and [Chaoran Yu](https://github.com/yuchaoran2011)<br/>
-[Lightbend, Inc.](http://lightbend.com)
+[Dean Wampler, Ph.D.](mailto:deanwampler@gmail.com)<br/>
+[Chaoran Yu](https://github.com/yuchaoran2011) taught this tutorial at a few conferences, too.
+
 
 > **NEW:** François Sarradin (@fsarradin) and colleagues translated this tutorial to French. You can find it [here](https://github.com/univalence/CeQuilFautDeScalaPourSpark).
 
 This tutorial now uses a Docker image with Jupyter and Spark, for a much more robust, easy to use, and "industry standard" experience.
 
 This tutorial covers the most important features and idioms of [Scala](http://scala-lang.org/) you need to use [Apache Spark's](http://spark.apache.org/) Scala APIs. Because Spark is written in Scala, Spark is driving interest in Scala, especially for _data engineers_. _Data scientists_ sometimes use Scala, but most use Python or R.
-
-Check out [Lightbend Fast Data Platform](http://lightbend.com/fast-data-platform), our new distribution for _Fast Data_ (stream processing), including Spark, Flink, Kafka, Akka Streams, Kafka Streams, HDFS, and our production management and monitoring tools, running on Mesosphere DC/OS.
 
 > **Tips:**
 > 1. If you're taking this tutorial at a conference, it's **essential** that you set up the tutorial ahead of time, as there won't be time during the session to work on any problems.
@@ -50,7 +49,7 @@ There are other notebook options you might investigate for your needs:
 
 **Commercial:**
 
-* [Databricks](https://databricks.com/) - a feature-rich, commercial, cloud-based service
+* [Databricks](https://databricks.com/) - a feature-rich, commercial, cloud-based service from the creators of Spark
 * [IBM Data Science Experience](http://datascience.ibm.com/) - IBM's full-featured environment for data science
 
 ## Running the Tutorial
@@ -80,7 +79,10 @@ The `--cpus=... --memory=...` arguments were added because the notebook "kernel"
 
 The `-v $PWD:/home/jovyan/work` tells Docker to mount the current working directory inside the container as `/home/jovyan/work`. _This is essential to provide access to the tutorial data and notebooks_. When you open the notebook UI (discussed shortly), you'll see this folder listed.
 
-> **Note:** On Windows, you may get the following error: _C:\Program Files\Docker\Docker\Resources\bin\docker.exe: Error response from daemon: D: drive is not shared. Please share it in Docker for Windows Settings."_ If so, do the following. On your tray, next to your clock, right-click on Docker, then click on Settings. You'll see the _Shared Drives_. Mark your drive and hit apply. See [this Docker forum thread](https://forums.docker.com/t/cannot-share-drive-in-windows-10/28798/5) for more tips.
+> **Notes:**
+>
+> 1. On Windows, you may get the following error: _C:\Program Files\Docker\Docker\Resources\bin\docker.exe: Error response from daemon: D: drive is not shared. Please share it in Docker for Windows Settings."_ If so, do the following. On your tray, next to your clock, right-click on Docker, then click on Settings. You'll see the _Shared Drives_. Mark your drive and hit apply. See [this Docker forum thread](https://forums.docker.com/t/cannot-share-drive-in-windows-10/28798/5) for more tips.
+> 2. The command defaults to the `latest` docker image tag. If you suspect there's a breaking change in a Docker image more recent than the last updates to this tutorial, try using `jupyter/all-spark-notebook:619e9cc2fc07` instead.
 
 The `-p 8888:8888 -p 4040:4040` arguments tells Docker to "tunnel" ports 8888 and 4040 out of the container to your local environment, so you can get to the Jupyter UI at port 8888 and the Spark driver UI at 4040.
 
@@ -122,7 +124,7 @@ After many seconds, once initialization has completed, it will print the output,
 
 Do the same thing for the next box. It should print `[merrywivesofwindsor, twelfthnight, midsummersnightsdream, loveslabourslost, asyoulikeit, comedyoferrors, muchadoaboutnothing, tamingoftheshrew]`, the contents of the `/home/jovyan/work/data/shakespeare` folder, the texts for several of Shakespeare's plays. We'll use these files as data.
 
-> **Warning:** If instead you see `[]` or `null` printed, the mounting of the current working directory did not work correctly when the container was started. In the terminal window, use `control-c` to exit from the Docker container, make sure you are in the root directory of the project (`data` and `notebooks` should be subdirectories), restart the docker image, and make sure you enter the command exactly as shown.
+> **Warning:** If you see `[]` or `null` printed instead, the mounting of the current working directory did not work correctly when the container was started. In the terminal window, use `control-c` to exit from the Docker container, make sure you are in the root directory of the project (`data` and `notebooks` should be subdirectories), restart the docker image, and make sure you enter the command exactly as shown.
 
 If these steps worked, you're done setting up the tutorial!
 
