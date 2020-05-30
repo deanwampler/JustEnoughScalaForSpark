@@ -43,14 +43,13 @@ There are other notebook options you might investigate for your needs:
 
 **Open source:**
 
-* [Jupyter](https://ipython.org/) + [BeakerX](http://beakerx.com/) - a powerful set of extensions for Jupyter
+* [Polynote](https://polynote.org/) - A cross-language notebook environment with built-in Scala support. Developed by Netflix.
+* [Jupyter](https://ipython.org/) + [BeakerX](http://beakerx.com/) - a powerful set of extensions for Jupyter.
 * [Zeppelin](http://zeppelin-project.org/) - a popular tool in big data environments
-* [Spark Notebook](http://spark-notebook.io) - a powerful tool, but not as polished or well maintained
 
 **Commercial:**
 
 * [Databricks](https://databricks.com/) - a feature-rich, commercial, cloud-based service from the creators of Spark
-* [IBM Data Science Experience](http://datascience.ibm.com/) - IBM's full-featured environment for data science
 
 ## Running the Tutorial
 
