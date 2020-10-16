@@ -115,6 +115,8 @@ Now copy and paste the URL shown in a browser window.
 
 ## Running the Tutorial
 
+> **Warning:** It appears that the Jupyter _magics_ in the notebook no longer work. I have added comments and workarounds.
+
 Now we can load the tutorial. Once you open the Jupyter UI, you'll see the `work` listed. Click once to open it, then open `notebooks`, then click on the tutorial notebook, `JustEnoughScalaForSpark.ipynb`. It will open in a new tab. (The PDF is a print out of the notebook, in case you have trouble running the notebook itself.)
 
 You'll notice there is a box around the first "cell". This cell has one line of source code `println("Hello World!")`. Above this cell is a toolbar with a button that has a right-pointing arrow and the word _run_. Click that button to run this code cell. Or, use the menu item _Cell > Run Cells_.
