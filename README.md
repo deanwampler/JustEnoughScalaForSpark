@@ -2,6 +2,7 @@
 
 [![Join the chat at https://gitter.im/deanwampler/JustEnoughScalaForSpark](https://badges.gitter.im/deanwampler/JustEnoughScalaForSpark.svg)](https://gitter.im/deanwampler/JustEnoughScalaForSpark?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
+* Minor updates and bug fixes, April, 2021
 * Spark Summit San Francisco, June 5, 2017
 * Strata London, May 23, 2017
 * Strata San Jose, March 14, 2017
