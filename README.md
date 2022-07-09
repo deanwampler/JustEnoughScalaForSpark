@@ -2,6 +2,7 @@
 
 [![Join the chat at https://gitter.im/deanwampler/JustEnoughScalaForSpark](https://badges.gitter.im/deanwampler/JustEnoughScalaForSpark.svg)](https://gitter.im/deanwampler/JustEnoughScalaForSpark?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
 
+* Added instructions for using Podman, fixed image version, Spark 3.2.1, July, 2022
 * Minor updates and bug fixes, April, 2021
 * Spark Summit San Francisco, June 5, 2017
 * Strata London, May 23, 2017
@@ -12,8 +13,9 @@
 [Dean Wampler, Ph.D.](mailto:deanwampler@gmail.com)<br/>
 [Chaoran Yu](https://github.com/yuchaoran2011) taught this tutorial at a few conferences, too.
 
+> **NOTE:** It appears the `jupyter/all-spark-notebook` images are no longer built with Scala support, as of July 2022. These instructions use the last image released with Scala support, also supporting Spark 3.2.1.
 
-> **NEW:** François Sarradin (@fsarradin) and colleagues translated this tutorial to French. You can find it [here](https://github.com/univalence/CeQuilFautDeScalaPourSpark).
+François Sarradin (@fsarradin) and colleagues translated this tutorial to French. You can find it [here](https://github.com/univalence/CeQuilFautDeScalaPourSpark).
 
 This tutorial now uses a Docker image with Jupyter and Spark, for a much more robust, easy to use, and "industry standard" experience.
 
@@ -54,65 +56,159 @@ There are other notebook options you might investigate for your needs:
 
 ## Running the Tutorial
 
-If you need to install Docker, follow the installation instructions at [docker.com](https://www.docker.com/products/overview) (the _community edition_ is sufficient).
+If you need to install Docker _or_ the popular replacement, [Podman](https://podman.io/).
 
-Now we'll run the docker image. It's important to follow the next steps carefully. We're going to mount the working directory in the running container so it's accessible inside the running container. We'll need it for our notebook, our data, etc.
+### Using Docker
 
-* Open a terminal or command window
-* Change to the directory where you expanded the tutorial project or cloned the repo
-* To download and run the Docker image, run the following command: `run.sh` (MacOS and Linux) or `run.bat` (Windows)
+Follow the [Docker installation instructions](https://www.docker.com/products/overview). The _community edition_ is sufficient. Then start the docker daemon on your machine, as instructed.
 
-The MacOS and Linux `run.sh` command executes this command:
+### Using Podman
 
-```bash
-docker run -it --rm \
-  -p 8888:8888 -p 4040:4040 \
-  --cpus=2.0 --memory=2000M \
-  -v "$PWD":/home/jovyan/work \
-  "$@" \
-  jupyter/all-spark-notebook
+Follow the [Podman installation instructions](https://podman.io/getting-started/installation).
+
+> **NOTE:** I don't have access to a Windows machine so I have not tested using Podman on Windows with this tutorial. _Caveat emptor_.
+
+A few other steps are recommended or required.
+
+First, it's convenient to alias the `docker` commands to corresponding `podman` commands:
+
+```shell
+alias docker=podman
+alias docker-compose=podman-compose
 ```
 
-The Windows `run.bat` command is similar, but uses Windows conventions.
+If you choose not to do this, just substitute `podman` for `docker` in the commands, shell scripts, and bat scripts discussed below.
 
-The `--cpus=... --memory=...` arguments were added because the notebook "kernel" is prone to crashing with the default values. Edit to taste. Also, it will help to keep only one notebook (other than the Introduction) open at a time.
+Also, you'll need to initialize a Podman virtual machine. First, see if the default machine was already created by the installer. If so, we'll replace it with a "beefier" one.
 
-The `-v $PWD:/home/jovyan/work` tells Docker to mount the current working directory inside the container as `/home/jovyan/work`. _This is essential to provide access to the tutorial data and notebooks_. When you open the notebook UI (discussed shortly), you'll see this folder listed.
+```shell
+podman system connection list     # List the VMs defined
+```
+
+Do you see the following output?
+
+```
+Name                         URI                                                         Identity                                        Default
+podman-machine-default       ssh://core@localhost:53933/run/user/501/podman/podman.sock  /Users/.../.ssh/podman-machine-default  true
+podman-machine-default-root  ssh://root@localhost:53933/run/podman/podman.sock           /Users/.../.ssh/podman-machine-default  false
+```
+
+In this case, run this `rm` command to delete it:
+
+```shell
+podman machine rm podman-machine-default
+```
+
+Now use the following commands to create the `podman-machine-default` with more resources and then start it running:
+
+```shell
+podman machine init --memory=4000 --cpus=4 -v $HOME:$HOME
+podman machine start
+```
+
+> **Tip:** Run `podman machine stop` when you are finished with the tutorial.
+
+On my MacOS machine, I had trouble saving changes to notebooks due to permissions issues. When you start the machine, you might see the following output:
+
+```
+$ podman machine start
+Starting machine "podman-machine-default"
+Waiting for VM ...
+Mounting volume... /Users/...:/Users/...
+
+This machine is currently configured in rootless mode. If your containers
+require root permissions (e.g. ports < 1024), or if you run into compatibility
+issues with non-podman clients, you can switch using the following command:
+
+    podman machine set --rootful
+
+API forwarding listening on: /Users/.../.local/share/containers/podman/machine/podman-machine-default/podman.sock
+
+The system helper service is not installed; the default Docker API socket
+address can't be used by podman. If you would like to install it run the
+following commands:
+
+    sudo /opt/homebrew/Cellar/podman/4.1.1/bin/podman-mac-helper install
+    podman machine stop; podman machine start
+
+You can still connect Docker API clients by setting DOCKER_HOST using the
+following command in your terminal session:
+
+    export DOCKER_HOST='unix:///Users/.../.local/share/containers/podman/machine/podman-machine-default/podman.sock'
+
+Machine "podman-machine-default" started successfully
+```
+
+Following these instructions fixed the issue. More concisely, run these commands:
+
+```shell
+podman machine stop
+podman machine set --rootful
+sudo /opt/homebrew/Cellar/podman/4.1.1/bin/podman-mac-helper install
+podman machine start
+```
+
+Setting `DOCKER_HOST` is done for you in the `run.sh` script discussed next.
+
+## Running the Docker Image
+
+Use these steps for both `docker` and `podman`.
+
+It's important to follow the next steps carefully. We're going to mount the working directory in the running container so it's accessible inside the running container in a convenient place. We'll need it for our notebook, our data, etc.
+
+* In the same terminal window, change to the directory where you expanded the tutorial project or cloned the repo.
+* Run the following command to download and run the Docker image: 
+    * `run.sh` (MacOS and Linux)
+    * `run.bat` (Windows)
+
+The MacOS and Linux `run.sh` command executes these commands:
+
+```shell
+which -s podman > /dev/null && \
+  export DOCKER_HOST="unix:///$HOME/.local/share/containers/podman/machine/podman-machine-default/podman.sock"
+docker run -it --rm \
+  -p 8888:8888 -p 4040:4040 \
+  --cpus=3.0 --memory=3500M \
+  -v "$PWD":/home/jovyan/work \
+  "$@" \
+  jupyter/all-spark-notebook:spark-3.2.0
+```
+
+The first command (note the line continuation...) checks if you are using podman and sets the `DOCKER_HOST` environment variable, which I found to be necessary. You might try just running the `docker run` command to see if you really need this.
+
+The Windows `run.bat` command is similar, but uses Windows conventions and does _not_ attempt to set `DOCKER_HOST`.
+
+The `--cpus=... --memory=...` arguments were added because the notebook "kernel" is prone to crashing with the default values. Edit to taste to see what works best for you. For example, previously this `README` used `--cpus=2.0 --memory=2000M`, but machines are bigger now :) Also, it will help conserve resources to keep only one notebook open at a time, other than the _Introduction_, which is lightweight.
+
+The `-v $PWD:/home/jovyan/work` tells Docker to mount the current working directory inside the container as `/home/jovyan/work`. When you open the notebook UI (discussed shortly), you'll see this folder listed.
+
+Finally, we are using the image tagged `spark-3.2.0`, which actually supports Spark 3.2.1. Unfortunately, the `jupyter/all-spark-notebook` image builds dropped Spark support in July 2022.  :(
 
 > **Notes:**
 >
-> 1. On Windows, you may get the following error: _C:\Program Files\Docker\Docker\Resources\bin\docker.exe: Error response from daemon: D: drive is not shared. Please share it in Docker for Windows Settings."_ If so, do the following. On your tray, next to your clock, right-click on Docker, then click on Settings. You'll see the _Shared Drives_. Mark your drive and hit apply. See [this Docker forum thread](https://forums.docker.com/t/cannot-share-drive-in-windows-10/28798/5) for more tips.
-> 2. The command defaults to the `latest` docker image tag. If you suspect there's a breaking change in a Docker image more recent than the last updates to this tutorial, try using `jupyter/all-spark-notebook:619e9cc2fc07` instead.
-
+> 1. On Windows, when using Docker, you may get the following error: _C:\Program Files\Docker\Docker\Resources\bin\docker.exe: Error response from daemon: D: drive is not shared. Please share it in Docker for Windows Settings."_ If so, do the following. On your tray, next to your clock, right-click on Docker, then click on Settings. You'll see the _Shared Drives_. Mark your drive and hit apply. See [this Docker forum thread](https://forums.docker.com/t/cannot-share-drive-in-windows-10/28798/5) for more tips.
+> 2. I don't have access to a Windows machine so I have not tested using Podman on Windows.
+s
 The `-p 8888:8888 -p 4040:4040` arguments tells Docker to "tunnel" ports 8888 and 4040 out of the container to your local environment, so you can get to the Jupyter UI at port 8888 and the Spark driver UI at 4040.
 
 > **Note:** Here we use just one notebook, but if we used several notebooks concurrently, the _second_ notebook's Spark instance would use port 4041, the third would use 4042, etc.. Keep this in mind if you adapt this project for your own needs.
 
 You should see output similar to the following:
 
-```bash
-Unable to find image 'jupyter/all-spark-notebook:latest' locally
+```shell
+Unable to find image 'jupyter/all-spark-notebook:spark-3.2.0' locally
 latest: Pulling from jupyter/all-spark-notebook
-e0a742c2abfd: Pull complete
 ...
-ed25ef62a9dd: Pull complete
-Digest: sha256:...
-Status: Downloaded newer image for jupyter/all-spark-notebook:latest
-Execute the command: jupyter notebook
-...
-[I 19:08:15.017 NotebookApp] Use Control-C to stop this server and shut down all kernels (twice to skip confirmation).
-[C 19:08:15.019 NotebookApp]
-
     Copy/paste this URL into your browser when you connect for the first time,
     to login with a token:
         http://localhost:8888/?token=...
 ```
 
-Now copy and paste the URL shown in a browser window.
+Now copy and paste the `localhost:8888` URL shown in a browser window.
 
-> **Tip:** If you're using _iTerm_ on a Mac, just click the URL while holding the command key.
+> **Tip:** Your terminal might let you ⌘-click or CTRL-click the URL to open it in a browser.
 
-> **Warning:** When you quit the Docker container at the end of the tutorial, all your changes will be lost, unless they are in or under the current working directory that we mounted! To save notebooks you defined in other locations, export them using the _File > Download as > Notebook_ menu item in toolbar.
+> **Warning:** When you quit the container at the end of the tutorial, all your changes will be lost, unless they are in or under the current working directory that we mounted. To save notebooks you defined in other locations, export them using the _File > Download as > Notebook_ menu item in toolbar.
 
 ## Running the Tutorial
 
