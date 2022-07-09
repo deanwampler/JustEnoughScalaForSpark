@@ -70,14 +70,14 @@ Follow the [Podman installation instructions](https://podman.io/getting-started/
 
 A few other steps are recommended or required.
 
-First, it's convenient to alias the `docker` commands to corresponding `podman` commands:
+First, if you plan to use `podman` instead of `docker`, it's convenient to alias the `docker` commands to corresponding `podman` commands:
 
 ```shell
 alias docker=podman
 alias docker-compose=podman-compose
 ```
 
-If you choose not to do this, just substitute `podman` for `docker` in the commands, shell scripts, and bat scripts discussed below.
+Similar commands can be used for Windows. If you choose not to do this, just substitute `podman` for `docker` in the commands, shell scripts, and bat scripts discussed below.
 
 Also, you'll need to initialize a Podman virtual machine. First, see if the default machine was already created by the installer. If so, we'll replace it with a "beefier" one.
 
@@ -108,7 +108,7 @@ podman machine start
 
 > **Tip:** Run `podman machine stop` when you are finished with the tutorial.
 
-On my MacOS machine, I had trouble saving changes to notebooks due to permissions issues. When you start the machine, you might see the following output:
+When you start the machine, you might see the following output:
 
 ```
 $ podman machine start
@@ -139,16 +139,19 @@ following command in your terminal session:
 Machine "podman-machine-default" started successfully
 ```
 
-Following these instructions fixed the issue. More concisely, run these commands:
+Don't use the `--rootful` option, at least for this tutorial, as it is incompatible with a flag passed to `podman run` below, `--userns=keep-id`, which is required to be able to write updates to the notebooks.
+
+If you are on a Mac, the `podman-mac-helper` may be useful:
 
 ```shell
 podman machine stop
-podman machine set --rootful
 sudo /opt/homebrew/Cellar/podman/4.1.1/bin/podman-mac-helper install
 podman machine start
 ```
 
-Setting `DOCKER_HOST` is done for you in the `run.sh` script discussed next.
+Setting `DOCKER_HOST` is done for you in the `run.sh` script (discussed below) for MacOS and Linux. For Windows, you may need to set this in your environment. This is not done in `run-podman.bat`.
+
+> **Note:** I don't have access to a Windows machine so I have not tested using Podman on Windows.
 
 ## Running the Docker Image
 
@@ -158,42 +161,42 @@ It's important to follow the next steps carefully. We're going to mount the work
 
 * In the same terminal window, change to the directory where you expanded the tutorial project or cloned the repo.
 * Run the following command to download and run the Docker image: 
-    * `run.sh` (MacOS and Linux)
-    * `run.bat` (Windows)
+    * `run.sh` for both `docker` and `podman` on MacOS and Linux
+    * `run-docker.bat` to use `docker` on Windows
+    * `run-podman.bat` to use `podman` on Windows
 
-The MacOS and Linux `run.sh` command executes these commands:
+The MacOS and Linux `run.sh` script executes these commands for `podman`:
 
 ```shell
-which -s podman > /dev/null && \
-  export DOCKER_HOST="unix:///$HOME/.local/share/containers/podman/machine/podman-machine-default/podman.sock"
-docker run -it --rm \
-  -p 8888:8888 -p 4040:4040 \
+export DOCKER_HOST="unix:///$HOME/.local/share/containers/podman/machine/podman-machine-default/podman.sock"
+podman run -it --rm \
+  -p 8888:8888 -p 4040:4040 -p 4041:4041 -p 4042:4042 \
   --cpus=3.0 --memory=3500M \
+  --userns=keep-id \
   -v "$PWD":/home/jovyan/work \
-  "$@" \
-  jupyter/all-spark-notebook:spark-3.2.0
+  jupyter/all-spark-notebook:spark-3.2.0 \
+  "$@"
 ```
 
 The first command (note the line continuation...) checks if you are using podman and sets the `DOCKER_HOST` environment variable, which I found to be necessary. You might try just running the `docker run` command to see if you really need this.
 
 The Windows `run.bat` command is similar, but uses Windows conventions and does _not_ attempt to set `DOCKER_HOST`.
 
-The `--cpus=... --memory=...` arguments were added because the notebook "kernel" is prone to crashing with the default values. Edit to taste to see what works best for you. For example, previously this `README` used `--cpus=2.0 --memory=2000M`, but machines are bigger now :) Also, it will help conserve resources to keep only one notebook open at a time, other than the _Introduction_, which is lightweight.
+The `-p 8888:8888 -p 4040:4040 -p 4041:4041 -p 4042:4042` arguments "tunnel" ports 8888 and 4040-4042 out of the container to your local environment, so you can get to the Jupyter UI at port 8888 and the Spark driver UIs at 4040-4042. 
 
-The `-v $PWD:/home/jovyan/work` tells Docker to mount the current working directory inside the container as `/home/jovyan/work`. When you open the notebook UI (discussed shortly), you'll see this folder listed.
+> **Note:** Here we use just one notebook, so tunneling 4040 is all you will probably need. However, if you create up to two more Spark notebooks concurrently, the second will select available port 4041 and the third will use 4042. Hence, the scripts tunnel these ports for your convenience.
 
-Finally, we are using the image tagged `spark-3.2.0`, which actually supports Spark 3.2.1. Unfortunately, the `jupyter/all-spark-notebook` image builds dropped Spark support in July 2022.  :(
+The `--cpus=... --memory=...` arguments were added because the notebook "kernel" is prone to crashing with the default, smaller values. Edit to taste to see what works best for you. For example, previously we used `--cpus=2.0 --memory=2000M`, but machines are bigger now :) Also, it will help conserve resources to keep only one Spark notebook open at a time.
 
-> **Notes:**
->
-> 1. On Windows, when using Docker, you may get the following error: _C:\Program Files\Docker\Docker\Resources\bin\docker.exe: Error response from daemon: D: drive is not shared. Please share it in Docker for Windows Settings."_ If so, do the following. On your tray, next to your clock, right-click on Docker, then click on Settings. You'll see the _Shared Drives_. Mark your drive and hit apply. See [this Docker forum thread](https://forums.docker.com/t/cannot-share-drive-in-windows-10/28798/5) for more tips.
-> 2. I don't have access to a Windows machine so I have not tested using Podman on Windows.
-s
-The `-p 8888:8888 -p 4040:4040` arguments tells Docker to "tunnel" ports 8888 and 4040 out of the container to your local environment, so you can get to the Jupyter UI at port 8888 and the Spark driver UI at 4040.
+The `--userns=keep-id` appears to be necessary to allow you to save updates to the notebook. Otherwise, you get permissions errors. See also the [Troubleshooting](#troubleshooting) section below and [this blog post](https://www.redhat.com/sysadmin/debug-rootless-podman-mounted-volumes) for more information on why this is necessary. This flag isn't used for `docker`, because it doesn't appear necessary, although it may be "harmless".
 
-> **Note:** Here we use just one notebook, but if we used several notebooks concurrently, the _second_ notebook's Spark instance would use port 4041, the third would use 4042, etc.. Keep this in mind if you adapt this project for your own needs.
+The `-v $PWD:/home/jovyan/work` tells Docker to mount the current working directory inside the container as `/home/jovyan/work`, where `/home/jovyan` is the default user's home directory. When you open the notebook UI (discussed below), this is the top-level folder you will see.
 
-You should see output similar to the following:
+We are using the image tagged `spark-3.2.0`, which actually supports Spark 3.2.1. Unfortunately, the `jupyter/all-spark-notebook` image builds [dropped Spark support in July 2022](https://github.com/deanwampler/JustEnoughScalaForSpark/issues/11).  :(
+
+Finally, you can pass other arguments to `run.sh` which are passed to `docker` or `podman`as flags or a command to run. For example, passing `ls -al work/notebooks` will show you what the file permissions look like for the notebooks from inside the container.
+
+Okay! After starting `run.sh`, you should see output similar to the following:
 
 ```shell
 Unable to find image 'jupyter/all-spark-notebook:spark-3.2.0' locally
@@ -204,11 +207,11 @@ latest: Pulling from jupyter/all-spark-notebook
         http://localhost:8888/?token=...
 ```
 
-Now copy and paste the `localhost:8888` URL shown in a browser window.
+Now copy and paste the full `localhost:8888` URL shown in a browser window.
 
 > **Tip:** Your terminal might let you ⌘-click or CTRL-click the URL to open it in a browser.
 
-> **Warning:** When you quit the container at the end of the tutorial, all your changes will be lost, unless they are in or under the current working directory that we mounted. To save notebooks you defined in other locations, export them using the _File > Download as > Notebook_ menu item in toolbar.
+> **Warning:** When you quit the container at the end of the tutorial, all your changes will be lost, unless they are in or under the local directory that we mounted. To save notebooks you defined in other locations, export them using the _File > Download as > Notebook_ menu item in toolbar.
 
 ## Running the Tutorial
 
@@ -226,10 +229,25 @@ Do the same thing for the next box. It should print `[merrywivesofwindsor, twelf
 
 If these steps worked, you're done setting up the tutorial!
 
+## Troubleshooting
+
+### "Error Response" on Windows
+
+When using Docker on Windows, you may get the following error: `C:\Program Files\Docker\Docker\Resources\bin\docker.exe: Error response from daemon: D: drive is not shared. Please share it in Docker for Windows Settings.` If so, do the following. On your tray, next to your clock, right-click on Docker, then click on Settings. You'll see the _Shared Drives_. Mark your drive and hit apply. See [this Docker forum thread](https://forums.docker.com/t/cannot-share-drive-in-windows-10/28798/5) for more tips.
+
+### No Permissions to Save Notebook Updates (Podman)
+
+This is why the `--userns=keep-id` is used when running with `podman`. It should prevent the error that when you save your work, you get a permissions error. Please [open an issue](https://github.com/deanwampler/JustEnoughScalaForSpark/issues) if you encounter this problem.
+
+While investigating this issue previously, before discovering the `--userns=keep-id` flag, I found the following two (flawed) workarounds, both of which start with _File > Save As_:
+
+1. Save the file to the same `notebooks` directory: This _appears_ to fail. You get an error dialog that the file couldn't be written, but in fact it was written. However, this only works once for a given target file. It won't be updated again and you still can't just save changes directly to it.
+2. Save and write the notebook to "root" folder as shown in the Jupyter UI, which is actually the `/home/jovyan` home directory in the container. That allows you to save changes and use features like _print_. _However_ any changes to the notebook in this directory **will be lost when you quit**, so you'll have to use _File > Save Notebook As_ to download the latest version to your machine.
+
 <a name="getting-help"></a>
 ## Getting Help
 
-If you're having problems, use the [Gitter chat room](https://gitter.im/deanwampler/JustEnoughScalaForSpark) to ask for help. If you're reasonably certain you've found a bug, post an issue to the [GitHub repo](https://github.com/deanwampler/JustEnoughScalaForSpark/issues). Recall that the `notebooks` directory also has a PDF of the notebook that you can read when the notebook won't work.
+If you're having problems, use the [Gitter chat room](https://gitter.im/deanwampler/JustEnoughScalaForSpark) to ask for help. If you are reasonably certain you have found a bug, post an issue to the [GitHub repo](https://github.com/deanwampler/JustEnoughScalaForSpark/issues). Recall that the `notebooks` directory also has a PDF of the notebook that you can read when the notebook won't work for some reason.
 
 ## What's Next?
 
@@ -237,6 +255,6 @@ You are now ready to go through the tutorial.
 
 Don't want to run Spark Notebook to learn the material? A PDF printout of the notebook can also be found in the `notebooks` directory.
 
-Please post any feedback, bugs, or even pull requests to the [project's GitHub page](https://github.com/deanwampler/JustEnoughScalaForSpark). Thanks.
+Feedback, bug reports, and pull requests are [welcome](https://github.com/deanwampler/JustEnoughScalaForSpark)! Thanks.
 
 Dean Wampler
